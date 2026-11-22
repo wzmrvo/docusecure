@@ -156,7 +156,7 @@
 <!-- Top Sub-Header & Help link -->
 <div class="flex justify-end items-center text-xs text-slate-500 mb-6 lg:mb-0">
 <span>Need technical assistance?</span>
-<a class="ml-1.5 font-semibold text-cvsu-700 hover:text-cvsu-800 hover:underline" href="#helpdesk" style="color: #376ead;">
+<a class="ml-1.5 font-semibold text-cvsu-700 hover:text-cvsu-800 hover:underline" href="{{ url('/helpdesk') }}" style="color: #376ead;">
           CvSU MIS Helpdesk
         </a>
 </div>
@@ -259,7 +259,7 @@
 </div>
 <p class="mt-4 text-center text-xs text-slate-600">
           Need an account? 
-          <a class="font-semibold text-cvsu-700 hover:text-cvsu-800 hover:underline" href="#admin-contact" style="color: #376ead;">
+          <a class="font-semibold text-cvsu-700 hover:text-cvsu-800 hover:underline" href="{{ url('/institutional-account-request') }}" style="color: #376ead;">
             Contact your administrator.
           </a>
 </p>

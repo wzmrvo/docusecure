@@ -173,10 +173,10 @@
 </div>
 </div>
 </div>
-<a href="{{ route('admin.preview.logout-confirmation') }}" class="w-full flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-xs font-mono text-slate-400 hover:text-red-300 hover:bg-red-950/20 border border-transparent hover:border-red-900/40 transition-colors">
+<button class="w-full flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-xs font-mono text-slate-400 hover:text-red-300 hover:bg-red-950/20 border border-transparent hover:border-red-900/40 transition-colors">
 <span class="material-symbols-outlined text-[16px]">logout</span>
 <span>Sign Out Session</span>
-</a>
+</button>
 </div>
 </aside>
 <!-- Main Stage Content Area -->

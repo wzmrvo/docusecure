@@ -10,6 +10,14 @@ Route::get('/', function () {
     return view('auth.login');
 })->name('login');
 
+// Helpdesk
+Route::view('/helpdesk', 'helpdesk.index')->name('helpdesk');
+
+// Institutional Account Request
+Route::view(
+    '/institutional-account-request',
+    'auth.institutional-account-request'
+)->name('institutional-account-request');
 
 // Frontend Preview Routes
 Route::prefix('preview')->group(function () {
@@ -39,7 +47,6 @@ Route::prefix('preview')->group(function () {
     Route::view('/session-terminated', 'auth.session-terminated');
 });
 
-
 // Admin Preview Routes
 Route::prefix('admin/preview')->name('admin.preview.')->group(function () {
 
@@ -54,40 +61,65 @@ Route::prefix('admin/preview')->name('admin.preview.')->group(function () {
     Route::get('/stage-3', fn () => view('admin.stage-3'))->name('stage-3');
     Route::get('/provisioning-receipt', fn () => view('admin.provisioning-receipt'))->name('provisioning-receipt');
 
-    // Stage 2 is embedded in Stage 1 under Vault Clearance Tier Delegation.
     Route::get('/provision-stage-2', fn () =>
         redirect('/admin/preview/provision-stage-1#vault-clearance-tier-delegation')
     )->name('provision-stage-2-embedded');
 
-    // Admin Logout Confirmation
+    // Tier 4 Admin Logout Confirmation
     Route::get('/logout-confirmation', function () {
-        return view('auth.logout-confirmation', [
-            'tier' => 'Tier 4 - Administrator',
-            'portalName' => 'Admin Portal',
-        ]);
+        return view('admin.logout-confirmation');
     })->name('logout-confirmation');
 });
-
 
 // Faculty Preview Routes
 Route::prefix('faculty/preview')->name('faculty.preview.')->group(function () {
 
+    // Faculty Pages
     Route::view('/', 'faculty.dashboard')->name('dashboard');
     Route::view('/document-library', 'faculty.document-library')->name('document-library');
     Route::view('/clearance-requests', 'faculty.clearance-requests')->name('clearance-requests');
     Route::view('/department-records', 'faculty.department-records')->name('department-records');
+    Route::view('/submit-department-file', 'faculty.submit-department-file')->name('submit-department-file');
     Route::view('/tier-4-access-request', 'faculty.tier-4-access-request')->name('tier-4-access-request');
     Route::view('/clearance-submitted', 'faculty.clearance-submitted')->name('clearance-submitted');
 
     // Faculty Logout Confirmation
     Route::get('/logout-confirmation', function () {
-        return view('auth.logout-confirmation', [
-            'tier' => 'Tier 3 - Faculty',
-            'portalName' => 'Faculty Portal',
-        ]);
+        return view('faculty.logout-confirmation');
     })->name('logout-confirmation');
 });
 
+// Faculty Direct URL Routes
+// These allow pages to be opened without /preview in the URL.
+
+Route::view(
+    '/faculty/tier-4-access-request',
+    'faculty.tier-4-access-request'
+)->name('faculty.tier-4-access-request');
+
+Route::view(
+    '/faculty/clearance-submitted',
+    'faculty.clearance-submitted'
+)->name('faculty.clearance-submitted');
+
+// Faculty Form Submission Routes
+Route::post('/faculty/submit-department-file', function (Request $request) {
+
+    // Temporary placeholder until the actual upload handling is implemented.
+    return redirect()
+        ->route('faculty.preview.department-records')
+        ->with('info', 'Department file submission route reached. File processing is not yet configured.');
+
+})->name('faculty.submit-department-file');
+
+Route::post('/faculty/submit-tier-4-access-request', function (Request $request) {
+
+    // Temporary placeholder until the actual Tier 4 request handling is implemented.
+    return redirect()
+        ->route('faculty.preview.tier-4-access-request')
+        ->with('info', 'Tier 4 access request route reached. Request processing is not yet configured.');
+
+})->name('faculty.submit-tier-4-access-request');
 
 // Student Preview Routes
 Route::prefix('student/preview')->name('student.preview.')->group(function () {
@@ -101,7 +133,6 @@ Route::prefix('student/preview')->name('student.preview.')->group(function () {
     Route::view('/logout-confirmation', 'student.logout-confirmation')->name('logout-confirmation');
 });
 
-
 // Viewer Preview Routes
 Route::prefix('viewer/preview')->name('viewer.preview.')->group(function () {
 
@@ -113,7 +144,6 @@ Route::prefix('viewer/preview')->name('viewer.preview.')->group(function () {
     Route::view('/system-settings', 'student.system-settings')->name('system-settings');
     Route::view('/logout-confirmation', 'student.logout-confirmation')->name('logout-confirmation');
 });
-
 
 // Actual Laravel Logout
 Route::post('/logout', function (Request $request) {
