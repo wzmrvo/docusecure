@@ -72,7 +72,7 @@
 <span class="text-xs font-semibold text-white">Engr. R. Bautista</span>
 <span class="text-[11px] text-slate-400">MIS Administrator</span>
 </div>
-<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors" href="/">
+<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors" href="{{ route('admin.preview.logout-confirmation') }}">
 <span class="material-symbols-outlined text-[16px]">logout</span>
 <span>Sign out</span>
 </a>

@@ -65,7 +65,7 @@
 <span class="text-[11px] text-slate-400">MIS Superadmin • Institutional Operations</span>
 </div>
 <div class="flex items-center justify-between pt-1 border-t border-[#1c2a3f]">
-<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 font-medium transition-colors" href="/">
+<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 font-medium transition-colors" href="{{ route('admin.preview.logout-confirmation') }}">
 <span class="material-symbols-outlined text-[16px]">logout</span>
 <span>Sign out</span>
 </a>

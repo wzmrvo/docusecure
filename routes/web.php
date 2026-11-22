@@ -1,11 +1,15 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 // Main Login Page
 Route::get('/', function () {
     return view('auth.login');
 })->name('login');
+
 
 // Frontend Preview Routes
 Route::prefix('preview')->group(function () {
@@ -33,10 +37,12 @@ Route::prefix('preview')->group(function () {
     Route::view('/sessions', 'auth.terminated-sessions');
     Route::view('/session-expired', 'auth.session-expired-modal');
     Route::view('/session-terminated', 'auth.session-terminated');
-
 });
-    //Admin Preview Routes
+
+
+// Admin Preview Routes
 Route::prefix('admin/preview')->name('admin.preview.')->group(function () {
+
     Route::get('/', fn () => view('admin.index'))->name('dashboard');
     Route::get('/access-levels', fn () => view('admin.access-levels'))->name('access-levels');
     Route::get('/access-requests', fn () => view('admin.access-requests'))->name('access-requests');
@@ -49,33 +55,43 @@ Route::prefix('admin/preview')->name('admin.preview.')->group(function () {
     Route::get('/provisioning-receipt', fn () => view('admin.provisioning-receipt'))->name('provisioning-receipt');
 
     // Stage 2 is embedded in Stage 1 under Vault Clearance Tier Delegation.
-    Route::get('/provision-stage-2', fn () => redirect('/admin/preview/provision-stage-1#vault-clearance-tier-delegation'))
-        ->name('provision-stage-2-embedded');
+    Route::get('/provision-stage-2', fn () =>
+        redirect('/admin/preview/provision-stage-1#vault-clearance-tier-delegation')
+    )->name('provision-stage-2-embedded');
+
+    // Admin Logout Confirmation
+    Route::get('/logout-confirmation', function () {
+        return view('auth.logout-confirmation', [
+            'tier' => 'Tier 4 - Administrator',
+            'portalName' => 'Admin Portal',
+        ]);
+    })->name('logout-confirmation');
 });
 
-// DocuSecure Tier 3 / Faculty frontend preview routes only.
+
+// Faculty Preview Routes
 Route::prefix('faculty/preview')->name('faculty.preview.')->group(function () {
+
     Route::view('/', 'faculty.dashboard')->name('dashboard');
     Route::view('/document-library', 'faculty.document-library')->name('document-library');
     Route::view('/clearance-requests', 'faculty.clearance-requests')->name('clearance-requests');
     Route::view('/department-records', 'faculty.department-records')->name('department-records');
     Route::view('/tier-4-access-request', 'faculty.tier-4-access-request')->name('tier-4-access-request');
     Route::view('/clearance-submitted', 'faculty.clearance-submitted')->name('clearance-submitted');
+
+    // Faculty Logout Confirmation
+    Route::get('/logout-confirmation', function () {
+        return view('auth.logout-confirmation', [
+            'tier' => 'Tier 3 - Faculty',
+            'portalName' => 'Faculty Portal',
+        ]);
+    })->name('logout-confirmation');
 });
 
-// Student and Viewer are separate portal entry points with equivalent frontend access.
-$portalPages = [
-    '/' => ['student.dashboard', 'dashboard'],
-    '/document-library' => ['student.document-library', 'document-library'],
-    '/categories' => ['student.categories', 'categories'],
-    '/library-research' => ['student.library-research', 'library-research'],
-    '/account-settings' => ['student.account-settings', 'account-settings'],
-    '/system-settings' => ['student.system-settings', 'system-settings'],
-    '/logout-confirmation' => ['student.logout-confirmation', 'logout-confirmation'],
-];
 
-// Student and Viewer share the same approved frontend views and access scope.
+// Student Preview Routes
 Route::prefix('student/preview')->name('student.preview.')->group(function () {
+
     Route::view('/', 'student.dashboard')->name('dashboard');
     Route::view('/document-library', 'student.document-library')->name('document-library');
     Route::view('/categories', 'student.categories')->name('categories');
@@ -85,7 +101,10 @@ Route::prefix('student/preview')->name('student.preview.')->group(function () {
     Route::view('/logout-confirmation', 'student.logout-confirmation')->name('logout-confirmation');
 });
 
+
+// Viewer Preview Routes
 Route::prefix('viewer/preview')->name('viewer.preview.')->group(function () {
+
     Route::view('/', 'student.dashboard')->name('dashboard');
     Route::view('/document-library', 'student.document-library')->name('document-library');
     Route::view('/categories', 'student.categories')->name('categories');
@@ -95,3 +114,15 @@ Route::prefix('viewer/preview')->name('viewer.preview.')->group(function () {
     Route::view('/logout-confirmation', 'student.logout-confirmation')->name('logout-confirmation');
 });
 
+
+// Actual Laravel Logout
+Route::post('/logout', function (Request $request) {
+
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login');
+
+})->name('logout');

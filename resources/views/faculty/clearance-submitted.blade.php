@@ -63,7 +63,7 @@
 <span class="text-[12px] text-slate-400 font-mono">NetID: CEIT-FAC-88219</span>
 <span class="text-[11px] text-slate-300 font-medium truncate">Prof. Juan Dela Cruz</span>
 </div>
-<a class="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium border border-white/10" data-path="login" href="{{ route('login') }}">
+<a class="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium border border-white/10" data-path="login" href="{{ route('faculty.preview.logout-confirmation') }}">
 <span class="material-symbols-outlined text-[16px]">logout</span>
 <span>Sign Out Session</span>
 </a>

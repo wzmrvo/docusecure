@@ -80,7 +80,7 @@
   <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Session: 02h 45m</span>
   <span class="text-emerald-400">Active</span>
 </div>
-<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors border-t border-[#1c2a3f]" href="/">
+<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors border-t border-[#1c2a3f]" href="{{ route('admin.preview.logout-confirmation') }}">
   <span class="material-symbols-outlined text-[16px]">logout</span>
   <span>Sign out</span>
 </a></div>

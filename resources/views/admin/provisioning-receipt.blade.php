@@ -173,6 +173,10 @@
 <div class="text-[11px] font-semibold text-white truncate">Engr. R. Bautista</div>
 <div class="text-[9.5px] font-mono text-slate-400 truncate">CvSU Indang MIS Admin</div>
 </div>
+<a href="{{ route('admin.preview.logout-confirmation') }}" class="mt-2 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-mono text-slate-400 hover:text-red-300 hover:bg-red-950/20 border border-transparent hover:border-red-900/40 transition-colors">
+<span class="material-symbols-outlined text-[16px]">logout</span>
+<span>Sign Out Session</span>
+</a>
 </div>
 </aside>
 <!-- MAIN STAGE -->

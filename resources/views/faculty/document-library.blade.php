@@ -132,7 +132,7 @@
         <span class="text-[10px] text-[#9fd2b4] bg-[#166534]/25 px-1.5 py-0.5 rounded border border-[#166534]/50">CvSU-KEY-OK</span>
       </div>
     </div>
-    <a class="flex items-center justify-center gap-2 px-3 py-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-md transition-colors text-xs font-semibold border border-white/5" href="{{ route('login') }}">
+    <a class="flex items-center justify-center gap-2 px-3 py-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-md transition-colors text-xs font-semibold border border-white/5" href="{{ route('faculty.preview.logout-confirmation') }}">
       <span class="material-symbols-outlined text-[18px]">logout</span>
       <span>Sign Out Session</span>
     </a>

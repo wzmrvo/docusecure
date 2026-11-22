@@ -67,7 +67,7 @@
         <span class="text-emerald-400 text-[10px] font-mono">CvSU-KEY-OK</span>
       </div>
     </div>
-    <a href="{{ route('login') }}" data-path="login" class="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium border border-white/10">
+    <a href="{{ route('faculty.preview.logout-confirmation') }}" data-path="login" class="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium border border-white/10">
       <span class="material-symbols-outlined text-[16px]">logout</span>
       <span>Sign Out Session</span>
     </a>
