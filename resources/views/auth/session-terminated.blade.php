@@ -93,7 +93,7 @@
 <div class="relative z-10 space-y-6">
 <!-- Logo + Brand Row -->
 <div class="flex items-center gap-3.5">
-<img alt="Cavite State University Official Seal" class="w-11 h-11 object-contain drop-shadow" src="{{ asset('images/cvsu-logo.png') }}" style="width: 44px; height: 44px;"/>
+<img alt="Cavite State University Official Seal" class="w-11 h-11 object-contain drop-shadow" src="{{ asset('images/cvsu-logo-placeholder.svg') }}" style="width: 44px; height: 44px;"/>
 <div class="flex flex-col">
 <div class="flex items-center gap-2">
 <span class="text-xl font-bold tracking-tight text-white leading-none">DocuSecure</span>
@@ -291,4 +291,6 @@
     alert("CvSU Security Key / FIDO2 prompt initiated. Please tap your hardware authenticator.");
   }
 </script>
+
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
 </body></html>

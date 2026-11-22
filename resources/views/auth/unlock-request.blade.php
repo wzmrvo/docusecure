@@ -370,4 +370,6 @@
     });
   }
 </script>
+
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
 </body></html>

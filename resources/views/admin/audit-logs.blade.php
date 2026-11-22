@@ -21,17 +21,17 @@
 <!-- Navigation Links -->
 <nav class="flex flex-col gap-1.5 p-4 text-sm font-medium"><div class="px-3 pt-2 pb-1 text-[11px] font-mono uppercase tracking-wider text-slate-500">Navigation</div>
 <!-- 1. Dashboard -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#" title="Go to Dashboard">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.dashboard') }}" title="Go to Dashboard">
   <span class="material-symbols-outlined text-[20px] text-slate-400">dashboard</span>
   <span>Dashboard</span>
 </a>
 <!-- 2. User Management -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#" title="Manage Users">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.user-management') }}" title="Manage Users">
   <span class="material-symbols-outlined text-[20px] text-slate-400">group</span>
   <span>User Management</span>
 </a>
 <!-- 3. Access Requests (badge 12) -->
-<a class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#" title="Access Requests">
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.access-requests') }}" title="Access Requests">
   <div class="flex items-center gap-3">
     <span class="material-symbols-outlined text-[20px] text-slate-400">fact_check</span>
     <span>Access Requests</span>
@@ -39,17 +39,17 @@
   <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">12</span>
 </a>
 <!-- 4. Document Access Levels -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#" title="Document Access Levels">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.access-levels') }}" title="Document Access Levels">
   <span class="material-symbols-outlined text-[20px] text-slate-400">admin_panel_settings</span>
   <span>Document Access Levels</span>
 </a>
 <!-- 5. Deposit & File Creation -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#" title="Deposit &amp; File Creation">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.deposit-file') }}" title="Deposit &amp; File Creation">
   <span class="material-symbols-outlined text-[20px] text-slate-400">note_add</span>
   <span>Deposit &amp; File Creation</span>
 </a>
 <!-- 6. Audit Logs (Active) -->
-<a class="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-surface-container-high text-white border-l-2 border-primary font-medium transition-colors" href="#" title="Audit Logs (Active)">
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-surface-container-high text-white border-l-2 border-primary font-medium transition-colors" href="{{ route('admin.preview.audit-logs') }}" title="Audit Logs (Active)">
   <div class="flex items-center gap-3">
     <span class="material-symbols-outlined text-[20px] text-primary">receipt_long</span>
     <span>Audit Logs</span>
@@ -57,7 +57,7 @@
   <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
 </a>
 <!-- 7. System Settings -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#" title="System Settings">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.system-settings') }}" title="System Settings">
   <span class="material-symbols-outlined text-[20px] text-slate-400">settings</span>
   <span>System Settings</span>
 </a></nav>
@@ -80,7 +80,7 @@
   <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Session: 02h 45m</span>
   <span class="text-emerald-400">Active</span>
 </div>
-<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors border-t border-[#1c2a3f]" href="#">
+<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors border-t border-[#1c2a3f]" href="/">
   <span class="material-symbols-outlined text-[16px]">logout</span>
   <span>Sign out</span>
 </a></div>
@@ -123,7 +123,7 @@
 <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5">
 <div class="flex flex-col gap-1.5">
 <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors uppercase" href="#" title="Return to Dashboard">ADMIN CONSOLE</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors uppercase" href="{{ route('admin.preview.dashboard') }}" title="Return to Dashboard">ADMIN CONSOLE</a>
 <span class="font-label-sm text-label-sm text-on-surface-variant">/</span>
 <span class="font-label-sm text-label-sm text-primary uppercase font-semibold">AUDIT LOGS</span></div>
 <h1 class="font-headline-lg text-headline-lg text-on-surface">Immutable Audit Logs</h1>
@@ -481,4 +481,16 @@
 
 
 
+
+<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
+<script>(function(){
+  var path=window.location.pathname.replace(/\/$/,'')||'/';
+  document.querySelectorAll('aside a[href]').forEach(function(link){
+    var raw=link.getAttribute('href')||'';
+    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
+    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
+    var target=url.pathname.replace(/\/$/,'')||'/';
+    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
+  });
+})();</script>
 </body></html>

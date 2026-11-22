@@ -45,7 +45,7 @@
 <!-- University Identity Header -->
 <div class="flex items-center justify-between pb-3 border-b border-white/10">
 <div class="flex items-center gap-3.5">
-<img alt="CvSU Seal" class="w-11 h-11 object-contain drop-shadow" src="{{ asset('images/cvsu-logo.png') }}" style="width: 44px; height: 44px;">
+<img alt="CvSU Seal" class="w-11 h-11 object-contain drop-shadow" src="{{ asset('images/cvsu-logo-placeholder.svg') }}" style="width: 44px; height: 44px;">
 <div class="flex flex-col">
 <div class="flex items-center gap-2">
 <span class="text-xl font-bold tracking-tight text-white leading-none">DocuSecure</span>
@@ -365,6 +365,8 @@ INDANG MAIN
     }
   </script></main><footer class="w-full bg-[#080d19] border-t border-slate-900 px-6 py-3 flex flex-col md:flex-row items-center justify-between gap-2 text-xs font-mono text-slate-500"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>CAVITE STATE UNIVERSITY // MAIN ARCHIVAL INTEGRITY NODE #02</span></div><div>SECURE SESSION PROTOCOL: RFC 8446 TLS 1.3 // HSM VALIDATED</div></footer>
 
+
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
 </body></html>
 
 <!-- DocuSecure - Terminated Sessions & Security Audit (Theme Aligned) -->

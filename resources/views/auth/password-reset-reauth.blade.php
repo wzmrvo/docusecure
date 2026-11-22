@@ -330,6 +330,8 @@
     }
   </script>
 <!-- END: ClientInteractionsScript -->
+
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
 </body></html>
 
 <!-- DocuSecure - Session Expired / Timeout Modal -->

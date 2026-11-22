@@ -124,26 +124,26 @@
 <div>
 <div class="px-3 pb-2 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Institutional Ops</div>
 <nav class="space-y-1">
-<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="/admin/preview">
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="{{ route('admin.preview.dashboard') }}">
 <span class="material-symbols-outlined text-[18px]">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold text-emerald-300 bg-emerald-950/40 border border-emerald-500/30" href="/admin/preview/user-management">
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold text-emerald-300 bg-emerald-950/40 border border-emerald-500/30" href="{{ route('admin.preview.user-management') }}">
 <span class="material-symbols-outlined text-[18px] text-emerald-400">manage_accounts</span>
 <span>User Management</span>
 </a>
-<a class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="/admin/preview/access-requests">
+<a class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="{{ route('admin.preview.access-requests') }}">
 <div class="flex items-center space-x-3">
 <span class="material-symbols-outlined text-[18px]">mark_email_unread</span>
 <span>Access Requests</span>
 </div>
 <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#eabf55] text-slate-950 leading-none">12</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="/admin/preview/access-levels">
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="{{ route('admin.preview.access-levels') }}">
 <span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
 <span>Document Access Levels</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="/admin/preview/deposit-file">
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="{{ route('admin.preview.deposit-file') }}">
 <span class="material-symbols-outlined text-[18px]">note_add</span>
 <span>Deposit &amp; File Creation</span>
 </a>
@@ -152,11 +152,11 @@
 <div>
 <div class="px-3 pb-2 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Cryptographic Control</div>
 <nav class="space-y-1">
-<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="/admin/preview/audit-logs">
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="{{ route('admin.preview.audit-logs') }}">
 <span class="material-symbols-outlined text-[18px]">receipt_long</span>
 <span>Audit Logs</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="#settings">
+<a class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-100 hover:bg-[#131d2e] transition-colors" href="{{ route('admin.preview.system-settings') }}">
 <span class="material-symbols-outlined text-[18px]">settings</span>
 <span>System Settings</span>
 </a>
@@ -411,7 +411,7 @@
 <!-- 5. BOTTOM ACTION BUTTONS -->
 <section class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-2" data-purpose="bottom-action-buttons">
 <div class="flex flex-wrap items-center gap-3">
-<a class="px-4 py-2.5 rounded-lg bg-[#0b1322] hover:bg-[#131d2e] border border-[#1e293b] hover:border-slate-600 text-xs font-mono font-medium text-slate-200 transition-colors flex items-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-slate-500" href="/admin/preview/audit-logs">
+<a class="px-4 py-2.5 rounded-lg bg-[#0b1322] hover:bg-[#131d2e] border border-[#1e293b] hover:border-slate-600 text-xs font-mono font-medium text-slate-200 transition-colors flex items-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-slate-500" href="{{ route('admin.preview.audit-logs') }}">
 <span>View in Admin Audit Ledger</span>
 <span class="material-symbols-outlined text-[15px] text-emerald-400">north_east</span>
 </a>
@@ -421,7 +421,7 @@
 </button>
 </div>
 <div>
-<a class="w-full sm:w-auto px-6 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-lg shadow-emerald-950/50 hover:shadow-emerald-900/60 transition-all focus:ring-2 focus:ring-emerald-400 focus:outline-none" href="/admin/preview/user-management">
+<a class="w-full sm:w-auto px-6 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-lg shadow-emerald-950/50 hover:shadow-emerald-900/60 transition-all focus:ring-2 focus:ring-emerald-400 focus:outline-none" href="{{ route('admin.preview.user-management') }}">
 <span>Return to User Management Console</span>
 <span class="font-black text-base leading-none">→</span>
 </a>
@@ -445,4 +445,16 @@
 </div>
 </main>
 </div>
+
+<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
+<script>(function(){
+  var path=window.location.pathname.replace(/\/$/,'')||'/';
+  document.querySelectorAll('aside a[href]').forEach(function(link){
+    var raw=link.getAttribute('href')||'';
+    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
+    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
+    var target=url.pathname.replace(/\/$/,'')||'/';
+    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
+  });
+})();</script>
 </body></html>

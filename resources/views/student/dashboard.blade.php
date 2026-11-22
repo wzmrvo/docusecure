@@ -1,3 +1,4 @@
+@php($portalRoutePrefix = request()->is('viewer/*') ? 'viewer.preview.' : 'student.preview.')
 <!DOCTYPE html><html class="light" lang="en"><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -45,24 +46,60 @@
 </head>
 <body class="bg-[#f8fafc] font-sans text-slate-800 antialiased min-h-screen">
 <!-- Left Sidebar (Deep Solid Dark Navy matching IMAGE_2) -->
-<aside class="fixed left-0 top-0 bottom-0 w-64 bg-[#173153] border-r border-[#d4a017]/30 z-50 flex flex-col justify-between p-4 text-white select-none shadow-xl">
+<aside class="fixed left-0 top-0 bottom-0 w-64 bg-[#173153] z-50 flex flex-col justify-between p-4 text-white select-none">
 <div class="flex flex-col gap-6">
-<!-- Brand Logo -->
-<div class="flex flex-col items-center text-center gap-2.5 px-2 pt-2 pb-3 border-b border-[#d4a017]/30"><div class="relative flex items-center justify-center p-2 rounded-full bg-white/10 border border-[#d4a017]/40 shadow-inner"><img alt="Cavite State University Seal" class="w-12 h-auto drop-shadow-md object-contain" src="{{ asset('images/cvsu-logo.png') }}"><div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-400 ring-2 ring-[#173153] shadow-sm" title="System Online"></div></div><div class="flex flex-col items-center"><div class="flex items-center gap-1.5"><span class="text-lg font-bold tracking-tight text-white leading-tight font-serif">DocuSecure</span><span class="text-[10px] px-1.5 py-0.2 rounded font-mono font-bold bg-[#d4a017] text-[#173153]">CvSU</span></div><span class="text-[10px] font-semibold tracking-wider text-slate-200 mt-0.5 uppercase">CAVITE STATE UNIVERSITY</span><span class="text-[9px] font-mono px-2 py-0.5 mt-1.5 rounded-md bg-[#112239] text-[#d4a017] border border-[#d4a017]/30 font-medium tracking-wide flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[#d4a017]"></span>STUDENT ENCLAVE • TIER 1</span></div></div>
-<!-- Navigation Section 1: WORKSPACE -->
+<div class="flex flex-col items-center text-center gap-2.5 px-2 pt-2 pb-3 border-b border-slate-700/50">
+<img alt="Cavite State University Official Seal" class="w-14 h-auto drop-shadow-md object-contain" src="{{ asset('images/cvsu-logo.png') }}">
+<div class="flex flex-col items-center">
+<span class="text-lg font-bold tracking-tight text-white leading-tight">DocuSecure</span>
+<span class="text-[10px] font-semibold text-slate-300 mt-0.5 uppercase tracking-wider">Cavite State University</span>
+<span class="text-[9px] font-mono text-[#9fd2b4] mt-0.5 tracking-wider">STUDENT ENCLAVE • TIER 1</span>
+</div></div>
 <div class="flex flex-col gap-1.5">
 <span class="px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">CORE MODULES</span>
-<nav class="flex flex-col gap-1"><a class="relative flex items-center gap-3 px-3 py-2 rounded-lg bg-white/10 text-white font-medium text-sm transition-all shadow-sm border-l-4 border-[#d4a017] pl-2.5" href="#"><span class="material-symbols-outlined text-[20px] text-[#d4a017]">dashboard</span><span class="font-semibold">Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-white/10 font-normal text-sm transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-[#d4a017]">description</span><span>Documents</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-white/10 font-normal text-sm transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-[#d4a017]">category</span><span>Categories</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-white/10 font-normal text-sm transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-[#d4a017]">local_library</span><span>Library / Research</span></a></nav>
-</div>
-<!-- Navigation Section 2: ADMINISTRATION / ACCOUNT -->
+<nav class="flex flex-col gap-1">
+<a @class(['flex items-center gap-3 px-3 py-2 rounded-lg', request()->routeIs($portalRoutePrefix . 'dashboard') ? 'bg-[#112239] text-white font-medium shadow-inner border-l-2 border-amber-500' : 'text-slate-300 hover:text-white hover:bg-white/10 font-normal', 'text-sm transition-colors']) href="{{ route($portalRoutePrefix . 'dashboard') }}" @if(request()->routeIs($portalRoutePrefix . 'dashboard')) aria-current="page" @endif>
+<span @class(['material-symbols-outlined text-[20px]', request()->routeIs($portalRoutePrefix . 'dashboard') ? 'text-amber-500' : null])>grid_view</span>
+<span>Dashboard</span>
+</a>
+<a @class(['flex items-center gap-3 px-3 py-2 rounded-lg', request()->routeIs($portalRoutePrefix . 'document-library') ? 'bg-[#112239] text-white font-medium shadow-inner border-l-2 border-amber-500' : 'text-slate-300 hover:text-white hover:bg-white/10 font-normal', 'text-sm transition-colors']) href="{{ route($portalRoutePrefix . 'document-library') }}" @if(request()->routeIs($portalRoutePrefix . 'document-library')) aria-current="page" @endif>
+<span @class(['material-symbols-outlined text-[20px]', request()->routeIs($portalRoutePrefix . 'document-library') ? 'text-amber-500' : null])>description</span>
+<span>Documents</span>
+</a>
+<a @class(['flex items-center gap-3 px-3 py-2 rounded-lg', request()->routeIs($portalRoutePrefix . 'categories') ? 'bg-[#112239] text-white font-medium shadow-inner border-l-2 border-amber-500' : 'text-slate-300 hover:text-white hover:bg-white/10 font-normal', 'text-sm transition-colors']) href="{{ route($portalRoutePrefix . 'categories') }}" @if(request()->routeIs($portalRoutePrefix . 'categories')) aria-current="page" @endif>
+<span @class(['material-symbols-outlined text-[20px]', request()->routeIs($portalRoutePrefix . 'categories') ? 'text-amber-500' : null])>category</span>
+<span>Categories</span>
+</a>
+<a @class(['flex items-center gap-3 px-3 py-2 rounded-lg', request()->routeIs($portalRoutePrefix . 'library-research') ? 'bg-[#112239] text-white font-medium shadow-inner border-l-2 border-amber-500' : 'text-slate-300 hover:text-white hover:bg-white/10 font-normal', 'text-sm transition-colors']) href="{{ route($portalRoutePrefix . 'library-research') }}" @if(request()->routeIs($portalRoutePrefix . 'library-research')) aria-current="page" @endif>
+<span @class(['material-symbols-outlined text-[20px]', request()->routeIs($portalRoutePrefix . 'library-research') ? 'text-amber-500' : null])>local_library</span>
+<span>Library / Research</span>
+</a>
+</nav></div>
 <div class="flex flex-col gap-1.5">
 <span class="px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">SETTINGS &amp; PREFERENCES</span>
-<nav class="flex flex-col gap-1"><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-white/10 font-normal text-sm transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-[#d4a017]">account_circle</span><span>Student Profile</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-white/10 font-normal text-sm transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-[#d4a017]">security</span><span>Security &amp; Keys</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-white/10 font-normal text-sm transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-[#d4a017]">help</span><span>Help Desk</span></a></nav>
+<nav class="flex flex-col gap-1">
+<a @class(['flex items-center gap-3 px-3 py-2 rounded-lg', request()->routeIs($portalRoutePrefix . 'account-settings') ? 'bg-[#112239] text-white font-medium shadow-inner border-l-2 border-amber-500' : 'text-slate-300 hover:text-white hover:bg-white/10 font-normal', 'text-sm transition-colors']) href="{{ route($portalRoutePrefix . 'account-settings') }}" @if(request()->routeIs($portalRoutePrefix . 'account-settings')) aria-current="page" @endif>
+<span @class(['material-symbols-outlined text-[20px]', request()->routeIs($portalRoutePrefix . 'account-settings') ? 'text-amber-500' : null])>manage_accounts</span>
+<span>Account Settings</span>
+</a>
+<a @class(['flex items-center gap-3 px-3 py-2 rounded-lg', request()->routeIs($portalRoutePrefix . 'system-settings') ? 'bg-[#112239] text-white font-medium shadow-inner border-l-2 border-amber-500' : 'text-slate-300 hover:text-white hover:bg-white/10 font-normal', 'text-sm transition-colors']) href="{{ route($portalRoutePrefix . 'system-settings') }}" @if(request()->routeIs($portalRoutePrefix . 'system-settings')) aria-current="page" @endif>
+<span @class(['material-symbols-outlined text-[20px]', request()->routeIs($portalRoutePrefix . 'system-settings') ? 'text-amber-500' : null])>tune</span>
+<span>System / Portal Settings</span>
+</a>
+<a @class(['flex items-center gap-3 px-3 py-2 rounded-lg', request()->routeIs($portalRoutePrefix . 'logout-confirmation') ? 'bg-[#112239] text-white font-medium shadow-inner border-l-2 border-amber-500' : 'text-slate-300 hover:text-white hover:bg-white/10 font-normal', 'text-sm transition-colors']) href="{{ route($portalRoutePrefix . 'logout-confirmation') }}" @if(request()->routeIs($portalRoutePrefix . 'logout-confirmation')) aria-current="page" @endif>
+<span @class(['material-symbols-outlined text-[20px]', request()->routeIs($portalRoutePrefix . 'logout-confirmation') ? 'text-amber-500' : null])>logout</span>
+<span>Logout</span>
+</a>
+</nav></div></div>
+<div class="bg-[#112239] rounded-lg p-3 border border-slate-700/60 flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#f59e0b] text-[18px]">verified_user</span>
+<span class="text-xs font-semibold text-white">Tier 1 Student Access</span>
 </div>
-</div>
-<!-- Bottom Sidebar Footer Indicator (Matching IMAGE_2 prototype pill) -->
-<div class="bg-[#112239] rounded-lg p-3 border border-[#d4a017]/30 flex flex-col gap-1.5 shadow-md"><div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[#d4a017] text-[18px]">verified_user</span><span class="text-xs font-semibold text-white">Tier 1 Student Access</span></div><span class="text-[9px] font-mono text-[#fef3c7] bg-[#173153] px-1.5 py-0.5 rounded border border-[#d4a017]/40 font-semibold">AY 2026–27</span></div><p class="text-[11px] text-slate-300 leading-tight mt-0.5">Read-only cryptographic session · No upload privileges</p><div class="mt-1 flex items-center justify-between text-[10px] font-mono text-slate-300 pt-1.5 border-t border-white/10"><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse"></span>CvSU-KEY 0xFA71</span><span class="text-[#d4a017] font-semibold">TLS 1.3 // SHA-256</span></div></div>
-</aside>
+<p class="text-[11px] text-slate-400 leading-tight">Read-only cryptographic session · No upload privileges</p>
+<div class="mt-1 flex items-center justify-between text-[10px] font-mono text-slate-400 pt-1 border-t border-slate-700/50">
+<span>TLS 1.3 // SHA-256</span><span class="text-emerald-400">ACTIVE</span>
+</div></div></aside>
 <!-- Main Layout Wrapper (Shifted right by sidebar width) -->
 <div class="pl-64 flex flex-col min-h-screen">
 <!-- Top Header Bar (Crisp white matching IMAGE_2) -->
@@ -366,4 +403,16 @@
 
 
 
+
+<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
+<script>(function(){
+  var path=window.location.pathname.replace(/\/$/,'')||'/';
+  document.querySelectorAll('aside a[href]').forEach(function(link){
+    var raw=link.getAttribute('href')||'';
+    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
+    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
+    var target=url.pathname.replace(/\/$/,'')||'/';
+    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
+  });
+})();</script>
 </body></html>

@@ -124,37 +124,37 @@
 </div>
 <!-- Navigation Links -->
 <nav class="p-3 space-y-1 text-xs font-medium">
-<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="#">
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="{{ route('admin.preview.dashboard') }}">
 <span class="material-symbols-outlined text-[18px]">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-[#0e2a22] text-emerald-300 border border-emerald-500/40 font-semibold shadow-sm" href="#">
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-[#0e2a22] text-emerald-300 border border-emerald-500/40 font-semibold shadow-sm" href="{{ route('admin.preview.user-management') }}">
 <div class="flex items-center space-x-3">
 <span class="material-symbols-outlined text-[18px] text-emerald-400">group</span>
 <span>User Management</span>
 </div>
 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
 </a>
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="#">
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="{{ route('admin.preview.access-requests') }}">
 <div class="flex items-center space-x-3">
 <span class="material-symbols-outlined text-[18px]">key</span>
 <span>Access Requests</span>
 </div>
 <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-[#0f172a] border border-[#1e293b] text-emerald-400 font-bold">12</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="#">
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="{{ route('admin.preview.access-levels') }}">
 <span class="material-symbols-outlined text-[18px]">shield_person</span>
 <span>Document Access Levels</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="#">
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="{{ route('admin.preview.deposit-file') }}">
 <span class="material-symbols-outlined text-[18px]">upload_file</span>
 <span>Deposit &amp; File Creation</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="#">
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="{{ route('admin.preview.audit-logs') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
 <span>Audit Logs</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="#">
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#111e33] transition-colors" href="{{ route('admin.preview.system-settings') }}">
 <span class="material-symbols-outlined text-[18px]">settings</span>
 <span>System Settings</span>
 </a>
@@ -185,7 +185,7 @@
 <!-- Breadcrumb & Header Title -->
 <div>
 <div class="flex items-center space-x-2 text-xs font-mono text-emerald-400 mb-2">
-<a class="hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5" href="#">
+<a class="hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5" href="{{ route('admin.preview.user-management') }}">
 <span class="material-symbols-outlined text-[16px]">arrow_back</span>
 <span>Back to User Management</span>
 </a>
@@ -473,4 +473,16 @@
 </div>
 </main>
 </div>
+
+<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
+<script>(function(){
+  var path=window.location.pathname.replace(/\/$/,'')||'/';
+  document.querySelectorAll('aside a[href]').forEach(function(link){
+    var raw=link.getAttribute('href')||'';
+    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
+    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
+    var target=url.pathname.replace(/\/$/,'')||'/';
+    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
+  });
+})();</script>
 </body></html>

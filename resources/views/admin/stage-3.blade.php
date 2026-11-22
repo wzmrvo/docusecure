@@ -119,37 +119,37 @@
 <!-- Nav Links -->
 <div class="p-3 space-y-1 font-mono text-xs">
 <div class="px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Enclave Core Navigation</div>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="{{ route('admin.preview.dashboard') }}">
 <span class="material-symbols-outlined text-lg">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-emerald-950/40 text-emerald-400 border border-emerald-500/30 font-medium" href="#">
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-emerald-950/40 text-emerald-400 border border-emerald-500/30 font-medium" href="{{ route('admin.preview.user-management') }}">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-lg text-emerald-400">manage_accounts</span>
 <span>User Management</span>
 </div>
 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
 </a>
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="#">
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="{{ route('admin.preview.access-requests') }}">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-lg">pending_actions</span>
 <span>Access Requests</span>
 </div>
 <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">12</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="{{ route('admin.preview.access-levels') }}">
 <span class="material-symbols-outlined text-lg">lock_open</span>
 <span>Document Access Levels</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="{{ route('admin.preview.deposit-file') }}">
 <span class="material-symbols-outlined text-lg">note_add</span>
 <span>Deposit &amp; File Creation</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="{{ route('admin.preview.audit-logs') }}">
 <span class="material-symbols-outlined text-lg">verified_user</span>
 <span>Audit Logs</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" href="{{ route('admin.preview.system-settings') }}">
 <span class="material-symbols-outlined text-lg">settings</span>
 <span>System Settings</span>
 </a>
@@ -186,7 +186,7 @@
 <!-- Top Header & Breadcrumb -->
 <div class="space-y-3">
 <div class="flex items-center gap-2 text-xs font-mono">
-<a class="text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1.5" href="#">
+<a class="text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1.5" href="{{ route('admin.preview.provision-stage-1') }}">
 <span class="material-symbols-outlined text-sm">arrow_back</span>
             BACK TO STAGE 02
           </a>
@@ -503,19 +503,19 @@
 <div class="pt-2 pb-6 space-y-3">
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
 <!-- Back to Stage 02 Button -->
-<a class="h-12 bg-[#0f172a] hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 px-4" href="#">
+<a class="h-12 bg-[#0f172a] hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 px-4" href="{{ route('admin.preview.provision-stage-1') }}">
 <span class="material-symbols-outlined text-slate-400 text-lg">arrow_back</span>
 <span>Back to Stage 02</span>
 </a>
 <!-- Primary Execution Button (Prominent Emerald CTA) -->
-<a class="h-12 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-lg shadow-emerald-950/60 flex items-center justify-center gap-2 px-4 group" href="#">
+<a class="h-12 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-lg shadow-emerald-950/60 flex items-center justify-center gap-2 px-4 group" href="{{ route('admin.preview.provisioning-receipt') }}">
 <span class="material-symbols-outlined text-white text-lg">verified</span>
 <span>Commit Sign-Off &amp; Generate Ledger Receipt</span>
 <span class="material-symbols-outlined text-base group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
 </a>
 </div>
 <div class="flex items-center justify-center pt-1">
-<a class="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-emerald-400 transition-colors" href="#">
+<a class="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-emerald-400 transition-colors" href="{{ route('admin.preview.dashboard') }}">
 <span class="material-symbols-outlined text-sm">dashboard</span>
             Return to MIS Officer Enclave Dashboard
           </a>
@@ -539,4 +539,16 @@
 </footer>
 </main>
 </div>
+
+<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
+<script>(function(){
+  var path=window.location.pathname.replace(/\/$/,'')||'/';
+  document.querySelectorAll('aside a[href]').forEach(function(link){
+    var raw=link.getAttribute('href')||'';
+    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
+    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
+    var target=url.pathname.replace(/\/$/,'')||'/';
+    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
+  });
+})();</script>
 </body></html>

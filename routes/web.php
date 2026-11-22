@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -95,3 +94,4 @@ Route::prefix('viewer/preview')->name('viewer.preview.')->group(function () {
     Route::view('/system-settings', 'student.system-settings')->name('system-settings');
     Route::view('/logout-confirmation', 'student.logout-confirmation')->name('logout-confirmation');
 });
+

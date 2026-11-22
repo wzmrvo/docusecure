@@ -38,7 +38,7 @@
 <!-- University Crest Badge -->
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-space-sm">
-<img alt="Cavite State University Official Seal" class="w-14 h-14 object-contain filter drop-shadow-md" src="{{ asset('images/cvsu-logo.png') }}"/>
+<img alt="Cavite State University Official Seal" class="w-14 h-14 object-contain filter drop-shadow-md" src="{{ asset('images/cvsu-logo-placeholder.svg') }}"/>
 <div class="flex flex-col">
 <span class="font-label-md text-label-md uppercase tracking-wider text-[#eabf55] font-semibold">Cavite State University</span>
 <span class="font-body-sm text-body-sm text-[#b6ccbd]">Identity Enclave • Indang Main</span>
@@ -245,6 +245,8 @@
       tsEl.textContent = now.toISOString().replace('T', ' ').substring(0, 19) + ' (UTC+8)';
     }
   })();
-</script></main><footer class="w-full bg-[#070b13] border-t border-slate-800/80 px-space-lg py-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm text-slate-400"><div class="flex items-center gap-space-xs font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-primary">verified</span><span>Cavite State University • Confidential Document Verification &amp; Clearance Gateway • RA 10173 Compliant</span></div><div class="font-label-sm text-label-sm text-slate-500 font-mono">ISO/IEC 27001 AUDITED INFRASTRUCTURE</div></footer></body></html>
+</script></main><footer class="w-full bg-[#070b13] border-t border-slate-800/80 px-space-lg py-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm text-slate-400"><div class="flex items-center gap-space-xs font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-primary">verified</span><span>Cavite State University • Confidential Document Verification &amp; Clearance Gateway • RA 10173 Compliant</span></div><div class="font-label-sm text-label-sm text-slate-500 font-mono">ISO/IEC 27001 AUDITED INFRASTRUCTURE</div></footer>
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
+</body></html>
 
 <!-- DocuSecure - Set New Clearance Master Password -->

@@ -391,7 +391,7 @@
 </div>
 </div>
 <!-- Quick Re-Authentication Form -->
-<form class="space-y-4 pt-1" id="reAuthForm" onsubmit="event.preventDefault(); handleExtendSession();">
+<form class="space-y-4 pt-1" id="reAuthForm" >
 <div class="space-y-1.5">
 <div class="flex items-center justify-between">
 <label class="text-xs font-medium text-slate-200" for="masterPassword">
@@ -543,6 +543,8 @@
       location.reload();
     }, 900);
   }
-</script></main></body></html>
+</script></main>
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
+</body></html>
 
 <!-- DocuSecure Institutional Portal - Session Terminated & Auto-Logged-Out -->

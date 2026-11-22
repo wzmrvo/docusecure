@@ -21,17 +21,17 @@
 <!-- Navigation Links -->
 <nav class="flex flex-col gap-1.5 p-4 text-sm font-medium"><div class="px-3 pt-2 pb-1 text-[11px] font-mono uppercase tracking-wider text-slate-500">Navigation</div>
 <!-- 1. Dashboard -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="/admin/preview">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.dashboard') }}">
   <span class="material-symbols-outlined text-[20px] text-slate-400">dashboard</span>
   <span>Dashboard</span>
 </a>
 <!-- 2. User Management -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="/admin/preview/user-management">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.user-management') }}">
   <span class="material-symbols-outlined text-[20px] text-slate-400">group</span>
   <span>User Management</span>
 </a>
 <!-- 3. Access Requests (with badge '12') -->
-<a class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="/admin/preview/access-requests">
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.access-requests') }}">
   <div class="flex items-center gap-3">
     <span class="material-symbols-outlined text-[20px] text-slate-400">fact_check</span>
     <span>Access Requests</span>
@@ -39,12 +39,12 @@
   <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">12</span>
 </a>
 <!-- 4. Document Access Levels -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="/admin/preview/access-levels">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.access-levels') }}">
   <span class="material-symbols-outlined text-[20px] text-slate-400">shield</span>
   <span>Document Access Levels</span>
 </a>
 <!-- 5. Deposit & File Creation (Active) -->
-<a class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-white bg-surface-container-high border border-emerald-500/30 transition-colors" href="/admin/preview/deposit-file">
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-white bg-surface-container-high border border-emerald-500/30 transition-colors" href="{{ route('admin.preview.deposit-file') }}">
   <div class="flex items-center gap-3">
     <span class="material-symbols-outlined text-[20px] text-primary">upload_file</span>
     <span class="font-semibold text-white">Deposit &amp; File Creation</span>
@@ -52,12 +52,12 @@
   <span class="text-[9px] font-mono uppercase bg-primary text-on-primary px-1.5 py-0.5 rounded font-bold">Active</span>
 </a>
 <!-- 6. Audit Logs -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="/admin/preview/audit-logs">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.audit-logs') }}">
   <span class="material-symbols-outlined text-[20px] text-slate-400">receipt_long</span>
   <span>Audit Logs</span>
 </a>
 <!-- 7. System Settings -->
-<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="/admin/preview/system-settings">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.system-settings') }}">
   <span class="material-symbols-outlined text-[20px] text-slate-400">settings</span>
   <span>System Settings</span>
 </a></nav>
@@ -72,7 +72,7 @@
 <span class="text-xs font-semibold text-white">Engr. R. Bautista</span>
 <span class="text-[11px] text-slate-400">MIS Administrator</span>
 </div>
-<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors" href="#">
+<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors" href="/">
 <span class="material-symbols-outlined text-[16px]">logout</span>
 <span>Sign out</span>
 </a>
@@ -120,9 +120,9 @@
 <div class="p-6 md:p-8 space-y-6 max-w-[1560px] mx-auto w-full">
 <!-- Breadcrumb & Top Context Banner -->
 <div class="flex flex-wrap items-center justify-between gap-4"><div class="flex items-center gap-2">
-  <a class="font-label-sm text-label-sm text-outline hover:text-on-surface uppercase tracking-wider transition-colors" href="/admin/preview">ADMIN CONSOLE</a>
+  <a class="font-label-sm text-label-sm text-outline hover:text-on-surface uppercase tracking-wider transition-colors" href="{{ route('admin.preview.dashboard') }}">ADMIN CONSOLE</a>
   <span class="material-symbols-outlined text-outline text-[14px]">chevron_right</span>
-  <a class="font-label-sm text-label-sm text-slate-300 hover:text-primary uppercase tracking-wider flex items-center gap-1 transition-colors" href="/admin/preview/access-levels">
+  <a class="font-label-sm text-label-sm text-slate-300 hover:text-primary uppercase tracking-wider flex items-center gap-1 transition-colors" href="{{ route('admin.preview.deposit-file') }}">
     <span class="material-symbols-outlined text-[16px]">folder</span>
     <span>DOCUMENT MANAGEMENT</span>
   </a>
@@ -159,7 +159,7 @@
 </div>
 </div>
 <div class="flex items-center gap-3 shrink-0">
-<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="/admin/preview/access-levels">
+<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.deposit-file') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
 <span>View Staged Batch (3)</span>
 </a>
@@ -249,7 +249,7 @@
 
 <!-- Secondary Appendices Accordion / Add -->
 <div class="flex items-center justify-between pt-1 flex-wrap gap-2">
-  <a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="/admin/preview/access-levels">
+  <a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.deposit-file') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
 <span>View Staged Batch (3)</span>
 </a>
@@ -588,17 +588,17 @@
 </div>
 <div class="space-y-3 pt-2">
 <!-- Primary High-Impact CTA Button -->
-<a class="w-full py-3 px-4 rounded-lg bg-primary hover:bg-primary-fixed text-on-primary font-label-lg text-label-lg font-bold shadow-md flex items-center justify-center gap-2.5 transition-colors cursor-pointer" href="/admin/preview/provisioning-receipt">
+<a class="w-full py-3 px-4 rounded-lg bg-primary hover:bg-primary-fixed text-on-primary font-label-lg text-label-lg font-bold shadow-md flex items-center justify-center gap-2.5 transition-colors cursor-pointer" href="{{ route('admin.preview.provisioning-receipt') }}">
 <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">lock</span>
 <span>Seal Document &amp; Commit to Enclave</span>
 </a>
 <!-- Secondary Staging Action -->
-<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="/admin/preview/access-levels">
+<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.deposit-file') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
 <span>View Staged Batch (3)</span>
 </a>
 <!-- Cancel Link -->
-<div class="text-center pt-1"><a class="font-label-md text-label-md text-slate-400 hover:text-primary transition-colors inline-flex items-center gap-1.5 font-medium" href="/admin/preview/access-levels">
+<div class="text-center pt-1"><a class="font-label-md text-label-md text-slate-400 hover:text-primary transition-colors inline-flex items-center gap-1.5 font-medium" href="{{ route('admin.preview.deposit-file') }}">
   <span class="material-symbols-outlined text-[16px]">arrow_back</span>
   <span>Cancel &amp; Return to Document Management</span>
 </a></div>
@@ -695,4 +695,16 @@
 
 
 
+
+<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
+<script>(function(){
+  var path=window.location.pathname.replace(/\/$/,'')||'/';
+  document.querySelectorAll('aside a[href]').forEach(function(link){
+    var raw=link.getAttribute('href')||'';
+    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
+    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
+    var target=url.pathname.replace(/\/$/,'')||'/';
+    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
+  });
+})();</script>
 </body></html>

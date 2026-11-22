@@ -21,7 +21,7 @@
 <div class="relative z-10 flex flex-col gap-space-md">
 <div class="flex items-center justify-between gap-space-sm">
 <div class="flex items-center gap-space-sm">
-<img class="w-14 h-14 object-contain filter drop-shadow-md" data-alt="Official Cavite State University emblem seal insignia featuring green diamond outline, flaming torch of wisdom atop open book, coffee sprig branch, science atom orbits, and year 1906 in crisp sovereign academic heraldry." src="{{ asset('images/cvsu-logo.png') }}"/>
+<img class="w-14 h-14 object-contain filter drop-shadow-md" data-alt="Official Cavite State University emblem seal insignia featuring green diamond outline, flaming torch of wisdom atop open book, coffee sprig branch, science atom orbits, and year 1906 in crisp sovereign academic heraldry." src="{{ asset('images/cvsu-logo-placeholder.svg') }}"/>
 <div class="flex flex-col">
 <span class="font-label-sm text-label-sm text-[#baeecf] uppercase tracking-wider font-semibold">Cavite State University</span>
 <span class="font-headline-sm text-headline-sm font-bold text-white tracking-tight leading-tight">DocuSecure Identity</span>
@@ -320,6 +320,8 @@
       });
     }
   })();
-</script></main><footer class="w-full bg-surface-container-lowest/60 py-space-md mt-auto"><div class="max-w-7xl mx-auto px-gutter flex flex-col sm:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><span class="font-label-sm text-label-sm uppercase text-secondary font-semibold">Cavite State University</span><span class="text-outline text-body-sm">•</span><span class="font-body-sm text-body-sm text-on-surface-variant">Office of the University Registrar &amp; Institutional Cryptographic Trust</span></div><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-secondary text-[14px]">lock</span><span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Zero-Trust Architecture Tier IV</span></div></div></footer></body></html>
+</script></main><footer class="w-full bg-surface-container-lowest/60 py-space-md mt-auto"><div class="max-w-7xl mx-auto px-gutter flex flex-col sm:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><span class="font-label-sm text-label-sm uppercase text-secondary font-semibold">Cavite State University</span><span class="text-outline text-body-sm">•</span><span class="font-body-sm text-body-sm text-on-surface-variant">Office of the University Registrar &amp; Institutional Cryptographic Trust</span></div><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-secondary text-[14px]">lock</span><span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Zero-Trust Architecture Tier IV</span></div></div></footer>
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
+</body></html>
 
 <!-- DocuSecure Login - Password Reset Re-authentication State -->

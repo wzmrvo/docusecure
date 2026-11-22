@@ -254,7 +254,7 @@
 <!-- Auto-redirect Status -->
 <div class="mt-3 flex items-center justify-between text-[11px] text-slate-500">
 <span>Auto-redirecting in <strong class="text-slate-700 font-bold" id="redirectCountdown">0.8s</strong>...</span>
-<a class="text-[#173153] hover:underline font-medium" href="{{ url("/") }}">Click here if not redirected automatically</a>
+<a id="manualPortalRedirect" class="text-[#173153] hover:underline font-medium" href="{{ url("/") }}">Click here if not redirected automatically</a>
 </div>
 <!-- Footnote: Lock icon -->
 <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center gap-1.5 text-center text-[10px] text-slate-500">
@@ -288,4 +288,6 @@
     }
   })();
 </script>
+
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
 </body></html>

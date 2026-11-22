@@ -40,7 +40,7 @@
 <!-- University Seal Header -->
 <div class="flex items-start justify-between">
 <div class="flex items-center gap-3">
-<img alt="Cavite State University Official Seal" class="w-14 h-14 object-contain filter drop-shadow-md" src="{{ asset('images/cvsu-logo.png') }}"/>
+<img alt="Cavite State University Official Seal" class="w-14 h-14 object-contain filter drop-shadow-md" src="{{ asset('images/cvsu-logo-placeholder.svg') }}"/>
 <div class="flex flex-col">
 <span class="font-label-mono text-label-xs uppercase tracking-wider text-[#eabf55] font-semibold">Cavite State University</span>
 <span class="font-body text-body-sm text-[#b6ccbd] opacity-90">DocuSecure Vault Infrastructure</span>
@@ -477,6 +477,8 @@ Skip for 24 Hours (Restricted Access Tier)
       alert("Session restricted to Read-Only Clearance. Redirecting...");
     }
   }
-</script></main><footer class="w-full bg-[#0b1322] border-t border-[#1e293b] px-space-lg py-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs font-label-mono text-label-xs text-[#8a938c]"><span class="material-symbols-outlined text-[16px] text-[#9fd2b4]">verified</span><span>Cavite State University • Confidential Record Verification System • ISO 9001:2015 / RA 10173 Compliant</span></div><div class="font-label-mono text-label-xs text-[#414943]">ISO/IEC 27001 AUDITED INFRASTRUCTURE • ZERO-TRUST ACTIVE</div></footer></body></html>
+</script></main><footer class="w-full bg-[#0b1322] border-t border-[#1e293b] px-space-lg py-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs font-label-mono text-label-xs text-[#8a938c]"><span class="material-symbols-outlined text-[16px] text-[#9fd2b4]">verified</span><span>Cavite State University • Confidential Record Verification System • ISO 9001:2015 / RA 10173 Compliant</span></div><div class="font-label-mono text-label-xs text-[#414943]">ISO/IEC 27001 AUDITED INFRASTRUCTURE • ZERO-TRUST ACTIVE</div></footer>
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
+</body></html>
 
 <!-- DocuSecure - Stage 3 Clearance Action Required (Theme Aligned) -->

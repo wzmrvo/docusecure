@@ -5,10 +5,10 @@
 <div class="flex flex-col">
 <!-- Brand / Logo Area -->
 <div class="h-16 px-5 flex items-center justify-between border-b border-[#1c2a3f] bg-[#0c1320]">
-<a href="#" data-route="dashboard" class="flex items-center gap-3 hover:opacity-90 transition-opacity"><img alt="CvSU Logo" class="h-8 w-8 object-contain" src="{{ asset('images/cvsu-logo.png') }}"><div class="flex flex-col"><span class="text-base font-bold text-white tracking-tight flex items-center gap-1.5">DocuSecure<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span></span><span class="text-[11px] font-mono text-emerald-400 font-medium">CvSU MIS Admin</span></div></a>
+<a href="{{ route('admin.preview.dashboard') }}" data-route="dashboard" class="flex items-center gap-3 hover:opacity-90 transition-opacity"><img alt="CvSU Logo" class="h-8 w-8 object-contain" src="{{ asset('images/cvsu-logo.png') }}"><div class="flex flex-col"><span class="text-base font-bold text-white tracking-tight flex items-center gap-1.5">DocuSecure<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span></span><span class="text-[11px] font-mono text-emerald-400 font-medium">CvSU MIS Admin</span></div></a>
 </div>
 <!-- Navigation Links -->
-<nav class="flex flex-col gap-1.5 p-4 text-sm font-medium"><div class="px-3 pt-2 pb-1 text-[11px] font-mono uppercase tracking-wider text-slate-500">Navigation</div><a aria-current="page" data-route="dashboard" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-emerald-600/15 border border-emerald-500/30 text-emerald-400 font-semibold transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a data-route="user-management" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-slate-400">group</span><span>User Management</span></a><a data-route="access-requests" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#requests-queue"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px] text-slate-400">fact_check</span><span>Access Requests</span></div><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">12</span></a><a data-route="document-access-levels" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-slate-400">shield</span><span>Document Access Levels</span></a><a data-route="file-creation" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-slate-400">note_add</span><span>Deposit &amp; File Creation</span></a><a data-route="audit-logs" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-slate-400">receipt_long</span><span>Audit Logs</span></a><a data-route="system-settings" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[20px] text-slate-400">settings</span><span>System Settings</span></a></nav>
+<nav class="flex flex-col gap-1.5 p-4 text-sm font-medium"><div class="px-3 pt-2 pb-1 text-[11px] font-mono uppercase tracking-wider text-slate-500">Navigation</div><a aria-current="page" data-route="dashboard" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-emerald-600/15 border border-emerald-500/30 text-emerald-400 font-semibold transition-colors" href="{{ route('admin.preview.dashboard') }}"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a data-route="user-management" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.user-management') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">group</span><span>User Management</span></a><a data-route="access-requests" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.access-requests') }}"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px] text-slate-400">fact_check</span><span>Access Requests</span></div><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">12</span></a><a data-route="document-access-levels" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.access-levels') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">shield</span><span>Document Access Levels</span></a><a data-route="file-creation" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.deposit-file') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">note_add</span><span>Deposit &amp; File Creation</span></a><a data-route="audit-logs" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.audit-logs') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">receipt_long</span><span>Audit Logs</span></a><a data-route="system-settings" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.system-settings') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">settings</span><span>System Settings</span></a></nav>
 </div>
 <!-- Bottom Admin Badge -->
 <div class="p-4 border-t border-[#1c2a3f] bg-[#0c1320] flex flex-col gap-2.5">
@@ -20,7 +20,7 @@
 <span class="text-xs font-semibold text-white">Engr. R. Bautista</span>
 <span class="text-[11px] text-slate-400">MIS Administrator</span>
 </div>
-<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors" href="#">
+<a class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 pt-1 font-medium transition-colors" href="/">
 <span class="material-symbols-outlined text-[16px]">logout</span>
 <span>Sign out</span>
 </a>
@@ -110,7 +110,7 @@
 </div>
 <div class="mt-4 pt-3 border-t border-[#1a293f] flex items-center justify-between text-[11px]">
 <span class="text-amber-300 font-medium font-mono">Action needed</span>
-<a class="text-emerald-400 hover:text-emerald-300 font-semibold font-mono flex items-center gap-0.5" href="#requests-queue">
+<a class="text-emerald-400 hover:text-emerald-300 font-semibold font-mono flex items-center gap-0.5" href="{{ route('admin.preview.access-requests') }}">
 <span>Queue</span>
 <span class="material-symbols-outlined text-[13px]">arrow_forward</span>
 </a>
@@ -255,7 +255,7 @@
 <!-- Footer Link -->
 <div class="mt-4 pt-3 border-t border-[#1a293f] flex items-center justify-between">
 <span class="text-xs text-slate-400">Showing 3 of 12 urgent requests</span>
-<a class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 font-mono transition-colors" href="#" data-route="access-requests">
+<a class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 font-mono transition-colors" href="{{ route('admin.preview.access-requests') }}" data-route="access-requests">
 <span>View All Requests</span>
 <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
 </a>
@@ -273,7 +273,7 @@
 <p class="text-xs text-slate-400">Directory of recently provisioned institutional staff and faculty</p>
 </div>
 </div>
-<a class="text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1 bg-[#131d2e] px-2.5 py-1 rounded border border-[#22334d]" href="#" data-route="user-management">
+<a class="text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1 bg-[#131d2e] px-2.5 py-1 rounded border border-[#22334d]" href="{{ route('admin.preview.user-management') }}" data-route="user-management">
 <span>Manage Users</span>
 <span class="material-symbols-outlined text-[14px]">chevron_right</span>
 </a>
@@ -416,7 +416,7 @@
 <span class="material-symbols-outlined text-emerald-400 text-[18px]">bolt</span>
 <span>Quick Admin Actions</span>
 </h3>
-<div class="flex flex-col gap-2.5"><a href="#" data-route="provision-user" class="w-full flex items-center justify-between p-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">person_add</span><span>Provision New User</span></span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a><a href="#requests-queue" data-route="access-requests" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-amber-400">pending_actions</span><span>Review Pending Requests</span></span><span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">12</span></a><a href="#" data-route="audit-logs" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-sky-400">download</span><span>Export Audit Log (CSV/PDF)</span></span><span class="material-symbols-outlined text-[16px] text-slate-400">file_download</span></a><a href="#" data-route="system-settings" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-slate-400">build</span><span>System Maintenance &amp; Backup</span></span><span class="text-[10px] font-mono text-emerald-400">Ready</span></a></div>
+<div class="flex flex-col gap-2.5"><a href="{{ route('admin.preview.user-management') }}" data-route="provision-user" class="w-full flex items-center justify-between p-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">person_add</span><span>Provision New User</span></span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a><a href="{{ route('admin.preview.access-requests') }}" data-route="access-requests" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-amber-400">pending_actions</span><span>Review Pending Requests</span></span><span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">12</span></a><a href="{{ route('admin.preview.audit-logs') }}" data-route="audit-logs" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-sky-400">download</span><span>Export Audit Log (CSV/PDF)</span></span><span class="material-symbols-outlined text-[16px] text-slate-400">file_download</span></a><a href="#" data-route="system-settings" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-slate-400">build</span><span>System Maintenance &amp; Backup</span></span><span class="text-[10px] font-mono text-emerald-400">Ready</span></a></div>
 </div>
 <!-- Section B: Live Audit Logs Activity -->
 <div class="bg-[#0e1726] border border-[#1d2d44] rounded-xl p-5 shadow-sm flex flex-col justify-between">
@@ -474,7 +474,7 @@
 <!-- Bottom Link -->
 <div class="mt-4 pt-3 border-t border-[#1a293f] flex items-center justify-between">
 <span class="text-[11px] text-slate-400 font-mono">Immutable audit storage</span>
-<a class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 font-mono flex items-center gap-1 transition-colors" href="#" data-route="audit-logs">
+<a class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 font-mono flex items-center gap-1 transition-colors" href="{{ route('admin.preview.audit-logs') }}" data-route="audit-logs">
 <span>View Full Log</span>
 <span class="material-symbols-outlined text-[13px]">arrow_forward</span>
 </a>
@@ -489,4 +489,16 @@
 
 
 
+
+<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
+<script>(function(){
+  var path=window.location.pathname.replace(/\/$/,'')||'/';
+  document.querySelectorAll('aside a[href]').forEach(function(link){
+    var raw=link.getAttribute('href')||'';
+    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
+    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
+    var target=url.pathname.replace(/\/$/,'')||'/';
+    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
+  });
+})();</script>
 </body></html>

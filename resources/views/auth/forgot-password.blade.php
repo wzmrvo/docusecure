@@ -39,7 +39,7 @@
 <!-- University Crest Badge -->
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-space-sm">
-<img alt="Cavite State University Official Seal" class="w-14 h-14 object-contain filter drop-shadow-md" src="{{ asset('images/cvsu-logo.png') }}"/>
+<img alt="Cavite State University Official Seal" class="w-14 h-14 object-contain filter drop-shadow-md" src="{{ asset('images/cvsu-logo-placeholder.svg') }}"/>
 <div class="flex flex-col">
 <span class="font-label-md text-label-md uppercase tracking-wider text-[#eabf55]">Cavite State University</span>
 <span class="font-body-sm text-body-sm text-secondary-fixed opacity-90">DocuSecure Identity Operations</span>
@@ -135,7 +135,7 @@
           Enter your verified CvSU credentials to initiate an identity recovery pass. Authorizations are cross-checked via the central registrar registry.
         </p>
 <!-- Identity Verification Form -->
-<form class="space-y-space-md" id="recoveryForm" onsubmit="event.preventDefault(); triggerDispatch();">
+<form class="space-y-space-md" id="recoveryForm" >
 <!-- Field 1: Institutional Email -->
 <div class="space-y-1">
 <div class="flex items-center justify-between">
@@ -261,6 +261,8 @@
       btn.classList.add('bg-[#14452f]');
     }, 1200);
   }
-</script></main><footer class="w-full bg-surface-container-lowest px-space-lg py-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs font-label-sm text-label-sm text-outline"><span class="material-symbols-outlined text-[16px] text-primary">verified</span><span>Cavite State University • Confidential Document Verification & Clearance Gateway • RA 10173 Compliant</span></div><div class="font-label-sm text-label-sm text-outline-variant">ISO/IEC 27001 AUDITED INFRASTRUCTURE</div></footer></body></html>
+</script></main><footer class="w-full bg-surface-container-lowest px-space-lg py-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs font-label-sm text-label-sm text-outline"><span class="material-symbols-outlined text-[16px] text-primary">verified</span><span>Cavite State University • Confidential Document Verification & Clearance Gateway • RA 10173 Compliant</span></div><div class="font-label-sm text-label-sm text-outline-variant">ISO/IEC 27001 AUDITED INFRASTRUCTURE</div></footer>
+<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
+</body></html>
 
 <!-- DocuSecure - Password Reset Successful -->
