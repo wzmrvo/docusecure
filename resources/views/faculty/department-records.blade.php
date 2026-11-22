@@ -1,0 +1,636 @@
+<!DOCTYPE html><html class="dark" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-container":"#3a4d42","primary-fixed-dim":"#9fd2b4","surface-dim":"#111412","surface-container-low":"#191c1a","background":"#111412","on-tertiary":"#242e54","on-secondary":"#22342a","surface-tint":"#9fd2b4","surface-container-lowest":"#0c0f0d","surface-variant":"#323633","outline":"#8a938c","tertiary":"#bbc5f3","outline-variant":"#414943","tertiary-fixed-dim":"#bbc5f3","on-tertiary-container":"#00031a","on-secondary-fixed":"#0d1f16","surface":"#111412","on-primary-fixed":"#002113","error-container":"#93000a","on-secondary-container":"#a8beaf","error":"#ffb4ab","on-error":"#690005","inverse-on-surface":"#2e312f","secondary-fixed-dim":"#b6ccbd","surface-container-highest":"#323633","surface-container":"#1d201e","on-secondary-fixed-variant":"#384b40","tertiary-container":"#6b759f","primary-fixed":"#baeecf","inverse-primary":"#38684f","secondary":"#b6ccbd","on-background":"#e1e3df","on-primary":"#023823","primary":"#9fd2b4","on-primary-container":"#00311e","surface-container-high":"#272b28","on-error-container":"#ffdad6","on-surface-variant":"#c0c9c1","tertiary-fixed":"#dce1ff","primary-container":"#6a9b80","on-primary-fixed-variant":"#1f4f39","on-surface":"#e1e3df","on-tertiary-fixed":"#0e193d","secondary-fixed":"#d2e8d8","surface-bright":"#373a37","inverse-surface":"#e1e3df","on-tertiary-fixed-variant":"#3b456b"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"margin":"3rem","space-xs":"0.25rem","space-lg":"1.5rem","margin-mobile":"1.25rem","gutter":"1.5rem","gutter-mobile":"1rem","space-md":"1rem","space-xl":"2.5rem","space-sm":"0.5rem"},fontFamily:{"display":["Inter"],"headline-lg":["Inter"],"headline-sm":["Inter"],"label-lg":["JetBrains Mono"],"body-sm":["Inter"],"label-md":["JetBrains Mono"],"display-mobile":["Inter"],"headline-md":["Inter"],"code-snippet":["JetBrains Mono"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"],"label-sm":["JetBrains Mono"]},fontSize:{"display":["3rem",{"lineHeight":"3.5rem","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-lg":["2rem",{"lineHeight":"2.5rem","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-sm":["1.125rem",{"lineHeight":"1.625rem","fontWeight":"600"}],"label-lg":["0.875rem",{"lineHeight":"1.25rem","letterSpacing":"0.04em","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.125rem","fontWeight":"400"}],"label-md":["0.75rem",{"lineHeight":"1rem","letterSpacing":"0.06em","fontWeight":"500"}],"display-mobile":["2.25rem",{"lineHeight":"2.75rem","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["1.375rem",{"lineHeight":"1.875rem","letterSpacing":"-0.01em","fontWeight":"600"}],"code-snippet":["0.8125rem",{"lineHeight":"1.25rem","fontWeight":"400"}],"body-lg":["1rem",{"lineHeight":"1.5rem","fontWeight":"400"}],"headline-lg-mobile":["1.5rem",{"lineHeight":"2rem","letterSpacing":"-0.01em","fontWeight":"600"}],"body-md":["0.875rem",{"lineHeight":"1.375rem","fontWeight":"400"}],"label-sm":["0.6875rem",{"lineHeight":"0.875rem","letterSpacing":"0.08em","fontWeight":"500"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 z-50 flex flex-col justify-between py-5 px-4" style="background: linear-gradient(rgb(19, 34, 56) 0%, rgb(13, 24, 41) 100%); border-right: 1px solid rgba(255, 255, 255, 0.08); box-shadow: rgba(0, 0, 0, 0.4) 4px 0px 24px;">
+  <div class="flex flex-col gap-6">
+    <!-- Brand Header -->
+    <div class="flex items-center gap-3 px-2 pt-1 pb-4 border-b border-white/10">
+      <img src="{{ asset('images/cvsu-logo.png') }}" alt="CvSU Logo" class="w-9 h-9 object-contain drop-shadow-md flex-shrink-0">
+      <div class="flex flex-col min-w-0">
+        <div class="flex items-center gap-1.5">
+          <span class="font-bold text-white text-[16px] tracking-tight leading-tight">DocuSecure</span>
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        </div>
+        <span class="text-[10px] text-slate-400 font-mono tracking-wider uppercase truncate">CAVITE STATE UNIVERSITY • CEIT VAULT</span>
+      </div>
+    </div>
+
+    <!-- Workspace Navigation -->
+    <div class="flex flex-col gap-1.5">
+      <span class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase px-3 pb-1">WORKSPACE</span>
+      <nav class="flex flex-col gap-1">
+        <a href="#" data-path="dashboard-overview" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-medium group">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-white transition-colors">grid_view</span>
+            <span>Dashboard (Overview)</span>
+          </div>
+        </a>
+        <a href="#" data-path="document-library" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-medium group">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-white transition-colors">folder_special</span>
+            <span>Document Library</span>
+          </div>
+        </a>
+        <a href="#" data-path="clearance-requests" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-medium group">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-white transition-colors">verified_user</span>
+            <span>Clearance Requests</span>
+          </div>
+          <span class="bg-amber-400 text-slate-900 font-bold text-xs px-2 py-0.5 rounded-full shadow-sm">2 pending</span>
+        </a>
+        <a href="#" data-path="department-records-ceit" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-white font-semibold text-sm transition-all shadow-sm" style="background: rgba(255, 255, 255, 0.12); border-left: 4px solid #34d399;">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px] text-emerald-400">corporate_fare</span>
+            <span>Department Records (CEIT)</span>
+          </div>
+          <span class="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]"></span>
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Bottom User Session Footer -->
+  <div class="flex flex-col gap-3 pt-4 border-t border-white/10 px-2">
+    <div class="p-3 rounded-lg flex flex-col gap-1" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.07);">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase font-mono">TIER 3 CLEARANCE</span>
+        </div>
+        <span class="material-symbols-outlined text-[16px] text-emerald-400">encrypted</span>
+      </div>
+      <span class="text-[12px] text-slate-400 font-mono">NetID: CEIT-FAC-88219</span>
+      <span class="text-[11px] text-slate-300 font-medium truncate">Prof. Juan Dela Cruz</span>
+    </div>
+    <a href="#" data-path="login" class="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium border border-white/10">
+      <span class="material-symbols-outlined text-[16px]">logout</span>
+      <span>Sign Out Session</span>
+    </a>
+  </div>
+</aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[20px]">shield</span><div class="flex items-center gap-2 font-mono text-xs"><span class="text-slate-400">CEIT Enclave</span><span class="text-slate-600">/</span><span class="text-primary font-semibold">Department Records</span></div><span class="ml-2 text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">NODE-04 ONLINE</span></div><div class="relative hidden xl:flex items-center"><span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant text-[18px]">search</span><input class="w-96 pl-10 pr-space-md py-1.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-sm text-body-sm focus:outline-none" placeholder="Encrypted Omni-Search (Doc ID, SHA-256, Faculty ID)..." type="text"></div></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low"><span class="h-2 w-2 rounded-full bg-primary animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant">CvSU Cloud Node: Active • 256-bit Encrypted</span></div><div class="relative flex items-center"><button aria-label="Notifications" class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-lg bg-surface-container-low flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute top-1 right-1 h-2 w-2 bg-error rounded-full"></span></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="flex flex-col items-end"><span class="font-label-md text-label-md text-on-surface">Prof. Juan Dela Cruz</span><span class="font-label-sm text-label-sm text-primary">CEIT Faculty • Tier 3 Clearance</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 bg-surface w-full px-space-lg"><div class="flex flex-col w-full">
+<div class="flex flex-col w-full space-y-space-lg pb-space-xl">
+<!-- Section 1: Page Header with Sovereignty Elements -->
+<div class="p-space-md rounded-xl border border-emerald-500/20 shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-3" style="background: linear-gradient(90deg, rgba(19, 34, 56, 0.95) 0%, rgba(13, 24, 41, 0.95) 100%);"><div class="flex items-start gap-3 min-w-0"><div class="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center flex-shrink-0 mt-0.5"><span class="material-symbols-outlined text-[22px]">verified_user</span></div><div class="flex flex-col gap-0.5 min-w-0"><div class="flex items-center gap-2 flex-wrap"><span class="font-mono font-bold text-xs uppercase tracking-wider text-emerald-400">Department Enclave Access</span><span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-400 border border-amber-400/30 font-semibold">Tier 3 Active</span></div><p class="text-xs text-slate-300 leading-relaxed">Logged in as <strong class="text-white">Prof. Juan Dela Cruz</strong> (Tier 3 Clearance — CEIT Faculty). You have full decryption rights for all CEIT Curriculum, Level IV Accreditation, and Department Minutes (Tier 2 &amp; 3). Tier 4 confidential records remain cryptographic sealed until authorized.</p></div></div><div class="flex items-center gap-2 flex-shrink-0 pt-2 md:pt-0"><div class="px-2.5 py-1 rounded bg-surface-container border border-white/10 text-[11px] font-mono text-emerald-400 flex items-center gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>KEYS LOADED</span></div></div></div><div class="flex flex-col xl:flex-row xl:items-end justify-between gap-space-md pt-space-xs">
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant">
+<span>Workspace</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">Department Records (CEIT)</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+          Department Records — College of Engineering and Information Technology (CEIT)
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-4xl">
+          Official departmental repository for curricula, course syllabi, faculty council minutes, and accreditation archives under Cavite State University cryptographic governance.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0">
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface transition-colors shadow-sm" id="btn-export-manifest">
+<span class="material-symbols-outlined text-[18px]">download_for_offline</span>
+<span class="font-label-md text-label-md">Department Manifest CSV</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary text-on-primary hover:bg-primary-fixed transition-colors shadow-md" id="btn-submit-file">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="font-label-md text-label-md font-bold">+ Submit Department File</span>
+</button>
+</div>
+</div>
+<!-- Section 2: CEIT Departmental Node Telemetry Bar -->
+<div class="relative overflow-hidden bg-surface-container rounded-xl p-space-md shadow-md">
+<div class="absolute -right-8 -top-8 w-44 h-44 bg-primary/5 rounded-full pointer-events-none blur-2xl"></div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<div class="flex items-start gap-space-sm">
+<div class="p-space-xs rounded bg-surface-container-high text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">hub</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Node Status</span>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold truncate">CEIT Academic Node 04</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+<span class="inline-block h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>
+              Indang Datacenter Link Active
+            </span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<div class="p-space-xs rounded bg-surface-container-high text-secondary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">domain</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Academic Unit</span>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold truncate">Dept. of Computer Eng. &amp; IT</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">CvSU Main Campus • Indang</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<div class="p-space-xs rounded bg-surface-container-high text-tertiary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Node Custodians</span>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold truncate">Engr. R. Bautista (MIS)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">Dr. E. Davis (Dept. Chair)</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<div class="p-space-xs rounded bg-surface-container-high text-primary-fixed-dim flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">shield_lock</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Security Architecture</span>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold">Tier 2 &amp; Tier 3 Local Enclave</span>
+<span class="font-label-sm text-label-sm text-primary">SHA-256 Checksumming Active</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: Department Announcement Banner -->
+<div class="flex items-center justify-between gap-space-md p-space-md rounded-xl bg-secondary-container/60 shadow-sm text-on-secondary-container">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="p-1 rounded bg-secondary-container text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">campaign</span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 min-w-0">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-surface-container-lowest text-primary flex-shrink-0">Action Mandatory</span>
+<p class="font-body-sm text-body-sm text-on-secondary-container truncate">
+            Notice: 2026 CHED Level IV Re-accreditation file freeze begins in <span class="font-bold underline text-on-surface">5 days</span>. Ensure all syllabus updates are sealed by Friday 5:00 PM.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs flex-shrink-0">
+<span class="font-code-snippet text-code-snippet text-primary hidden md:inline">FREEZE_ID#ACC-2026-IV</span>
+<button aria-label="Dismiss Alert" class="p-1 hover:bg-surface-container text-on-secondary-container hover:text-on-surface rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Section 4: Category & Folder Grid (4 Primary Clusters) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md"><!-- Cluster 1: Curriculum & Syllabi (Tier 3 Faculty Authorized) -->
+<div class="group relative flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all shadow-md border border-emerald-500/20">
+  <div class="flex flex-col space-y-space-sm">
+    <div class="flex items-center justify-between">
+      <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+        <span class="material-symbols-outlined text-[22px]">menu_book</span>
+      </div>
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-medium flex items-center gap-1">
+        <span class="material-symbols-outlined text-[13px]">lock_open</span> Tier 3 Faculty Authorized
+      </span>
+    </div>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Curriculum &amp; Syllabi (OBE-Compliant)</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">48 Active Course Syllabi • Fully Decrypted</p>
+    </div>
+    <div class="flex flex-wrap gap-1 pt-space-xs">
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">Computer Engineering (CPE)</span>
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">IT (BSIT)</span>
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">Computer Science (BSCS)</span>
+    </div>
+  </div>
+  <div class="mt-space-md pt-space-sm flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+    <span class="font-mono text-[11px]">Root: /ceit/curricula</span>
+    <span class="material-symbols-outlined text-[16px] text-primary">arrow_forward</span>
+  </div>
+</div>
+
+<!-- Cluster 2: Accreditation Dossiers & CHED Level IV (Tier 3 Faculty Authorized) -->
+<div class="group relative flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all shadow-md border border-emerald-500/20">
+  <div class="flex flex-col space-y-space-sm">
+    <div class="flex items-center justify-between">
+      <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-secondary group-hover:scale-105 transition-transform">
+        <span class="material-symbols-outlined text-[22px]">workspace_premium</span>
+      </div>
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-medium flex items-center gap-1">
+        <span class="material-symbols-outlined text-[13px]">lock_open</span> Tier 3 Faculty Authorized
+      </span>
+    </div>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-secondary transition-colors">Accreditation Dossiers &amp; CHED Level IV</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">112 Document Portfolios • 4 Ongoing Cycles</p>
+    </div>
+    <div class="flex flex-wrap gap-1 pt-space-xs">
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">CHED</span>
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">AACCUP Accredited</span>
+    </div>
+  </div>
+  <div class="mt-space-md pt-space-sm flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+    <span class="font-mono text-[11px]">Root: /ceit/accreditation</span>
+    <span class="material-symbols-outlined text-[16px] text-secondary">arrow_forward</span>
+  </div>
+</div>
+
+<!-- Cluster 3: Faculty Governance & Council Minutes (Tier 3 Faculty Authorized) -->
+<div class="group relative flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all shadow-md border border-emerald-500/20">
+  <div class="flex flex-col space-y-space-sm">
+    <div class="flex items-center justify-between">
+      <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-error group-hover:scale-105 transition-transform">
+        <span class="material-symbols-outlined text-[22px]">gavel</span>
+      </div>
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-medium flex items-center gap-1">
+        <span class="material-symbols-outlined text-[13px]">lock_open</span> Tier 3 Faculty Authorized
+      </span>
+    </div>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-error transition-colors">Faculty Governance &amp; Council Minutes</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">36 Formal Proceedings • FY 2025–2026</p>
+    </div>
+    <div class="flex flex-wrap gap-1 pt-space-xs">
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-error">Council Confidential</span>
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface">Decrypted View</span>
+    </div>
+  </div>
+  <div class="mt-space-md pt-space-sm flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+    <span class="font-mono text-[11px]">Root: /ceit/council</span>
+    <span class="material-symbols-outlined text-[16px] text-error">arrow_forward</span>
+  </div>
+</div>
+
+<!-- Cluster 4: Board Resolutions & Institutional Patents (Tier 4 Sealed Archive) -->
+<div class="group relative flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all shadow-md border border-amber-400/30" style="background: linear-gradient(rgba(29, 32, 30, 0.9) 0%, rgba(20, 24, 28, 0.95) 100%);">
+  <div class="flex flex-col space-y-space-sm">
+    <div class="flex items-center justify-between">
+      <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
+        <span class="material-symbols-outlined text-[22px]">encrypted</span>
+      </div>
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-amber-400/15 text-amber-400 border border-amber-400/40 font-bold flex items-center gap-1">
+        <span class="material-symbols-outlined text-[13px]">lock</span> Tier 4 Sealed Archive
+      </span>
+    </div>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-amber-400 transition-colors">Institutional Patents &amp; Board Decrees</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">BOR Executive Enclave • Cryptographic Lock Active</p>
+    </div>
+    <div class="flex flex-wrap gap-1 pt-space-xs">
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/20">BOR Authorization Required</span>
+    </div>
+  </div>
+  <div class="mt-space-md pt-space-sm flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant border-t border-white/5">
+    <span class="font-mono text-[11px] text-amber-400/80">Root: /ceit/bor-patents</span>
+    <a href="#" data-path="clearance-requests" class="text-xs font-bold text-amber-400 hover:text-amber-300 underline flex items-center gap-0.5">File Clearance Slip <span class="material-symbols-outlined text-[14px]">arrow_forward</span></a>
+  </div>
+</div></div>
+<!-- Section 5: Department Repository Ledger & Audit Ledger Table -->
+<div class="flex flex-col space-y-space-md bg-surface-container-low rounded-xl p-space-md shadow-lg">
+<!-- Ledger Header & Live Filter Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">folder_managed</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Department Repository Ledger</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Real-time synchronized cryptographic archive view</span>
+</div>
+</div>
+<!-- Filter Controls -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-on-surface-variant text-[18px]">search</span>
+<input class="pl-9 pr-3 py-1.5 rounded bg-surface-container text-on-surface placeholder:text-on-surface-variant font-body-sm text-body-sm w-72 focus:outline-none" id="ledger-search" placeholder="Search CEIT records by subject code, syllabus term..." type="text">
+</div>
+<select class="px-2.5 py-1.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm focus:outline-none cursor-pointer">
+<option>Academic Term: 1st Sem 2025-2026</option>
+<option>Academic Term: 2nd Sem 2024-2025</option>
+<option>Midyear 2025</option>
+</select>
+<select class="px-2.5 py-1.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm focus:outline-none cursor-pointer">
+<option>Course Code: All</option>
+<option>COEN (Computer Eng.)</option>
+<option>ITEC (Information Tech.)</option>
+<option>COSC (Computer Science)</option>
+<option>ADMIN (Faculty Governance)</option>
+</select>
+<select class="px-2.5 py-1.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm focus:outline-none cursor-pointer">
+<option>Clearance Tier: All</option>
+<option>Tier 2 Academic Internal</option>
+<option>Tier 3 Confidential</option>
+</select>
+</div>
+</div>
+<!-- Table Container -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+<th class="py-3 px-4 rounded-l">Document Identifier &amp; Title</th>
+<th class="py-3 px-4">Classification</th>
+<th class="py-3 px-4">Clearance Level</th>
+<th class="py-3 px-4 font-mono">SHA-256 Digest</th>
+<th class="py-3 px-4">Signer / Timestamp</th>
+<th class="py-3 px-4 text-right rounded-r">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container"><!-- Row 1: Tier 3 Faculty Authorized -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+  <td class="py-3.5 px-4">
+    <div class="flex items-center gap-space-sm">
+      <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+        <span class="material-symbols-outlined text-[18px]">description</span>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="font-body-md text-body-md text-on-surface font-semibold truncate">COEN 30133 - Computer Systems Architecture Syllabus 2026</span>
+        <span class="font-label-sm text-label-sm text-on-surface-variant">CvSU-CEIT-SYL-2026-0891</span>
+      </div>
+    </div>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">Academic Syllabus</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-label-sm text-label-sm flex items-center gap-1 w-max font-medium">
+      <span class="material-symbols-outlined text-[14px]">lock_open</span>
+      Tier 3 Faculty Authorized
+    </span>
+  </td>
+  <td class="py-3.5 px-4 font-code-snippet text-code-snippet text-primary">
+    <span title="f8e3c1a93b4a2d8e7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d">sha256:f8e3c...6f5e4d</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <div class="flex flex-col">
+      <span class="text-on-surface font-medium">Engr. M. Mendoza</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Today, 09:42 UTC</span>
+    </div>
+  </td>
+  <td class="py-3.5 px-4 text-right">
+    <div class="flex items-center justify-end gap-1">
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-primary hover:text-on-surface transition-colors" title="View / Decrypt File">
+        <span class="material-symbols-outlined text-[18px]">download</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Inspect Metadata">
+        <span class="material-symbols-outlined text-[18px]">policy</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Share with Department Faculty">
+        <span class="material-symbols-outlined text-[18px]">share</span>
+      </button>
+    </div>
+  </td>
+</tr>
+
+<!-- Row 2: Tier 3 Faculty Authorized -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+  <td class="py-3.5 px-4">
+    <div class="flex items-center gap-space-sm">
+      <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+        <span class="material-symbols-outlined text-[18px]">inventory_2</span>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="font-body-md text-body-md text-on-surface font-semibold truncate">ITEC 20043 - Advanced Database Systems OBE Module</span>
+        <span class="font-label-sm text-label-sm text-on-surface-variant">CvSU-CEIT-MOD-2026-0412</span>
+      </div>
+    </div>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">Curriculum Portfolio</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-label-sm text-label-sm flex items-center gap-1 w-max font-medium">
+      <span class="material-symbols-outlined text-[14px]">lock_open</span>
+      Tier 3 Faculty Authorized
+    </span>
+  </td>
+  <td class="py-3.5 px-4 font-code-snippet text-code-snippet text-primary">
+    <span title="a4497e2f928c049b819f71c42fbd1b09b8d2813ec6370438cfebdf92957b8a1c">sha256:a4497...57b8a1c</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <div class="flex flex-col">
+      <span class="text-on-surface font-medium">Prof. Juan Dela Cruz</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Yesterday, 16:15 UTC</span>
+    </div>
+  </td>
+  <td class="py-3.5 px-4 text-right">
+    <div class="flex items-center justify-end gap-1">
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-primary hover:text-on-surface transition-colors" title="View / Decrypt File">
+        <span class="material-symbols-outlined text-[18px]">download</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Inspect Metadata">
+        <span class="material-symbols-outlined text-[18px]">policy</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Share with Department Faculty">
+        <span class="material-symbols-outlined text-[18px]">share</span>
+      </button>
+    </div>
+  </td>
+</tr>
+
+<!-- Row 3: Tier 4 Sealed Archive (Gold Badge + Clearance Slip trigger) -->
+<tr class="hover:bg-surface-container/60 transition-colors bg-amber-400/[0.02]">
+  <td class="py-3.5 px-4">
+    <div class="flex items-center gap-space-sm">
+      <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-amber-400 flex-shrink-0">
+        <span class="material-symbols-outlined text-[18px]">lock</span>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <div class="flex items-center gap-2">
+          <span class="font-body-md text-body-md text-on-surface font-semibold truncate">CvSU BOR Resolution No. 018-2026: Academic Patent Vault</span>
+          <span class="px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-400 border border-amber-400/30 text-[10px] font-mono font-bold uppercase">SEALED</span>
+        </div>
+        <span class="font-label-sm text-label-sm text-on-surface-variant">CvSU-BOR-SEC-2026-0018-T4</span>
+      </div>
+    </div>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2 py-0.5 rounded bg-surface-container-high text-amber-400 font-label-sm text-label-sm font-medium">BOR Governance / IP</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2.5 py-1 rounded bg-amber-400/15 text-amber-400 border border-amber-400/40 font-label-sm text-label-sm flex items-center gap-1 w-max font-bold">
+      <span class="material-symbols-outlined text-[14px]">lock</span>
+      Tier 4 Sealed Archive
+    </span>
+  </td>
+  <td class="py-3.5 px-4 font-code-snippet text-code-snippet text-amber-400/80">
+    <span title="Encrypted payload requires BOR Tier 4 Clearance Token">sha256:7f83b...[ENCRYPTED]</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <div class="flex flex-col">
+      <span class="text-on-surface font-medium">University Registrar / BOR</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Mar 22, 2026 11:20</span>
+    </div>
+  </td>
+  <td class="py-3.5 px-4 text-right">
+    <div class="flex items-center justify-end gap-2">
+      <a href="#" data-path="clearance-requests" class="px-2.5 py-1 rounded bg-amber-400 text-slate-900 hover:bg-amber-300 font-label-sm text-label-sm font-bold transition-colors inline-flex items-center gap-1 shadow-sm">
+        <span class="material-symbols-outlined text-[14px]">badge</span>
+        <span>File Clearance Slip</span>
+      </a>
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Inspect Metadata Digest">
+        <span class="material-symbols-outlined text-[18px]">policy</span>
+      </button>
+    </div>
+  </td>
+</tr>
+
+<!-- Row 4: Tier 3 Faculty Authorized -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+  <td class="py-3.5 px-4">
+    <div class="flex items-center gap-space-sm">
+      <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+        <span class="material-symbols-outlined text-[18px]">data_object</span>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="font-body-md text-body-md text-on-surface font-semibold truncate">BSCS Capstone Portfolio: AI-Powered Agricultural Soil Analysis</span>
+        <span class="font-label-sm text-label-sm text-on-surface-variant">CvSU-CEIT-CPS-2026-0019</span>
+      </div>
+    </div>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">Research / IP</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-label-sm text-label-sm flex items-center gap-1 w-max font-medium">
+      <span class="material-symbols-outlined text-[14px]">lock_open</span>
+      Tier 3 Faculty Authorized
+    </span>
+  </td>
+  <td class="py-3.5 px-4 font-code-snippet text-code-snippet text-primary">
+    <span title="6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b">sha256:6b86b...7875b4b</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <div class="flex flex-col">
+      <span class="text-on-surface font-medium">CEIT Research Council</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Mar 20, 2026 14:05</span>
+    </div>
+  </td>
+  <td class="py-3.5 px-4 text-right">
+    <div class="flex items-center justify-end gap-1">
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-primary hover:text-on-surface transition-colors" title="View / Decrypt File">
+        <span class="material-symbols-outlined text-[18px]">download</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Inspect Metadata">
+        <span class="material-symbols-outlined text-[18px]">policy</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Share with Department Faculty">
+        <span class="material-symbols-outlined text-[18px]">share</span>
+      </button>
+    </div>
+  </td>
+</tr>
+
+<!-- Row 5: Tier 3 Faculty Authorized -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+  <td class="py-3.5 px-4">
+    <div class="flex items-center gap-space-sm">
+      <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-secondary flex-shrink-0">
+        <span class="material-symbols-outlined text-[18px]">verified_user</span>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="font-body-md text-body-md text-on-surface font-semibold truncate">CHED Level IV Criterion 3: Curriculum Integrity Self-Survey Audit</span>
+        <span class="font-label-sm text-label-sm text-on-surface-variant">CvSU-CEIT-ACC-2026-L4-03</span>
+      </div>
+    </div>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">Accreditation</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <span class="px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-label-sm text-label-sm flex items-center gap-1 w-max font-medium">
+      <span class="material-symbols-outlined text-[14px]">lock_open</span>
+      Tier 3 Faculty Authorized
+    </span>
+  </td>
+  <td class="py-3.5 px-4 font-code-snippet text-code-snippet text-primary">
+    <span title="d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35">sha256:d4735...c13ab35</span>
+  </td>
+  <td class="py-3.5 px-4">
+    <div class="flex flex-col">
+      <span class="text-on-surface font-medium">QA / Accreditation Unit</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Mar 18, 2026 08:30</span>
+    </div>
+  </td>
+  <td class="py-3.5 px-4 text-right">
+    <div class="flex items-center justify-end gap-1">
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-primary hover:text-on-surface transition-colors" title="View / Decrypt File">
+        <span class="material-symbols-outlined text-[18px]">download</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Inspect Metadata">
+        <span class="material-symbols-outlined text-[18px]">policy</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Share with Department Faculty">
+        <span class="material-symbols-outlined text-[18px]">share</span>
+      </button>
+    </div>
+  </td>
+</tr></tbody>
+</table>
+</div>
+<!-- Ledger Footer & Cryptographic Paging Status -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-space-sm">
+<span>Displaying 5 of 430 total CEIT archived artifacts</span>
+<span class="text-primary">• Zero-Knowledge Merkle Root Verified</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors disabled:opacity-50" disabled="">Previous</button>
+<span class="px-2 py-1 text-on-surface font-bold">1 / 86</span>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">Next</button>
+</div>
+</div>
+</div>
+<!-- Section 6: Security Verification Dossier Panel & Faculty Authority Footnote -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between">
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">fingerprint</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Digital Signature Chain</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            All submitted files are signed by the authorized CEIT Faculty key pair and timestamped with university hardware tokens.
+          </p>
+</div>
+<div class="pt-space-md">
+<div class="p-space-xs rounded bg-surface-container font-code-snippet text-code-snippet text-primary break-all">
+            PGP KEY: CEIT-PUBKEY-4F8A-99B2-C024-CVSU
+          </div>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between">
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center gap-space-xs text-secondary">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">CHED Level IV Standing</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Repository conforms strictly with Commission on Higher Education (CHED) Memorandum Order OBE curriculum compliance.
+          </p>
+</div>
+<div class="pt-space-md flex items-center justify-between font-label-sm text-label-sm text-on-surface">
+<span>Status: Verified Active</span>
+<span class="text-secondary font-bold">Valid through 2028</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between">
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center gap-space-xs text-tertiary">
+<span class="material-symbols-outlined text-[20px]">security_update_good</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Tamper Protection</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Real-time hash comparison prevents unauthorized revisions or historical substitution of board-approved syllabi.
+          </p>
+</div>
+<div class="pt-space-md flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Last Full-Vault Audit:</span>
+<span class="text-primary font-bold">03:00 UTC (100% Match)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic search filtering within the table rows
+  document.getElementById('ledger-search')?.addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(term) ? '' : 'none';
+    });
+  });
+
+  // Action buttons micro-interaction
+  document.getElementById('btn-submit-file')?.addEventListener('click', function() {
+    alert('Security Notice: Initializing Cryptographic Upload Enclave. Tier 2/Tier 3 clearance required.');
+  });
+
+  document.getElementById('btn-export-manifest')?.addEventListener('click', function() {
+    alert('Exporting Department Ledger Manifest (CSV format) sealed with institutional SHA-256 seal.');
+  });
+</script></main><footer class="w-full bg-surface-container-lowest mt-space-xl py-space-lg px-space-lg"><div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex flex-col gap-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant font-bold">Cavite State University Data Privacy Act of 2012 (RA 10173) Directive Notice</span><span class="font-body-sm text-body-sm text-on-surface-variant">All document transactions, SHA-256 cryptographic handshakes, and clearance authorizations are logged in real-time under zero-trust audit protocols.</span></div><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[18px]">fingerprint</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Steganographic Watermark Protected • TLS 1.3 Strict</span></div></div></footer></div>
+
+</body></html>

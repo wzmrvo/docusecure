@@ -1,0 +1,92 @@
+/* DocuSecure authentication styles */
+.auth-brand-panel {
+    background: linear-gradient(135deg, #173153 0%, #1f3f69 60%, #173153 100%);
+    border-top: 4px solid #eabf55;
+    border-right: 1px solid rgba(55, 110, 173, .35);
+}
+.auth-grid {
+    opacity: .75;
+    background-size: 32px 32px;
+    background-image:
+        linear-gradient(to right, rgba(234, 191, 85, .045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(234, 191, 85, .045) 1px, transparent 1px);
+}
+.cvsu-logo-placeholder {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(234, 191, 85, .65);
+    border-radius: 12px;
+    color: #f8df8c;
+    background: rgba(7, 31, 22, .3);
+    font: 700 11px "JetBrains Mono", monospace;
+    letter-spacing: .08em;
+}
+.auth-dossier {
+    box-shadow: 0 20px 50px -12px rgba(11, 41, 29, .35), 0 0 0 1px rgba(255,255,255,.08);
+}
+.auth-label {
+    display: block;
+    margin-bottom: .375rem;
+    color: #334155;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+.auth-input {
+    display: block;
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: .75rem;
+    background: rgba(248, 250, 252, .8);
+    padding: .7rem .9rem;
+    color: #0f172a;
+    font-size: .875rem;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.auth-input:focus {
+    border-color: #173153;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(23, 49, 83, .12);
+}
+.auth-input::placeholder { color: #94a3b8; }
+.auth-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: .85rem;
+    transform: translateY(-50%);
+    color: #376ead;
+    font-size: .7rem;
+    font-weight: 700;
+}
+.auth-submit {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    border: 1px solid transparent;
+    border-radius: .75rem;
+    background: #173153;
+    padding: .85rem 1rem;
+    color: #fff;
+    font-size: .875rem;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(23, 49, 83, .16);
+    transition: transform .15s ease, background .15s ease;
+}
+.auth-submit:hover { background: #21436e; transform: translateY(-1px); }
+.auth-submit:focus-visible, .auth-password-toggle:focus-visible {
+    outline: 3px solid rgba(55, 110, 173, .35);
+    outline-offset: 2px;
+}
+@media (max-width: 1023px) {
+    .auth-brand-panel { min-height: 420px; }
+}
+@media (max-width: 639px) {
+    .auth-brand-panel { min-height: auto; }
+}
