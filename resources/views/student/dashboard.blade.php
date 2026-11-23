@@ -266,15 +266,18 @@
     subtitle="Submit Access Justification to Department Dean"
     icon="post_add"
 >
-    <form class="flex flex-col gap-3.5 text-xs">
+    <form id="request-doc-form" method="POST" action="{{ route('student.access-requests.store') }}" class="flex flex-col gap-3.5 text-xs">
+        @csrf
         <div>
             <label class="block font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
                 Document Target
             </label>
-            <select class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-800 dark:text-white">
-                <option>Certified True Copy of Grades (COG)</option>
-                <option>Official Certificate of Registration (COR)</option>
-                <option>Course Syllabus Certification for Cross-Enrollment</option>
+            <select name="document_id" required class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-800 dark:text-white">
+                @forelse ($accessibleDocuments as $document)
+                    <option value="{{ $document->id }}">{{ $document->title }}</option>
+                @empty
+                    <option value="">No accessible documents available</option>
+                @endforelse
             </select>
         </div>
 
@@ -282,7 +285,7 @@
             <label class="block font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
                 Academic Justification / Purpose
             </label>
-            <textarea rows="3" class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-800 dark:text-white" placeholder="State your academic reason for requesting this document..."></textarea>
+            <textarea name="justification" required rows="3" class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-800 dark:text-white" placeholder="State your academic reason for requesting this document..."></textarea>
         </div>
     </form>
 
@@ -290,7 +293,7 @@
         <button type="button" onclick="closeModal('request-doc-modal')" class="px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
             Cancel
         </button>
-        <button type="button" onclick="closeModal('request-doc-modal'); alert('Request submitted to CEIT Department Dean.');" class="px-4 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold shadow-sm transition">
+        <button type="submit" form="request-doc-form" class="px-4 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold shadow-sm transition">
             Submit Request
         </button>
     </x-slot>

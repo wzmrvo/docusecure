@@ -74,6 +74,7 @@ class DocumentController extends Controller
     public function download(Document $document): StreamedResponse
     {
         $user = Auth::user();
+        abort_unless($user && $user->account_status === 'active', 403);
         $tier = $document->access_tier;
         $allowed = $user && (
             $user->role === 'admin'

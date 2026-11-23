@@ -297,6 +297,8 @@
       </div>
     </div>
 
+    @if(false)
+    <!-- Static preview table intentionally hidden -->
     <!-- Document Repository Semi-Admin Table -->
     <div class="bg-[#152238] rounded-xl border border-[#1f3a5f] overflow-hidden shadow-xl">
       <div class="overflow-x-auto">
@@ -355,6 +357,7 @@
                 </div>
               </td>
             </tr>
+            @if(false)
             <!-- Row 2: Restricted Vault (Tier 4) -->
             <tr class="hover:bg-rose-950/20 transition-colors bg-rose-950/10">
               <td class="py-4 px-5">
@@ -597,6 +600,33 @@
           </tbody>
         </table>
       </div>
+      @endif
+      @foreach ($documents as $document)
+        <tr class="hover:bg-[#172b47]/40 transition-colors">
+          <td class="py-4 px-5">
+            <div class="flex items-start gap-3">
+              <div class="p-2 rounded-lg bg-[#166534]/30 text-[#9fd2b4] flex-shrink-0 mt-0.5 border border-[#166534]/60">
+                <span class="material-symbols-outlined text-[20px]">description</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <span class="font-semibold text-white leading-snug">{{ $document->title }}</span>
+                <span class="font-mono text-xs text-slate-400 mt-0.5">{{ $document->tracking_number }} • Uploaded {{ $document->created_at->format('M d, Y') }}</span>
+              </div>
+            </div>
+          </td>
+          <td class="py-4 px-4 text-xs text-slate-300">{{ $document->department?->name ?: 'Department Record' }}</td>
+          <td class="py-4 px-4 text-xs text-slate-300">{{ strtoupper($document->access_tier) }}</td>
+          <td class="py-4 px-4 font-mono text-xs text-[#eabf55]">{{ $document->sha256 ? substr($document->sha256, 0, 12).'...' : 'Pending hash' }}</td>
+          <td class="py-4 px-4 font-mono text-xs text-slate-400">{{ number_format($document->size_bytes / 1048576, 1) }} MB</td>
+          <td class="py-4 px-5 text-right">
+            @if ($document->access_tier === 'tier4')
+              <a href="{{ route('faculty.preview.tier-4-access-request') }}?document={{ $document->id }}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-950/70 border border-rose-600 text-rose-200 text-xs font-semibold">Request Elevation</a>
+            @else
+              <a href="{{ route('documents.download', $document) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#0f223a] text-white border border-[#1f3a5f] text-xs font-semibold"><span class="material-symbols-outlined text-[15px]">download</span> Download</a>
+            @endif
+          </td>
+        </tr>
+      @endforeach
       <!-- Table Footer / Pagination -->
       <div class="px-6 py-4 bg-[#0f223a] border-t border-[#1f3a5f] flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="text-xs text-slate-400 font-medium">Showing <strong class="text-white font-semibold">1–6</strong> of <strong class="text-white font-semibold">1,248</strong> authoritative university records</div>
@@ -612,6 +642,7 @@
       </div>
     </div>
 
+    @endif
     @isset($documents)
     <div class="rounded-xl border border-[#1f3a5f] bg-[#152238] p-5 shadow-sm">
       <div class="mb-3 flex items-center justify-between">

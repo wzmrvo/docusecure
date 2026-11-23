@@ -208,6 +208,10 @@ Route::post('/faculty/access-requests', [AccessRequestController::class, 'store'
     ->middleware(['auth', 'role:faculty'])
     ->name('faculty.access-requests.store');
 
+Route::post('/student/access-requests', [AccessRequestController::class, 'store'])
+    ->middleware(['auth', 'role:student'])
+    ->name('student.access-requests.store');
+
 // Faculty Direct URL Routes
 // These allow pages to be opened without /preview in the URL.
 
@@ -251,16 +255,11 @@ Route::post('/faculty/submit-department-file', function (Request $request) {
 
     return app(DocumentController::class)->store($request);
 
-})->name('faculty.submit-department-file');
+})->middleware(['auth', 'role:faculty'])->name('faculty.submit-department-file');
 
-Route::post('/faculty/submit-tier-4-access-request', function (Request $request) {
-
-    // Temporary placeholder until the actual Tier 4 request handling is implemented.
-    return redirect()
-        ->route('faculty.preview.tier-4-access-request')
-        ->with('info', 'Tier 4 access request route reached. Request processing is not yet configured.');
-
-})->name('faculty.submit-tier-4-access-request');
+Route::post('/faculty/submit-tier-4-access-request', [AccessRequestController::class, 'store'])
+    ->middleware(['auth', 'role:faculty'])
+    ->name('faculty.submit-tier-4-access-request');
 
 // Student Preview Routes
 Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 'role:student'])->group(function () {
@@ -268,13 +267,16 @@ Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 
     Route::get('/', function () {
         $documentCount = Document::whereIn('access_tier', ['tier1', 'tier2'])->count();
         $accessRequestCount = AccessRequest::where('requester_id', Auth::id())->count();
+        $accessibleDocuments = Document::whereIn('access_tier', ['tier1', 'tier2'])
+            ->latest()
+            ->get();
         $documents = Document::whereIn('access_tier', ['tier1', 'tier2'])
             ->with(['category', 'department'])
             ->latest()
             ->limit(5)
             ->get();
 
-        return view('student.dashboard', compact('documentCount', 'accessRequestCount', 'documents'));
+        return view('student.dashboard', compact('documentCount', 'accessRequestCount', 'documents', 'accessibleDocuments'));
     })->name('dashboard');
     Route::get('/document-library', function () {
         $documents = Document::whereIn('access_tier', ['tier1', 'tier2'])
