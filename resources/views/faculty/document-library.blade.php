@@ -58,91 +58,12 @@
 </head>
 
 <!-- Sidebar (Institutional Deep Navy Enclave) -->
-<body><aside class="fixed left-0 top-0 h-full w-72 bg-[#0f223a] z-50 flex flex-col justify-between border-r border-white/10 shadow-2xl text-slate-300">
-  <div class="flex flex-col">
-    <!-- Brand Header -->
-    <div class="h-16 px-5 flex items-center justify-between border-b border-white/10 bg-[#0b1728]">
-      <div class="flex items-center gap-3 min-w-0">
-        <img alt="CvSU Logo" class="h-9 w-9 object-contain drop-shadow flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGw_2aP-WOG0aT6WEY9eL5D31E4pMr6kmxmXW-0sPAIyy_Adwp6BjBqJ5_S1QT_pNiOsdwCiuwi03DrTk0HVQy2OTX4_LlfQXqNOAP98MgNh7eNg2A1w1Q2yAYNBuaLO4TsEKQbJp5IC0xF10vxtoIsqlBOdOZUqkmjLrQjA3Z-DJ8FN8Bxy8j31kz7C8lXXxqJrGIKg1X3GGXtPu6olrNF-RoNMaH2gWD3n6xko9GQo0nmsZXIX1Z">
-        <div class="flex flex-col min-w-0">
-          <div class="flex items-center gap-1.5">
-            <span class="font-bold text-white tracking-tight text-[15px] leading-tight">DocuSecure</span>
-            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
-          </div>
-          <span class="text-[10px] font-semibold tracking-wider text-slate-400 uppercase truncate">CVSU • CEIT NODE</span>
-        </div>
-      </div>
-      <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#166534]/40 text-[#9fd2b4] border border-[#166534]/60 font-semibold tracking-wide whitespace-nowrap">SEMI-ADMIN</span>
-    </div>
-
-    <!-- Section Label: COLLEGE ENCLAVE WORKSPACE -->
-    <div class="px-5 pt-5 pb-2 flex items-center justify-between">
-      <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">COLLEGE ENCLAVE WORKSPACE</span>
-      <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-slate-400 border border-white/10">CEIT</span>
-    </div>
-
-    <!-- Nav Items -->
-    <nav class="px-3 flex flex-col gap-1">
-      <!-- 1. Dashboard (Overview) -->
-      <a class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-all text-sm font-medium" href="{{ route('faculty.preview.dashboard') }}">
-        <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-[20px] text-slate-400">grid_view</span>
-          <span>Dashboard (Overview)</span>
-        </div>
-      </a>
-      <!-- 2. Document Library (Active state) -->
-      <a class="flex items-center justify-between px-3 py-2 rounded-lg bg-[#172b47] text-white font-semibold transition-all text-sm border-l-4 border-emerald-400 shadow-inner" href="{{ route('faculty.preview.document-library') }}">
-        <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-[20px] text-[#9fd2b4]">folder_shared</span>
-          <span>Document Library</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#166534] text-emerald-100 uppercase tracking-wide">ONLINE</span>
-        </div>
-      </a>
-      <!-- 3. Clearance Requests -->
-      <a class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-all text-sm font-medium" href="{{ route('faculty.preview.clearance-requests') }}">
-        <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-[20px] text-slate-400">verified_user</span>
-          <span>Clearance Requests</span>
-        </div>
-        <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-[#eabf55] text-[#0f223a]">2 pending</span>
-      </a>
-      <!-- 4. Department Records (CEIT) with cyan/emerald active-node dot -->
-      <a class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-all text-sm font-medium" href="{{ route('faculty.preview.department-records') }}">
-        <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-[20px] text-slate-400">inventory_2</span>
-          <span>Department Records (CEIT)</span>
-        </div>
-        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 shadow-xs"></span>
-      </a>
-    </nav>
-  </div>
-
-  <!-- Footer: Credentials & Sign Out -->
-  <div class="p-4 border-t border-white/10 bg-[#0b1728] flex flex-col gap-3">
-    <div class="p-3 rounded-lg bg-white/5 border border-white/10 flex flex-col gap-1.5 shadow-sm">
-      <div class="flex items-center justify-between">
-        <span class="text-xs font-semibold text-white truncate">Prof. Juan Dela Cruz</span>
-        <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#166534]/30 text-emerald-200 border border-emerald-500/40">SEMI-ADMIN • TIER 3</span>
-      </div>
-      <div class="flex items-center justify-between text-xs text-slate-400 font-mono">
-        <span>NetID: CEIT-FAC-88219</span>
-        <span class="text-[10px] text-[#9fd2b4] bg-[#166534]/25 px-1.5 py-0.5 rounded border border-[#166534]/50">CvSU-KEY-OK</span>
-      </div>
-    </div>
-    <a class="flex items-center justify-center gap-2 px-3 py-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-md transition-colors text-xs font-semibold border border-white/5" href="{{ route('faculty.preview.logout-confirmation') }}">
-      <span class="material-symbols-outlined text-[18px]">logout</span>
-      <span>Sign Out Session</span>
-    </a>
-  </div>
-</aside>
+<body>@include('components.sidebar', ['currentRole' => 'faculty'])
 
 <!-- Main Body Content Area -->
-<div class="pl-72 flex flex-col min-h-screen bg-[#0b1120]">
+<div class="pl-64 flex flex-col min-h-screen bg-[#0b1120]">
   <!-- Top Navigation Header -->
-  <header class="fixed top-0 left-72 right-0 h-16 bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800 z-40 px-8 flex items-center justify-between shadow-md">
+  <header class="fixed top-0 left-64 right-0 h-16 bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800 z-40 px-8 flex items-center justify-between shadow-md">
     <div class="flex items-center gap-4 flex-1 max-w-xl">
       <div class="relative w-full flex items-center">
         <span class="material-symbols-outlined absolute left-3.5 text-slate-400 text-[20px]">search</span>

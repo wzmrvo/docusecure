@@ -63,7 +63,7 @@
     @include('components.sidebar', ['currentRole' => $role ?? 'student'])
 
     <!-- Main Content Enclave -->
-    <div class="pl-64 flex flex-col flex-1 min-h-screen">
+    <div class="pl-64 max-sm:pl-0 flex flex-col flex-1 min-h-screen">
         
         <!-- Topbar Command Header -->
         @include('components.topbar', [

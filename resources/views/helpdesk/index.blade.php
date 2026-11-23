@@ -1,270 +1,122 @@
 @extends('layouts.app', [
     'role' => 'helpdesk',
-    'pageTitle' => 'MIS Technical Support & Incident Operations',
-    'breadcrumbs' => ['CvSU Central Support', 'Incident Operations', 'Helpdesk Queue']
+    'pageTitle' => 'MIS Technical Support',
+    'breadcrumbs' => ['CvSU', 'Support', 'Request Assistance']
 ])
 
-@section('title', 'MIS Technical Support Enclave — Helpdesk')
+@section('title', 'MIS Technical Support — Helpdesk')
 
 @section('content')
-<!-- Support Advisory Strip -->
-<div class="p-4 rounded-2xl bg-violet-500/10 border border-violet-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-    <div class="flex items-center gap-2.5">
-        <span class="material-symbols-outlined text-[20px] text-violet-500">support_agent</span>
-        <div class="flex flex-col">
-            <span class="text-xs font-bold text-slate-900 dark:text-white">Active Duty Officer: Mark Villareal (HD-MIS-TOKEN-44)</span>
-            <span class="text-[11px] text-slate-500 dark:text-slate-400">CvSU Central MIS Data Center • Indang Main Campus</span>
-        </div>
-    </div>
-    <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">TICKET ENGINE ONLINE</span>
-    </div>
-</div>
-
-<!-- 4 Helpdesk KPI Metrics -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    <x-stat-card 
-        icon="report_problem"
-        label="Critical Incidents"
-        value="3 Open"
-        badge="Lockouts & 2FA"
-        badgeType="warning"
-        subtitle="Average resolution: 8.4 mins"
-        :borderHighlight="true"
-    />
-
-    <x-stat-card 
-        icon="lock_open"
-        label="Unlock Queue"
-        value="14 Pending"
-        badge="Expedited"
-        badgeType="danger"
-        subtitle="Biometric/Password reset requests"
-    />
-
-    <x-stat-card 
-        icon="verified_user"
-        label="Resolved Today"
-        value="48 Tickets"
-        badge="+12% vs Yesterday"
-        badgeType="success"
-        subtitle="100% SLA compliance rate"
-    />
-
-    <x-stat-card 
-        icon="hub"
-        label="System Nodes"
-        value="All Online"
-        badge="FIPS 140-3 Active"
-        badgeType="info"
-        subtitle="Indang, Silang, Rosario, Cavite City"
-    />
-</div>
-
-<!-- Main Two-Column Support Plane -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
-    <!-- Left Column (7 Cols): Urgent Account Lockout & Support Queue -->
-    <div class="lg:col-span-7 flex flex-col gap-6" id="unlock-queue">
-
-        <!-- Critical Triage Queue Card -->
-        <div class="bg-white dark:bg-[#0f1724] border border-slate-200 dark:border-white/10 rounded-2xl p-5 shadow-sm">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10 mb-4">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-amber-500 text-[20px]">warning</span>
-                    <div>
-                        <h2 class="text-sm font-bold text-slate-900 dark:text-white">Urgent Incident & Lockout Queue</h2>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400">Immediate action required for locked institutional accounts</p>
-                    </div>
-                </div>
-                <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20">
-                    3 CRITICAL
-                </span>
+<div class="flex flex-col gap-6">
+    <section class="rounded-2xl border border-violet-200 bg-white p-5 shadow-sm dark:border-violet-500/20 dark:bg-[#101827] sm:p-6">
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div class="max-w-2xl">
+                <p class="text-xs font-mono font-semibold uppercase tracking-[0.16em] text-violet-600 dark:text-violet-300">CvSU MIS Helpdesk</p>
+                <h1 class="mt-2 text-2xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-3xl">How can we help?</h1>
+                <p class="mt-3 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-400">Submit an institutional support request for account access, password or 2FA assistance, document access, and technical incidents.</p>
             </div>
-
-            <!-- Ticket Items -->
-            <div class="flex flex-col gap-3">
-                <!-- Ticket 1 -->
-                <div class="p-4 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-amber-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="flex flex-col gap-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span class="text-xs font-bold text-slate-900 dark:text-white">Prof. Juan Dela Cruz</span>
-                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-600 dark:text-amber-300 border border-amber-500/30">
-                                TKT-2026-88219
-                            </span>
-                            <span class="text-[10px] font-mono text-rose-600 dark:text-rose-400 font-bold">LOCKED OUT</span>
-                        </div>
-                        <span class="text-xs text-slate-700 dark:text-slate-300 font-medium">Critical Account Lockout Bypass Request (Incident INC-2026-CVSU-88219A)</span>
-                        <span class="text-[10px] font-mono text-slate-500">CEIT Computer Studies • Received 2m ago</span>
-                    </div>
-
-                    <div class="flex items-center gap-2 shrink-0">
-                        <button type="button" onclick="openModal('helpdesk-unlock-modal')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm transition">
-                            Unlock Account
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Ticket 2 -->
-                <div class="p-4 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="flex flex-col gap-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span class="text-xs font-bold text-slate-900 dark:text-white">Maria Santos</span>
-                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-violet-500/15 text-violet-600 dark:text-violet-300 border border-violet-500/30">
-                                TKT-2026-10492
-                            </span>
-                            <span class="text-[10px] font-mono text-amber-600 dark:text-amber-400 font-bold">2FA RESYNC</span>
-                        </div>
-                        <span class="text-xs text-slate-700 dark:text-slate-300 font-medium">Lost mobile authenticator device — Hardware token challenge required</span>
-                        <span class="text-[10px] font-mono text-slate-500">Student Scholar (BSIT) • Received 14m ago</span>
-                    </div>
-
-                    <div class="flex items-center gap-2 shrink-0">
-                        <button type="button" onclick="alert('2FA reset OTP sent to verified institutional SMS.');" class="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-semibold hover:opacity-90 transition">
-                            Issue Token
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Ticket 3 -->
-                <div class="p-4 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="flex flex-col gap-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span class="text-xs font-bold text-slate-900 dark:text-white">Engr. R. Bautista</span>
-                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/15 text-sky-600 dark:text-sky-300 border border-sky-500/30">
-                                TKT-2026-00412
-                            </span>
-                        </div>
-                        <span class="text-xs text-slate-700 dark:text-slate-300 font-medium">HSM Enclave Firmware Scheduled Rotation Notification</span>
-                        <span class="text-[10px] font-mono text-slate-500">MIS Infrastructure • Scheduled 11:00 PM PST</span>
-                    </div>
-
-                    <div class="flex items-center gap-2 shrink-0">
-                        <span class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">ACKNOWLEDGED</span>
-                    </div>
-                </div>
+            <div class="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
+                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                Support desk open
             </div>
         </div>
+    </section>
 
-        <!-- Submit Incident Form -->
-        <div class="bg-white dark:bg-[#0f1724] border border-slate-200 dark:border-white/10 rounded-2xl p-5 shadow-sm" id="incident-form">
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Submit Security Docket / Escalation</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Direct dispatch to Indang Central Campus MIS Data Center</p>
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <section id="request-form" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#101827] sm:p-6 lg:col-span-8">
+            <div class="border-b border-slate-200 pb-4 dark:border-white/10">
+                <h2 class="text-lg font-bold text-slate-950 dark:text-white">Create a Support Request</h2>
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Use your institutional details so the support team can route the request.</p>
+            </div>
 
-            <form onsubmit="event.preventDefault(); alert('Security docket dispatched to MIS Watch Officer.');" class="flex flex-col gap-3.5 text-xs">
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">Requester NetID</label>
-                        <input type="text" required placeholder="e.g. CEIT-FAC-88219" class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
-                    </div>
-                    <div>
-                        <label class="block font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">Incident Category</label>
-                        <select class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
-                            <option>Account Lockout / Password Reset</option>
-                            <option>2FA Token De-synchronization</option>
-                            <option>Clearance Multi-Sig Stall</option>
-                            <option>Document Watermark Decryption Failure</option>
-                        </select>
-                    </div>
-                </div>
-
+            <form id="public-support-form" class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2" onsubmit="event.preventDefault(); document.getElementById('support-confirmation').classList.remove('hidden'); this.reset();">
+                @csrf
                 <div>
-                    <label class="block font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">Incident Details</label>
-                    <textarea rows="3" required placeholder="Describe the access impediment or technical issue..." class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white"></textarea>
+                    <label for="requester-name" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Full name</label>
+                    <input id="requester-name" name="name" type="text" required autocomplete="name" placeholder="Juan Dela Cruz" class="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-white/10 dark:bg-white/5 dark:text-white">
                 </div>
-
-                <div class="flex items-center justify-end">
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-xs shadow-sm transition">
-                        Dispatch Incident Ticket
+                <div>
+                    <label for="requester-contact" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">NetID or institutional email</label>
+                    <input id="requester-contact" name="contact" type="text" required autocomplete="email" placeholder="CEIT-FAC-00000 or name@cvsu.edu.ph" class="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-white/10 dark:bg-white/5 dark:text-white">
+                </div>
+                <div>
+                    <label for="issue-category" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Issue category</label>
+                    <select id="issue-category" name="category" required class="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-white/10 dark:bg-white/5 dark:text-white">
+                        <option value="">Select a category</option>
+                        <option>Account lockout or password reset</option>
+                        <option>2FA token or authenticator issue</option>
+                        <option>Document access or clearance</option>
+                        <option>Technical incident</option>
+                        <option>Other support question</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="issue-priority" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Priority</label>
+                    <select id="issue-priority" name="priority" required class="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-white/10 dark:bg-white/5 dark:text-white">
+                        <option value="">Select priority</option>
+                        <option>Low — General question</option>
+                        <option>Normal — Work is affected</option>
+                        <option>Urgent — Account or work blocked</option>
+                    </select>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="issue-details" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Describe the issue</label>
+                    <textarea id="issue-details" name="details" required rows="5" placeholder="Include what happened, when it started, and any error shown." class="w-full resize-y rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm leading-6 text-slate-900 placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-white/10 dark:bg-white/5 dark:text-white"></textarea>
+                </div>
+                <div class="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+                    <p class="text-[11px] leading-5 text-slate-500 dark:text-slate-400">Do not include passwords, OTP codes, or sensitive document content.</p>
+                    <button type="submit" class="min-h-11 rounded-lg bg-violet-600 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#101827]">
+                        Submit Support Request
                     </button>
                 </div>
+                <div id="support-confirmation" class="hidden rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-200 sm:col-span-2" role="status">
+                    Request prepared. In the live system, this would generate a tracking reference and route the issue to MIS Support.
+                </div>
             </form>
-        </div>
+        </section>
 
-    </div>
+        <aside class="flex flex-col gap-6 lg:col-span-4">
+            <section id="track-request" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#101827]">
+                <h2 class="text-sm font-bold text-slate-950 dark:text-white">Track a Request</h2>
+                <p class="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">Enter the tracking reference provided when a request was submitted.</p>
+                <form class="mt-4 flex gap-2" onsubmit="event.preventDefault();">
+                    <label for="tracking-reference" class="sr-only">Support tracking reference</label>
+                    <input id="tracking-reference" type="text" placeholder="SUP-2026-00000" class="min-h-11 min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-white/10 dark:bg-white/5 dark:text-white">
+                    <button type="submit" class="min-h-11 rounded-lg border border-slate-300 px-3 text-xs font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5">Track</button>
+                </form>
+            </section>
 
-    <!-- Right Column (5 Cols): Identity Lookup & Hotlines -->
-    <div class="lg:col-span-5 flex flex-col gap-6" id="audit-search">
-
-        <!-- Identity / NetID Lookup Tool -->
-        <div class="bg-white dark:bg-[#0f1724] border border-slate-200 dark:border-white/10 rounded-2xl p-5 shadow-sm">
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Institutional NetID Lookup</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Verify user clearance tier and account active status</p>
-
-            <div class="flex items-center gap-2 mb-3">
-                <input type="text" id="lookupInput" placeholder="Enter NetID or Email..." class="flex-1 text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
-                <button type="button" onclick="document.getElementById('lookupResult').classList.remove('hidden');" class="px-3.5 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-semibold hover:opacity-90 transition">
-                    Search
-                </button>
-            </div>
-
-            <!-- Simulated Result Box -->
-            <div id="lookupResult" class="hidden p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 text-xs flex flex-col gap-1.5">
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-slate-900 dark:text-white">Prof. Juan Dela Cruz</span>
-                    <x-badge tier="3" label="Tier 3 Faculty" />
+            <section id="support-status" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#101827]">
+                <div class="flex items-center justify-between gap-3">
+                    <h2 class="text-sm font-bold text-slate-950 dark:text-white">Support Status</h2>
+                    <span class="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-1 text-[10px] font-mono font-semibold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">OPEN</span>
                 </div>
-                <span class="text-[11px] font-mono text-slate-500">NetID: CEIT-FAC-88219 • Status: Temporarily Locked (3 failed OTPs)</span>
-                <button type="button" onclick="openModal('helpdesk-unlock-modal')" class="mt-1 text-left text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">
-                    ➔ Proceed to Quick Unlock Verification
-                </button>
-            </div>
-        </div>
-
-        <!-- Emergency Hotlines & Channels -->
-        <div class="bg-white dark:bg-[#0f1724] border border-slate-200 dark:border-white/10 rounded-2xl p-5 shadow-sm flex flex-col gap-3">
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white">MIS Command Channels</h3>
-
-            <div class="flex flex-col gap-2.5 text-xs">
-                <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex items-center justify-between">
-                    <div>
-                        <span class="font-bold text-slate-800 dark:text-white block">Main Campus Data Center</span>
-                        <span class="text-[11px] text-slate-500">VOIP Ext: 8810 / 8812</span>
+                <dl class="mt-4 grid grid-cols-2 gap-3 text-xs">
+                    <div class="rounded-lg border border-slate-200 p-3 dark:border-white/10">
+                        <dt class="text-slate-500 dark:text-slate-400">Office hours</dt>
+                        <dd class="mt-1 font-semibold text-slate-900 dark:text-white">8:00 AM–5:00 PM</dd>
                     </div>
-                    <span class="px-2 py-0.5 rounded text-[10px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold">24/7 LIVE</span>
-                </div>
-
-                <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex items-center justify-between">
-                    <div>
-                        <span class="font-bold text-slate-800 dark:text-white block">Registrar Clearance Liaison</span>
-                        <span class="text-[11px] text-slate-500">clearance-support@cvsu.edu.ph</span>
+                    <div class="rounded-lg border border-slate-200 p-3 dark:border-white/10">
+                        <dt class="text-slate-500 dark:text-slate-400">Campus node</dt>
+                        <dd class="mt-1 font-semibold text-slate-900 dark:text-white">Indang Main</dd>
                     </div>
-                    <span class="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500">8AM - 5PM</span>
+                </dl>
+            </section>
+
+            <section id="faqs" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#101827]">
+                <h2 class="text-sm font-bold text-slate-950 dark:text-white">Help & FAQs</h2>
+                <div class="mt-3 divide-y divide-slate-200 text-xs dark:divide-white/10">
+                    <details class="py-3">
+                        <summary class="cursor-pointer font-semibold text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:text-slate-200">What should I include in a request?</summary>
+                        <p class="mt-2 leading-5 text-slate-500 dark:text-slate-400">Include your name, institutional NetID or email, issue category, and a short description. Never include passwords or OTP codes.</p>
+                    </details>
+                    <details class="py-3">
+                        <summary class="cursor-pointer font-semibold text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:text-slate-200">How do I request an institutional account?</summary>
+                        <p class="mt-2 leading-5 text-slate-500 dark:text-slate-400">Use the institutional account request form in the sidebar. It is separate from the general support request form.</p>
+                    </details>
                 </div>
-            </div>
-        </div>
-
+            </section>
+        </aside>
     </div>
-
 </div>
 @endsection
-
-@push('modals')
-<!-- Helpdesk Unlock Modal -->
-<x-modal 
-    id="helpdesk-unlock-modal" 
-    title="Expedited Account Unlock Clearance" 
-    subtitle="NetID: CEIT-FAC-88219 • Prof. Juan Dela Cruz"
-    icon="key"
->
-    <div class="flex flex-col gap-3 text-xs">
-        <p class="text-slate-600 dark:text-slate-400">
-            Confirm identity verification with applicant before lifting security freeze. This action creates a permanent signed record in the central compliance audit trail.
-        </p>
-
-        <div class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-200 font-mono">
-            <span>Security Action: </span><strong>LIFT_FREEZE_DISPATCH_NEW_OTP</strong>
-        </div>
-    </div>
-
-    <x-slot name="footer">
-        <button type="button" onclick="closeModal('helpdesk-unlock-modal')" class="px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
-            Cancel
-        </button>
-        <button type="button" onclick="closeModal('helpdesk-unlock-modal'); alert('Account unlocked. User notified via registered email.');" class="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm transition">
-            Confirm & Unlock Account
-        </button>
-    </x-slot>
-</x-modal>
-@endpush

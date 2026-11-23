@@ -5,78 +5,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
 <style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-container":"#3a4d42","primary-fixed-dim":"#9fd2b4","surface-dim":"#111412","surface-container-low":"#191c1a","background":"#111412","on-tertiary":"#242e54","on-secondary":"#22342a","surface-tint":"#9fd2b4","surface-container-lowest":"#0c0f0d","surface-variant":"#323633","outline":"#8a938c","tertiary":"#bbc5f3","outline-variant":"#414943","tertiary-fixed-dim":"#bbc5f3","on-tertiary-container":"#00031a","on-secondary-fixed":"#0d1f16","surface":"#111412","on-primary-fixed":"#002113","error-container":"#93000a","on-secondary-container":"#a8beaf","error":"#ffb4ab","on-error":"#690005","inverse-on-surface":"#2e312f","secondary-fixed-dim":"#b6ccbd","surface-container-highest":"#323633","surface-container":"#1d201e","on-secondary-fixed-variant":"#384b40","tertiary-container":"#6b759f","primary-fixed":"#baeecf","inverse-primary":"#38684f","secondary":"#b6ccbd","on-background":"#e1e3df","on-primary":"#023823","primary":"#9fd2b4","on-primary-container":"#00311e","surface-container-high":"#272b28","on-error-container":"#ffdad6","on-surface-variant":"#c0c9c1","tertiary-fixed":"#dce1ff","primary-container":"#6a9b80","on-primary-fixed-variant":"#1f4f39","on-surface":"#e1e3df","on-tertiary-fixed":"#0e193d","secondary-fixed":"#d2e8d8","surface-bright":"#373a37","inverse-surface":"#e1e3df","on-tertiary-fixed-variant":"#3b456b"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"margin":"3rem","space-xs":"0.25rem","space-lg":"1.5rem","margin-mobile":"1.25rem","gutter":"1.5rem","gutter-mobile":"1rem","space-md":"1rem","space-xl":"2.5rem","space-sm":"0.5rem"},fontFamily:{"display":["Inter"],"headline-lg":["Inter"],"headline-sm":["Inter"],"label-lg":["JetBrains Mono"],"body-sm":["Inter"],"label-md":["JetBrains Mono"],"display-mobile":["Inter"],"headline-md":["Inter"],"code-snippet":["JetBrains Mono"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"],"label-sm":["JetBrains Mono"]},fontSize:{"display":["3rem",{"lineHeight":"3.5rem","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-lg":["2rem",{"lineHeight":"2.5rem","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-sm":["1.125rem",{"lineHeight":"1.625rem","fontWeight":"600"}],"label-lg":["0.875rem",{"lineHeight":"1.25rem","letterSpacing":"0.04em","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.125rem","fontWeight":"400"}],"label-md":["0.75rem",{"lineHeight":"1rem","letterSpacing":"0.06em","fontWeight":"500"}],"display-mobile":["2.25rem",{"lineHeight":"2.75rem","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["1.375rem",{"lineHeight":"1.875rem","letterSpacing":"-0.01em","fontWeight":"600"}],"code-snippet":["0.8125rem",{"lineHeight":"1.25rem","fontWeight":"400"}],"body-lg":["1rem",{"lineHeight":"1.5rem","fontWeight":"400"}],"headline-lg-mobile":["1.5rem",{"lineHeight":"2rem","letterSpacing":"-0.01em","fontWeight":"600"}],"body-md":["0.875rem",{"lineHeight":"1.375rem","fontWeight":"400"}],"label-sm":["0.6875rem",{"lineHeight":"0.875rem","letterSpacing":"0.08em","fontWeight":"500"}]}}}}</script></head><body class="bg-[#090e17] font-body-md text-body-md text-on-surface antialiased overflow-x-hidden min-h-screen">
 <!-- Persistent Left Sidebar Navigation (DocuSecure Semi-Admin Node) -->
-<aside class="fixed left-0 top-0 h-full w-72 z-40 flex flex-col justify-between py-5 px-4" style="background: linear-gradient(180deg, #132238 0%, #0d1829 100%); border-right: 1px solid rgba(255, 255, 255, 0.08); box-shadow: rgba(0, 0, 0, 0.4) 4px 0px 24px;">
-<div class="flex flex-col gap-6">
-<!-- Brand Header -->
-<div class="flex items-center gap-3 px-2 pt-1 pb-4 border-b border-white/10">
-<img alt="CvSU Logo" class="w-9 h-9 object-contain drop-shadow-md flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoc6ZnVeEe18x96_AcRLKusJqNBAV3TfsZq_GJumbPKpvyQzcvI3ackhNXbzyxESgP_lcLgWzVxKSbxMJmDVWR5OVVLZNku_Mr3fwJXiKVHbslkVjEcrTZ2FvCzbEGUrZb4R2Z8kD8_vXoECZat0yfNEWfN1adFjJoN8rOoYxqrtgZ3BJVffyKpXKV3Ssrp27gbnusgwFPMEKgYCPDYqFDMtNiPAC_zxmAGJXQR7iQoivqFUWIfrEj"/>
-<div class="flex flex-col min-w-0 flex-1">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-1.5">
-<span class="font-bold text-white text-[16px] tracking-tight leading-tight">DocuSecure</span>
-<span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-</div>
-<span class="px-1.5 py-0.5 rounded text-[9px] font-bold font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">SEMI-ADMIN</span>
-</div>
-<span class="text-[10px] text-slate-400 font-mono tracking-wider uppercase truncate">CVSU • CEIT NODE</span>
-</div>
-</div>
-<!-- Workspace Navigation -->
-<div class="flex flex-col gap-1.5">
-<span class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase px-3 pb-1">COLLEGE ENCLAVE WORKSPACE</span>
-<nav class="flex flex-col gap-1">
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-medium group" data-path="dashboard-overview" href="/faculty/dashboard">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-white transition-colors">grid_view</span>
-<span>Dashboard (Overview)</span>
-</div>
-</a>
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-medium group" data-path="document-library" href="/faculty/document-library">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-white transition-colors">folder_special</span>
-<span>Document Library</span>
-</div>
-</a>
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-white font-semibold text-sm transition-all shadow-sm" data-path="clearance-requests" href="/faculty/clearance-requests" style="background: rgba(255, 255, 255, 0.12); border-left: 4px solid rgb(52, 211, 153);">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-[20px] text-emerald-400">verified_user</span>
-<span>Clearance Requests</span>
-</div>
-<span class="bg-amber-400 text-slate-900 font-bold text-xs px-2 py-0.5 rounded-full shadow-sm">2 pending</span>
-</a>
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-medium group" data-path="department-records-ceit" href="/faculty/department-records">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-white transition-colors">corporate_fare</span>
-<span>Department Records (CEIT)</span>
-</div>
-<span class="h-2 w-2 rounded-full bg-emerald-400/40"></span>
-</a>
-</nav>
-</div>
-</div>
-<!-- Bottom User Session Footer -->
-<div class="flex flex-col gap-3 pt-4 border-t border-white/10 px-2">
-<div class="p-3 rounded-lg flex flex-col gap-1" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.07);">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-1.5">
-<span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-<span class="text-xs font-bold text-emerald-400 tracking-wider uppercase font-mono">SEMI-ADMIN • TIER 3</span>
-</div>
-<span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CvSU-KEY-OK</span>
-</div>
-<span class="text-[12px] text-slate-400 font-mono">NetID: CEIT-FAC-88219</span>
-<span class="text-[11px] text-slate-300 font-medium truncate">Prof. Juan Dela Cruz</span>
-</div>
-<a class="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium border border-white/10" data-path="logout-confirmation" href="{{ route('faculty.preview.logout-confirmation') }}">
-<span class="material-symbols-outlined text-[16px]">logout</span>
-<span>Sign Out Session</span>
-</a>
-</div>
-</aside>
+@include('components.sidebar', ['currentRole' => 'faculty'])
 <!-- Main Wrapper with Left Nav Offset -->
-<div class="pl-72 flex flex-col min-h-screen">
+<div class="pl-64 flex flex-col min-h-screen">
 <!-- Top Global Navbar -->
-<header class="fixed top-0 left-72 right-0 h-16 bg-[#0d1522]/90 backdrop-blur-xl z-30 flex items-center justify-between px-space-lg border-b border-white/10">
+<header class="fixed top-0 left-64 right-0 h-16 bg-[#0d1522]/90 backdrop-blur-xl z-30 flex items-center justify-between px-space-lg border-b border-white/10">
 <div class="flex items-center gap-space-lg">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary text-[20px]">shield</span>
