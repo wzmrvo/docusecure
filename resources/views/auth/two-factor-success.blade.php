@@ -36,6 +36,12 @@
   </script>
 <!-- BEGIN: Custom Micro-Styles -->
 <style>
+    [data-purpose="user-login-portal"] .bg-white,
+    [data-purpose="user-login-portal"] [class*="bg-slate-50"],
+    [data-purpose="user-login-portal"] [class*="border-slate-"] {
+      background-color: #101827 !important;
+      border-color: #334155 !important;
+    }
     /* Technical blueprint grid overlay */
     .bg-security-grid {
       background-size: 32px 32px;
@@ -58,7 +64,7 @@
 <!-- END: Custom Micro-Styles -->
 <meta content="web_standard" name="shell-type"/>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen selection:bg-amber-400 selection:text-slate-900">
+<body class="bg-[#0b1322] text-slate-100 font-sans antialiased min-h-screen selection:bg-amber-400 selection:text-slate-900">
 <!-- BEGIN: MainContainer -->
 <main class="min-h-screen w-full flex flex-col lg:flex-row relative overflow-hidden" data-purpose="authentication-split-layout">
 <!-- ========================================================================= -->
@@ -72,7 +78,7 @@
 <!-- Top University & System Identity -->
 <div class="relative z-10">
 <header class="flex items-center gap-3.5" data-purpose="university-identity-header">
-<img alt="CvSU Logo" class="w-16 h-16 object-contain drop-shadow-md flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRK8pFbeshMJlyny86cAR9ZCUYv27Asa15_ceJeV77VNarKWk_x9_4nvmPuzwER0F8wkakA3CwSI5LA8dhwTTWpfT3beaMziwlZrKmQEPZ_tus64g5K4GDyr9XVNRPqfebUtzTA9pDFnS6yAD0-wLqgKl4zHk_T20b5cBowXBT87f4uekl-h0MohzVqjHFe6OHIvt88bKWNJC_nA5KSPjfoi6-h1-Jvw8KUnvoVtmwRJ2hnKSRbGHc" style="width: 64px; height: 64px; object-fit: contain;"/>
+<img alt="CvSU Logo" class="h-16 w-16 flex-shrink-0 object-contain" src="{{ asset('images/cvsu-logo.png') }}" style="width: 64px; height: 64px; object-fit: contain;"/>
 <div>
 <div class="flex items-center gap-2">
 <span class="text-2xl font-bold tracking-tight text-white flex items-center gap-1.5">
@@ -155,7 +161,7 @@
 <!-- ========================================================================= -->
 <!-- RIGHT PANEL: Crisp Light 2FA Verification Flow -->
 <!-- ========================================================================= -->
-<section class="lg:w-7/12 xl:w-1/2 bg-[#f8fafc] text-slate-800 flex flex-col justify-between p-6 sm:p-10 lg:p-10 xl:p-12 relative overflow-y-auto" data-purpose="user-login-portal">
+<section class="lg:w-7/12 xl:w-1/2 bg-[#0b1322] text-slate-100 flex flex-col justify-between p-6 sm:p-10 lg:p-10 xl:p-12 relative overflow-y-auto" data-purpose="user-login-portal">
 <!-- Top Utility Header Navigation -->
 <div class="w-full max-w-[460px] mx-auto flex items-center justify-between text-xs text-slate-600 mb-6">
 <a class="inline-flex items-center gap-1.5 font-semibold text-[#173153] hover:text-[#1f3f69] transition-colors group" href="{{ url("/") }}">
@@ -169,7 +175,7 @@
 </div>
 <!-- Center Card Container (Max-Width 460px) -->
 <div class="w-full max-w-[460px] mx-auto my-auto py-2">
-<div class="bg-white border border-[#e2e8f0] rounded-xl shadow-xl shadow-slate-200/60 p-7 sm:p-8 relative">
+<div class="bg-[#101827] border border-slate-700/70 rounded-xl shadow-2xl shadow-black/20 p-7 sm:p-8 relative">
 <!-- Header Icon & Status Pill -->
 <div class="flex items-start gap-3.5 mb-4">
 <div class="w-11 h-11 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-600 flex-shrink-0 shadow-sm">

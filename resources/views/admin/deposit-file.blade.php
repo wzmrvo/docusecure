@@ -514,10 +514,10 @@
 </div>
 <div class="space-y-3 pt-2">
 <!-- Primary High-Impact CTA Button -->
-<a class="w-full py-3 px-4 rounded-lg bg-primary hover:bg-primary-fixed text-on-primary font-label-lg text-label-lg font-bold shadow-md flex items-center justify-center gap-2.5 transition-colors cursor-pointer" href="{{ route('admin.preview.provisioning-receipt') }}">
+<button type="button" onclick="openSealReviewModal()" class="w-full py-3 px-4 rounded-lg bg-primary hover:bg-primary-fixed text-on-primary font-label-lg text-label-lg font-bold shadow-md flex items-center justify-center gap-2.5 transition-colors cursor-pointer">
 <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">lock</span>
 <span>Seal Document &amp; Commit to Enclave</span>
-</a>
+</button>
 <!-- Secondary Staging Action -->
 <a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.access-levels') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
@@ -556,7 +556,61 @@
 </div>
 </div>
 </div>
+<div id="seal-review-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="seal-review-title">
+  <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeSealReviewModal()"></div>
+  <div class="relative w-full max-w-lg overflow-hidden rounded-xl border border-emerald-500/30 bg-[#101827] text-slate-100 shadow-2xl">
+    <div class="h-1.5 bg-gradient-to-r from-emerald-500 via-[#eabf55] to-[#173153]"></div>
+    <div class="p-6">
+      <h2 id="seal-review-title" class="text-lg font-bold text-white">Review Document Seal</h2>
+      <p class="mt-2 text-sm leading-6 text-slate-300">Confirm the staged file before cryptographic commitment.</p>
+      <div class="mt-4 rounded-lg border border-white/10 bg-white/[0.03] p-4">
+        <p class="text-xs font-mono text-slate-400">DOCUMENT</p>
+        <p class="mt-1 text-sm font-semibold text-white">BOR_Resolution_No_2026_094_Establishment_Cybersecurity_Enclave.pdf</p>
+        <p class="mt-3 text-xs font-mono text-emerald-300">SHA-256: 7f3a0942e...88b209d</p>
+      </div>
+      <div class="mt-5 flex gap-3">
+        <button type="button" onclick="closeSealReviewModal()" class="min-h-11 flex-1 rounded-lg border border-white/10 px-4 text-sm font-semibold text-slate-300 hover:bg-white/5">Cancel</button>
+        <button type="button" onclick="confirmDocumentSeal()" class="min-h-11 flex-1 rounded-lg bg-emerald-700 px-4 text-sm font-bold text-white hover:bg-emerald-600">Seal & Commit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="seal-success-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="seal-success-title">
+  <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+  <div class="relative w-full max-w-md overflow-hidden rounded-xl border border-emerald-500/30 bg-[#101827] text-slate-100 text-center shadow-2xl">
+    <div class="h-1.5 bg-gradient-to-r from-emerald-500 via-[#eabf55] to-[#173153]"></div>
+    <div class="p-6">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-emerald-400/40 bg-emerald-500/15 text-emerald-300">
+        <span class="material-symbols-outlined text-[26px]">verified</span>
+      </div>
+      <h2 id="seal-success-title" class="mt-4 text-lg font-bold text-white">Document Committed</h2>
+      <p class="mt-2 text-sm leading-6 text-slate-300">The staged document was sealed and recorded in the demo enclave receipt.</p>
+      <button type="button" onclick="closeSealSuccessModal()" class="mt-5 min-h-11 w-full rounded-lg bg-emerald-700 px-4 text-sm font-bold text-white hover:bg-emerald-600">Done</button>
+    </div>
+  </div>
+</div>
 <script>
+  function openSealReviewModal() {
+    const modal = document.getElementById('seal-review-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+  function closeSealReviewModal() {
+    const modal = document.getElementById('seal-review-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+  function confirmDocumentSeal() {
+    closeSealReviewModal();
+    const modal = document.getElementById('seal-success-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+  function closeSealSuccessModal() {
+    const modal = document.getElementById('seal-success-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
   // Dynamic radio card selection interaction
   document.querySelectorAll('input[name="clearance_tier"]').forEach(radio => {
     radio.addEventListener('change', (e) => {

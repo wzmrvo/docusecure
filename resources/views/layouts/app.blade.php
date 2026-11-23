@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="{{ ($role ?? 'student') === 'student' ? 'light' : 'dark' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
 
     <!-- Theme Initialization (prevents flash of incorrect theme) -->
     <script>
-        if (localStorage.getItem('docusecure-theme') === 'light') {
+        if ('{{ $role ?? 'student' }}' === 'student' || localStorage.getItem('docusecure-theme') === 'light') {
             document.documentElement.classList.remove('dark');
         } else {
             document.documentElement.classList.add('dark');
@@ -57,7 +57,7 @@
 
     @stack('styles')
 </head>
-<body class="bg-slate-50 dark:bg-[#0a0f18] text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex selection:bg-amber-400 selection:text-slate-900 transition-colors duration-200">
+<body class="{{ ($role ?? 'student') === 'student' ? 'bg-white text-slate-800' : 'bg-slate-50 text-slate-800 dark:bg-[#0a0f18] dark:text-slate-100' }} font-sans antialiased min-h-screen flex selection:bg-amber-400 selection:text-slate-900 transition-colors duration-200">
 
     <!-- Role-Adaptive Dynamic Sidebar -->
     @include('components.sidebar', ['currentRole' => $role ?? 'student'])

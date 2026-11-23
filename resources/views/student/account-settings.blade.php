@@ -1,4 +1,7 @@
-@php($portalRoutePrefix = request()->is('viewer/*') ? 'viewer.preview.' : 'student.preview.')
+@php
+    $portalRoutePrefix = request()->is('viewer/*') ? 'viewer.preview.' : 'student.preview.';
+    $isViewer = request()->is('viewer/*');
+@endphp
 <!DOCTYPE html>
 
 <html class="light" lang="en"><head>
@@ -83,10 +86,10 @@
 <div class="h-6 w-px bg-slate-200"></div>
 <!-- User profile pill -->
 <div class="flex items-center gap-3 pl-1 cursor-pointer group">
-<div class="w-9 h-9 rounded-full bg-[#14452f] border-2 border-[#d4a017] text-[#fef3c7] flex items-center justify-center font-bold text-xs shadow-sm font-mono">JM</div>
+<div class="w-9 h-9 rounded-full bg-[#14452f] border-2 border-[#d4a017] text-[#fef3c7] flex items-center justify-center font-bold text-xs shadow-sm font-mono">{{ $isViewer ? 'GO' : 'JM' }}</div>
 <div class="hidden sm:flex flex-col text-left">
-<span class="text-xs font-bold text-slate-900 leading-tight group-hover:text-[#14452f]">Juanito P. Mendoza</span>
-<span class="text-[11px] text-emerald-800 font-mono font-medium">Tier 1 Student · CEIT</span>
+<span class="text-xs font-bold text-slate-900 leading-tight group-hover:text-[#14452f]">{{ $isViewer ? 'Guest Observer' : 'Juanito P. Mendoza' }}</span>
+<span class="text-[11px] text-emerald-800 font-mono font-medium">{{ $isViewer ? 'Public Read-Only Access' : 'Tier 1 Student · CEIT' }}</span>
 </div>
 <span class="material-symbols-outlined text-slate-400 text-[18px] group-hover:text-[#14452f]">expand_more</span>
 </div>
@@ -103,7 +106,7 @@
 <span>/</span>
 <span class="text-slate-800 font-semibold">Account Settings</span>
 <span>•</span>
-<span class="text-slate-400">STU-2024-10892 // 0xFA71..89E0</span>
+<span class="text-slate-400">{{ $isViewer ? 'PUBLIC-OBSERVER // READ-ONLY' : 'STU-2024-10892 // 0xFA71..89E0' }}</span>
 </div>
 <div class="flex items-center gap-2">
 <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
@@ -115,6 +118,23 @@
 </div>
 </div>
 <!-- Page Title Banner Section -->
+@if ($isViewer)
+<div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-7 text-slate-900 shadow-sm">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="max-w-2xl">
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+        <span class="material-symbols-outlined text-[14px]">visibility</span> Viewer Account
+      </span>
+      <h1 class="mt-3 text-2xl font-bold tracking-tight text-slate-900">Institutional account not active</h1>
+      <p class="mt-2 text-sm leading-relaxed text-slate-600">You are viewing DocuSecure as a public observer. Request institutional access to receive a verified NetID and clearance tier.</p>
+    </div>
+    <a href="{{ route('institutional-account-request') }}" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#173153] px-5 text-sm font-bold text-white hover:bg-[#1f3f69]">
+      <span class="material-symbols-outlined text-[18px]">person_add</span>
+      Request Institutional Account
+    </a>
+  </div>
+</div>
+@else
 <div class="relative overflow-hidden bg-gradient-to-r from-[#14452f] via-[#1a533a] to-[#173153] rounded-2xl border-2 border-[#d4a017]/40 p-7 text-white shadow-lg">
 <div class="absolute -right-8 -bottom-10 opacity-10 pointer-events-none select-none">
 <span class="material-symbols-outlined text-[220px] text-white">security</span>
@@ -147,6 +167,7 @@
 <span class="text-xs font-mono font-bold text-[#fef3c7]">ED25519-0xFA71</span>
 </div>
 </div>
+@endif
 </div>
 </div>
 </div>
@@ -175,7 +196,7 @@
 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl bg-[#f8fafc] border border-slate-200/80">
 <div class="relative">
 <div class="w-14 h-14 rounded-xl bg-[#14452f] border-2 border-[#d4a017] text-[#fef3c7] flex items-center justify-center font-bold text-lg font-mono shadow-sm">
-                    JM
+                    {{ $isViewer ? 'GO' : 'JM' }}
                   </div>
 <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-xs">
 <span class="material-symbols-outlined text-[#16a34a] text-[14px]">check_circle</span>
@@ -183,7 +204,7 @@
 </div>
 <div class="flex flex-col flex-1">
 <div class="flex items-center gap-2 flex-wrap">
-<h3 class="text-base font-bold text-slate-900 font-serif">Juanito P. Mendoza</h3>
+<h3 class="text-base font-bold text-slate-900 font-serif">{{ $isViewer ? 'Guest Observer' : 'Juanito P. Mendoza' }}</h3>
 <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#e8f6ee] text-[#14452f] border border-[#14452f]/20">
                       Regular Student (Section A)
                     </span>
@@ -200,8 +221,8 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 <div class="p-3.5 rounded-lg border border-slate-200 bg-white">
 <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Student Identification Number</span>
-<span class="text-sm font-bold text-[#173153] font-mono mt-0.5 block">2024-10892</span>
-<span class="text-[11px] text-slate-500 mt-1 block">Campus: Indang Main Campus</span>
+<span class="text-sm font-bold text-[#173153] font-mono mt-0.5 block">{{ $isViewer ? 'NOT ISSUED' : '2024-10892' }}</span>
+<span class="text-[11px] text-slate-500 mt-1 block">{{ $isViewer ? 'Guest public session' : 'Campus: Indang Main Campus' }}</span>
 </div>
 <div class="p-3.5 rounded-lg border border-slate-200 bg-white">
 <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Institutional Email</span>

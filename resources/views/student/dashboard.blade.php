@@ -8,25 +8,25 @@
 
 @section('content')
 <!-- Student Welcome Banner -->
-<div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0d1b2a] via-[#112239] to-[#071f16] border border-sky-500/30 p-6 sm:p-8 text-white shadow-lg">
+<div class="relative overflow-hidden rounded-2xl bg-white border border-slate-200 p-6 sm:p-8 text-slate-900 shadow-sm">
     <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="flex flex-col gap-2">
             <div class="flex items-center gap-2 flex-wrap">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-sky-500/20 text-sky-300 border border-sky-400/30">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-sky-50 text-sky-700 border border-sky-200">
                     CEIT • Main Campus
                 </span>
-                <span class="text-xs text-emerald-300 flex items-center gap-1 font-medium bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                <span class="text-xs text-emerald-700 flex items-center gap-1 font-medium bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                     <span class="material-symbols-outlined text-[14px]">verified</span> Official Student Enrollee
                 </span>
-                <span class="text-[11px] font-mono text-slate-300 bg-black/40 px-2 py-0.5 rounded border border-white/10">
+                <span class="text-[11px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
                     Bio-Auth: 0xFA71..OK
                 </span>
             </div>
 
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-sans">
                 Welcome back, Juanito P. Mendoza
             </h1>
-            <p class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+            <p class="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
                 BS in Information Technology (3rd Year, Regular Section A) • Student ID: 
                 <span class="font-mono font-bold text-sky-300 bg-sky-950/70 px-2 py-0.5 rounded border border-sky-400/40">2024-10892</span>
             </p>

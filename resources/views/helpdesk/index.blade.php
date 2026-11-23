@@ -29,7 +29,7 @@
                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Use your institutional details so the support team can route the request.</p>
             </div>
 
-            <form id="public-support-form" class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2" onsubmit="event.preventDefault(); document.getElementById('support-confirmation').classList.remove('hidden'); this.reset();">
+            <form id="public-support-form" class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2" onsubmit="event.preventDefault(); openHelpdeskRequestModal();">
                 @csrf
                 <div>
                     <label for="requester-name" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Full name</label>
@@ -120,3 +120,31 @@
     </div>
 </div>
 @endsection
+@push('modals')
+<div id="helpdesk-request-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="helpdesk-request-title">
+    <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm" onclick="closeHelpdeskRequestModal()"></div>
+    <div class="relative w-full max-w-md overflow-hidden rounded-2xl border border-violet-500/30 bg-[#101827] text-slate-100 shadow-2xl">
+        <div class="h-1.5 bg-gradient-to-r from-violet-600 via-[#eabf55] to-emerald-500"></div>
+        <div class="p-6 text-center">
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-violet-400/40 bg-violet-500/15 text-violet-300">
+                <span class="material-symbols-outlined text-[26px]">support_agent</span>
+            </div>
+            <h2 id="helpdesk-request-title" class="mt-4 text-lg font-bold text-white">Support Request Submitted</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Your request has been prepared for the MIS support queue. Keep your tracking reference for follow-up.</p>
+            <button type="button" onclick="closeHelpdeskRequestModal()" class="mt-5 min-h-11 w-full rounded-lg bg-violet-600 px-4 text-sm font-bold text-white hover:bg-violet-500">Done</button>
+        </div>
+    </div>
+</div>
+<script>
+    function openHelpdeskRequestModal() {
+        const modal = document.getElementById('helpdesk-request-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+    function closeHelpdeskRequestModal() {
+        const modal = document.getElementById('helpdesk-request-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+</script>
+@endpush

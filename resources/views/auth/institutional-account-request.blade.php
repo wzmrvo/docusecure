@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,10 +41,10 @@ tailwind.config = {
     width: 6px;
 }
 .custom-scroll::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: #1e293b;
 }
 .custom-scroll::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: #64748b;
     border-radius: 9999px;
 }
 .custom-scroll::-webkit-scrollbar-thumb:hover {
@@ -57,6 +58,107 @@ tailwind.config = {
     background-image:
         linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+</style>
+
+<style data-purpose="dark-request-modal">
+[data-purpose="request-clearance-modal"] {
+    background: #101827 !important;
+    color: #e5e7eb !important;
+    border: 1px solid rgba(234, 191, 85, 0.22) !important;
+}
+
+[data-purpose="modal-form-content"] {
+    background: #101827 !important;
+    color: #e5e7eb !important;
+}
+
+/* Improve readability of headings, labels, and descriptions */
+[data-purpose="modal-form-content"] h3,
+[data-purpose="modal-form-content"] label,
+[data-purpose="modal-form-content"] h3 span {
+    color: #f8fafc !important;
+}
+
+/* Override dark slate text while preserving colored badges */
+[data-purpose="modal-form-content"] .text-slate-500,
+[data-purpose="modal-form-content"] .text-slate-600,
+[data-purpose="modal-form-content"] .text-slate-700,
+[data-purpose="modal-form-content"] .text-slate-800,
+[data-purpose="modal-form-content"] .text-slate-900 {
+    color: #e2e8f0 !important;
+}
+
+/* Input fields */
+[data-purpose="modal-form-content"] input,
+[data-purpose="modal-form-content"] select,
+[data-purpose="modal-form-content"] textarea {
+    background: #1e293b !important;
+    border-color: #475569 !important;
+    color: #ffffff !important;
+}
+
+[data-purpose="modal-form-content"] input::placeholder,
+[data-purpose="modal-form-content"] textarea::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1;
+}
+
+/* Input focus */
+[data-purpose="modal-form-content"] input:focus,
+[data-purpose="modal-form-content"] select:focus,
+[data-purpose="modal-form-content"] textarea:focus {
+    border-color: #eabf55 !important;
+    --tw-ring-color: #eabf55 !important;
+}
+
+/* Select dropdown options */
+[data-purpose="modal-form-content"] select option {
+    background: #1e293b;
+    color: #ffffff;
+}
+
+/* Card backgrounds */
+[data-purpose="modal-form-content"] [class*="bg-slate-50"],
+[data-purpose="modal-form-content"] [class*="bg-white"] {
+    background-color: #1e293b !important;
+}
+
+/* Card borders */
+[data-purpose="modal-form-content"] [class*="border-slate-"] {
+    border-color: #475569 !important;
+}
+
+/* Radio buttons */
+[data-purpose="modal-form-content"] input[type="radio"] {
+    accent-color: #eabf55;
+}
+
+/* Modal footer */
+[data-purpose="request-clearance-modal"] footer {
+    background: #0f1724 !important;
+    border-color: rgba(255,255,255,.12) !important;
+    color: #e2e8f0 !important;
+}
+
+[data-purpose="request-clearance-modal"] footer > div:first-child {
+    color: #e2e8f0 !important;
+}
+
+[data-purpose="request-clearance-modal"] footer > div:first-child strong {
+    color: #ffffff !important;
+}
+
+/* Cancel button */
+[data-purpose="request-clearance-modal"] footer button:first-child {
+    background: #ffffff !important;
+    color: #173153 !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Submit button */
+[data-purpose="request-clearance-modal"] footer button[type="submit"] {
+    color: #ffffff !important;
 }
 </style>
 </head>
@@ -74,11 +176,11 @@ tailwind.config = {
         <!-- Top Branding -->
         <div class="relative z-10">
             <div class="flex items-center gap-3">
-                <img alt="Cavite State University Seal" class="w-10 h-10 object-contain drop-shadow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBatywbcQGfpsHMxAQijnoqwhBdKwwRjb8wbU5Mqp22VPriuz6U2kD9IjZ-lr3Fnn5Adr-wc_s6bX7rOtRTBa3yJy_IQ1ynBSm2HULMcnbZYaqkmqWWnHNsOmN5aDOOBnhUctaanL8ls4D1kfqVzCEh-M8whuGo37DbVA64Msv835pStyuDAt_8-LVP0ldpTjI-ff6xnxchcsdEePPLM-gwj_rI1XCEavE9oCdWt30Q9h7AzB2dw56D"/>
+                <img alt="Cavite State University Seal" class="w-10 h-10 object-contain" src="{{ asset('images/cvsu-logo.png') }}"/>
 
                 <div class="flex items-center gap-2">
                     <span class="font-bold text-xl tracking-tight text-white flex items-center gap-1.5">
-                        <svg class="w-5 h-5 text-[#eabf55]" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+                        <svg class="w-5 h-5 text-[#eabf55]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                         DocuSecure
@@ -109,7 +211,7 @@ tailwind.config = {
             <!-- Graphic Key Card -->
             <div class="mt-8 p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur flex items-center gap-4 max-w-sm">
                 <div class="w-12 h-12 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-[#eabf55]">
-                    <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                         <path clip-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" fill-rule="evenodd"></path>
                     </svg>
                 </div>
@@ -136,7 +238,7 @@ tailwind.config = {
             </div>
 
             <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800 flex items-center gap-2">
-                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                 </svg>
                 CvSU Identity Gateway online and ready
@@ -164,8 +266,8 @@ tailwind.config = {
             <div class="flex items-start justify-between gap-4">
                 <div class="flex items-start gap-3.5">
 
-                    <div class="w-[44px] h-[44px] rounded-lg bg-white/10 p-1 flex-shrink-0 flex items-center justify-center border border-white/15 shadow-inner">
-                        <img alt="CvSU Seal" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBatywbcQGfpsHMxAQijnoqwhBdKwwRjb8wbU5Mqp22VPriuz6U2kD9IjZ-lr3Fnn5Adr-wc_s6bX7rOtRTBa3yJy_IQ1ynBSm2HULMcnbZYaqkmqWWnHNsOmN5aDOOBnhUctaanL8ls4D1kfqVzCEh-M8whuGo37DbVA64Msv835pStyuDAt_8-LVP0ldpTjI-ff6xnxchcsdEePPLM-gwj_rI1XCEavE9oCdWt30Q9h7AzB2dw56D"/>
+                    <div class="w-[44px] h-[44px] flex-shrink-0 flex items-center justify-center">
+                        <img alt="CvSU Seal" class="w-full h-full object-contain" src="{{ asset('images/cvsu-logo.png') }}"/>
                     </div>
 
                     <div>
@@ -192,7 +294,7 @@ tailwind.config = {
 
                 <!-- Close Action -->
                 <button aria-label="Close modal dialog" class="text-slate-400 hover:text-white transition-colors p-1.5 -mr-1.5 rounded-lg hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#eabf55]" type="button">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                 </button>
@@ -202,8 +304,7 @@ tailwind.config = {
         <!-- Modal Scrollable Body -->
         <section class="overflow-y-auto px-6 py-6 space-y-7 custom-scroll flex-1 bg-white text-slate-800" data-purpose="modal-form-content">
 
-            <!-- IMPORTANT: Updated form submission behavior -->
-            <form class="space-y-7" id="clearance-request-form" onsubmit="window.location.href='{{ route('login') }}'; return false;">
+            <form class="space-y-7" id="clearance-request-form" onsubmit="event.preventDefault(); openAccountRequestModal();">
 
                 <!-- Section 1: Personal & Institutional Identity -->
                 <div class="space-y-3.5" data-purpose="form-section-personal">
@@ -220,32 +321,29 @@ tailwind.config = {
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                        <!-- Full Legal Name -->
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1" for="fullName">
                                 Full Legal Name <span class="text-rose-600 font-bold">*</span>
                             </label>
-                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="fullName" name="fullName" placeholder="e.g. Engr. Maria Santos, M.Sc." required="" type="text" value="Engr. Maria Santos, M.Sc."/>
+                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="fullName" name="fullName" placeholder="e.g. Engr. Maria Santos, M.Sc." required type="text" value="Engr. Maria Santos, M.Sc."/>
                             <p class="text-[11px] text-slate-500 mt-1">Include academic credentials, title, or post-nominal suffix.</p>
                         </div>
 
-                        <!-- Employee / Student ID Number -->
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1" for="idNumber">
                                 Employee / Student ID Number <span class="text-rose-600 font-bold">*</span>
                             </label>
-                            <input class="w-full text-xs font-mono uppercase rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="idNumber" name="idNumber" placeholder="E.G. 2026-CEIT-4491" required="" type="text" value="2026-CEIT-4491"/>
+                            <input class="w-full text-xs font-mono uppercase rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="idNumber" name="idNumber" placeholder="E.G. 2026-CEIT-4491" required type="text" value="2026-CEIT-4491"/>
                             <p class="text-[11px] text-slate-500 mt-1">Official registrar-assigned badge code or faculty serial.</p>
                         </div>
 
-                        <!-- CvSU Email -->
                         <div>
                             <div class="flex items-center justify-between mb-1">
                                 <label class="block text-xs font-bold text-slate-700" for="cvsuEmail">
                                     Cavite State University Email <span class="text-rose-600 font-bold">*</span>
                                 </label>
                                 <span class="text-[10px] font-mono font-medium text-slate-400 flex items-center gap-1">
-                                    <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewbox="0 0 20 20">
+                                    <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                                         <path clip-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" fill-rule="evenodd"></path>
                                     </svg>
                                     256-BIT ENCRYPTED
@@ -254,21 +352,20 @@ tailwind.config = {
 
                             <div class="relative rounded-lg shadow-sm">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                    <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                     </svg>
                                 </div>
-                                <input class="w-full pl-9 text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="cvsuEmail" name="cvsuEmail" placeholder="name.surname@cvsu.edu.ph" required="" type="email" value="m.santos@cvsu.edu.ph"/>
+                                <input class="w-full pl-9 text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="cvsuEmail" name="cvsuEmail" placeholder="name.surname@cvsu.edu.ph" required type="email" value="m.santos@cvsu.edu.ph"/>
                             </div>
                             <p class="text-[11px] text-slate-500 mt-1">Must be an active institutional domain account ending in @cvsu.edu.ph.</p>
                         </div>
 
-                        <!-- Phone Number -->
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1" for="phoneNumber">
                                 Contact Phone / Mobile Number <span class="text-rose-600 font-bold">*</span>
                             </label>
-                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="phoneNumber" name="phoneNumber" placeholder="+63 917 000 0000" required="" type="tel" value="+63 917 849 2039"/>
+                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="phoneNumber" name="phoneNumber" placeholder="+63 917 000 0000" required type="tel" value="+63 917 849 2039"/>
                             <p class="text-[11px] text-slate-500 mt-1">Used strictly for out-of-band clearance authorization PINs.</p>
                         </div>
                     </div>
@@ -287,14 +384,13 @@ tailwind.config = {
                         </span>
                     </div>
 
-                    <!-- College & Department Selection -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1" for="collegeUnit">
                                 College / Administrative Unit <span class="text-rose-600 font-bold">*</span>
                             </label>
-                            <select class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3" id="collegeUnit" name="collegeUnit" required="">
-                                <option selected="">College of Engineering and Information Technology (CEIT)</option>
+                            <select class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3" id="collegeUnit" name="collegeUnit" required>
+                                <option selected>College of Engineering and Information Technology (CEIT)</option>
                                 <option>College of Arts and Sciences (CAS)</option>
                                 <option>College of Agriculture, Food, Environment and Natural Resources (CAFENR)</option>
                                 <option>College of Education (CED)</option>
@@ -311,7 +407,7 @@ tailwind.config = {
                             <label class="block text-xs font-bold text-slate-700 mb-1" for="deptUnit">
                                 Department / Program Unit <span class="text-rose-600 font-bold">*</span>
                             </label>
-                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="deptUnit" name="deptUnit" placeholder="e.g. Department of Information Technology" required="" type="text" value="Department of Information Technology"/>
+                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="deptUnit" name="deptUnit" placeholder="e.g. Department of Information Technology" required type="text" value="Department of Information Technology"/>
                         </div>
                     </div>
 
@@ -327,7 +423,7 @@ tailwind.config = {
                             <label class="relative flex flex-col p-3.5 bg-slate-50/80 rounded-xl border-2 border-[#173153] cursor-pointer shadow-sm hover:border-[#173153] transition-all">
                                 <div class="flex items-center justify-between mb-1.5">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wide bg-sky-100 text-[#0369a1]">TIER 1 ACCESS</span>
-                                    <input checked="" class="h-4 w-4 text-[#173153] border-slate-300 focus:ring-[#173153]" name="clearanceTier" type="radio" value="tier1"/>
+                                    <input checked class="h-4 w-4 text-[#173153] border-slate-300 focus:ring-[#173153]" name="clearanceTier" type="radio" value="tier1"/>
                                 </div>
                                 <span class="text-xs font-bold text-slate-900 mb-1">Student / Researcher</span>
                                 <span class="text-[11px] text-slate-600 leading-snug">Read-only clearance for personal academic transcripts, evaluation records, and thesis submissions.</span>
@@ -374,13 +470,13 @@ tailwind.config = {
                             Purpose &amp; Operational Justification
                         </h3>
 
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide bg-slate-100 text-slate-700">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide bg-slate-100 text-slate-700 border border-slate-200">
                             AUDIT LOGGED
                         </span>
                     </div>
 
                     <div>
-                        <textarea class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm p-3 placeholder:text-slate-400" id="justification" name="justification" placeholder="State purpose of request, course/department assignment, or specific clearance requirements (e.g. End-of-semester transcript audit and digital validation for graduating batch 2026)..." required="" rows="3">End-of-semester transcript audit and digital validation for graduating batch 2026 computer science capstone projects.</textarea>
+                        <textarea class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm p-3 placeholder:text-slate-400" id="justification" name="justification" placeholder="State purpose of request, course/department assignment, or specific clearance requirements (e.g. End-of-semester transcript audit and digital validation for graduating batch 2026)..." required rows="3">End-of-semester transcript audit and digital validation for graduating batch 2026 computer science capstone projects.</textarea>
 
                         <div class="flex items-center justify-between mt-1 text-[11px] text-slate-500">
                             <span>Minimum 20 characters detailing operational necessity.</span>
@@ -405,13 +501,12 @@ tailwind.config = {
             <!-- Action Buttons -->
             <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
 
-                <button class="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-300 transition-colors shadow-sm" type="button">
+                <button class="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-300 transition-colors shadow-sm" type="button" onclick="window.location.href='{{ route('login') }}'">
                     Cancel
                 </button>
 
-                <!-- Connected to the form above -->
                 <button class="px-5 py-2 text-xs font-semibold text-white bg-[#173153] hover:bg-[#1f3f69] active:bg-[#0f223a] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#173153] focus:ring-offset-1 transition-all inline-flex items-center gap-2" type="submit" form="clearance-request-form">
-                    <svg class="w-3.5 h-3.5 text-[#eabf55]" fill="currentColor" viewbox="0 0 20 20">
+                    <svg class="w-3.5 h-3.5 text-[#eabf55]" fill="currentColor" viewBox="0 0 20 20">
                         <path clip-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" fill-rule="evenodd"></path>
                     </svg>
                     <span>Submit Account Application to MIS</span>
@@ -421,5 +516,33 @@ tailwind.config = {
         </footer>
     </div>
 </main>
+
+<div id="account-request-success-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="account-request-success-title">
+    <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
+    <div class="relative w-full max-w-md overflow-hidden rounded-2xl border border-emerald-500/30 bg-[#101827] text-slate-100 shadow-2xl">
+        <div class="h-1.5 bg-gradient-to-r from-emerald-500 via-[#eabf55] to-[#173153]"></div>
+        <div class="p-6 text-center">
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-emerald-400/40 bg-emerald-500/15 text-emerald-300">
+                <span class="material-symbols-outlined text-[26px]">verified</span>
+            </div>
+            <h2 id="account-request-success-title" class="mt-4 text-lg font-bold text-white">Account Request Submitted</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Your clearance request has been prepared for MIS review. A registered email will receive the verification outcome.</p>
+            <button type="button" onclick="closeAccountRequestModal()" class="mt-5 min-h-11 w-full rounded-lg bg-emerald-700 px-4 text-sm font-bold text-white hover:bg-emerald-600">Return to Sign In</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openAccountRequestModal() {
+        const modal = document.getElementById('account-request-success-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeAccountRequestModal() {
+        window.location.href = '{{ route('login') }}';
+    }
+</script>
+
 </body>
 </html>

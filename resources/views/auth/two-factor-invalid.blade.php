@@ -16,6 +16,12 @@
   </script>
 <!-- BEGIN: Custom Micro-Styles -->
 <style data-purpose="custom-backgrounds-and-patterns">
+    [data-purpose="user-login-portal"] .bg-white,
+    [data-purpose="user-login-portal"] [class*="bg-slate-50"],
+    [data-purpose="user-login-portal"] [class*="border-slate-"] {
+      background-color: #101827 !important;
+      border-color: #334155 !important;
+    }
     .bg-security-grid {
       background-size: 32px 32px;
       background-image: 
@@ -36,7 +42,7 @@
   </style>
 <!-- END: Custom Micro-Styles -->
 <meta content="web_standard" name="shell-type"/></head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen selection:bg-amber-400 selection:text-slate-900">
+<body class="bg-[#0b1322] text-slate-100 font-sans antialiased min-h-screen selection:bg-amber-400 selection:text-slate-900">
 <!-- BEGIN: MainContainer -->
 <main class="min-h-screen w-full flex flex-col lg:flex-row relative overflow-hidden" data-purpose="authentication-split-layout">
 <!-- ========================================================================= -->
@@ -51,7 +57,7 @@
 <div class="relative z-10">
 <header class="flex items-center gap-3.5" data-purpose="university-identity-header">
 <!-- CvSU Logo -->
-<div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl border border-amber-300/50 bg-white/10 flex items-center justify-center text-amber-300 text-xs font-extrabold tracking-widest" aria-label="CvSU logo placeholder">CvSU</div>
+<img alt="CvSU Logo" class="h-12 w-12 object-contain sm:h-14 sm:w-14" src="{{ asset('images/cvsu-logo.png') }}" />
 <!-- Brand Typography -->
 <div>
 <div class="flex items-center gap-2">
@@ -137,7 +143,7 @@
 <!-- ========================================================================= -->
 <!-- RIGHT PANEL: Crisp White 2FA Verification Flow -->
 <!-- ========================================================================= -->
-<section class="lg:w-7/12 xl:w-1/2 bg-white text-slate-800 flex flex-col justify-between p-6 sm:p-10 lg:p-12 xl:p-16 relative overflow-y-auto" data-purpose="user-login-portal">
+<section class="lg:w-7/12 xl:w-1/2 bg-[#0b1322] text-slate-100 flex flex-col justify-between p-6 sm:p-10 lg:p-12 xl:p-16 relative overflow-y-auto" data-purpose="user-login-portal">
 <!-- Top Utility Header Navigation -->
 <div class="w-full max-w-xl mx-auto flex items-center justify-between text-xs text-slate-600 mb-6">
 <a class="inline-flex items-center gap-1.5 font-semibold text-portal-navy hover:text-portal-navy-light transition-colors group" href="{{ url("/") }}">
@@ -152,7 +158,7 @@
 <!-- Center Card Container -->
 <div class="w-full max-w-xl mx-auto my-auto py-4">
 <!-- Verification Card Frame -->
-<div class="bg-white border border-slate-200/90 rounded-2xl shadow-xl shadow-slate-200/50 p-6 sm:p-9 relative">
+<div class="bg-[#101827] border border-slate-700/70 rounded-2xl shadow-2xl shadow-black/20 p-6 sm:p-9 relative">
 <!-- Card Header: Authenticator Icon & Step -->
 <div class="flex items-start gap-4 mb-5">
 <div class="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-portal-navy flex-shrink-0 shadow-sm">

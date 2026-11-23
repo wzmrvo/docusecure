@@ -73,6 +73,13 @@
 
   <!-- MODAL BODY -->
   <div class="px-6 py-5 flex flex-col gap-4 overflow-y-auto max-h-[calc(85vh-140px)]">
+    <div class="rounded-lg p-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
+      <label for="tier4FileSelector" class="text-[12px] font-semibold text-slate-200">Target Tier 4 File</label>
+      <select id="tier4FileSelector" class="mt-2 w-full rounded border border-white/10 px-3 py-2 text-[13px] text-white" style="background: #1e293b;">
+        <option value="Board of Regents Resolution No. 2026-094: University Cybersecurity Mandate|CVSU-BOR-2026-0094|9e4f21...4011|14.2 MB">Board of Regents Resolution No. 2026-094</option>
+        <option value="University Annual Financial Ledger & Procurement Matrix FY2025|CVSU-FIN-2025-1102|8a1b2c...e8f9|6.2 MB">University Annual Financial Ledger FY2025</option>
+      </select>
+    </div>
     <!-- 2. TARGET RESTRICTED DOCUMENT CARD -->
     <div class="rounded-lg p-4 flex flex-col gap-3 relative overflow-hidden" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(234, 191, 85, 0.2);">
       <div class="flex items-start justify-between gap-3 relative z-10">
@@ -80,7 +87,7 @@
           <span class="material-symbols-outlined text-[24px] mt-0.5 flex-shrink-0" style="color: #eabf55;">lock_person</span>
           <div class="flex flex-col min-w-0">
             <span class="font-label-sm text-[10px] uppercase font-mono tracking-wider text-slate-400">TARGET CLASSIFIED ASSET</span>
-            <span class="font-headline-sm text-[14px] font-semibold text-white truncate font-mono select-all">BOR_Resolution_2026_094_FacultyTenure_Clearance.pdf.enc</span>
+            <span id="tier4TargetName" class="font-headline-sm text-[14px] font-semibold text-white truncate font-mono select-all">BOR_Resolution_2026_094_FacultyTenure_Clearance.pdf.enc</span>
           </div>
         </div>
         <span class="px-2.5 py-1 rounded text-[11px] uppercase tracking-wider whitespace-nowrap font-mono font-bold flex items-center gap-1.5 flex-shrink-0" style="background: rgba(234, 191, 85, 0.15); color: #eabf55; border: 1px solid rgba(234, 191, 85, 0.4);">
@@ -95,7 +102,7 @@
         </div>
         <div class="flex flex-col">
           <span class="text-slate-400">Integrity SHA-256</span>
-          <span class="truncate" style="color: #9fd2b4;">7f3a...d9e2 (AES-256)</span>
+          <span id="tier4TargetHash" class="truncate" style="color: #9fd2b4;">7f3a...d9e2 (AES-256)</span>
         </div>
         <div class="flex flex-col">
           <span class="text-slate-400">Custodian</span>
@@ -103,7 +110,7 @@
         </div>
         <div class="flex flex-col">
           <span class="text-slate-400">Payload Size</span>
-          <span class="text-white truncate">4.8 MB (Encrypted)</span>
+          <span id="tier4TargetSize" class="text-white truncate">4.8 MB (Encrypted)</span>
         </div>
       </div>
     </div>
@@ -243,6 +250,31 @@
 </div>
 </div>
 <script>
+  const tier4FileSelector = document.getElementById('tier4FileSelector');
+  const params = new URLSearchParams(window.location.search);
+  const selectedFile = params.get('file');
+  const selectedHash = params.get('hash');
+  const selectedSize = params.get('size');
+  if (selectedFile) {
+    const name = document.getElementById('tier4TargetName');
+    if (name) name.textContent = selectedFile;
+  }
+  if (selectedHash) {
+    const hash = document.getElementById('tier4TargetHash');
+    if (hash) hash.textContent = `${selectedHash} (AES-256)`;
+  }
+  if (selectedSize) {
+    const size = document.getElementById('tier4TargetSize');
+    if (size) size.textContent = `${selectedSize} (Encrypted)`;
+  }
+  if (tier4FileSelector) {
+    tier4FileSelector.addEventListener('change', () => {
+      const [name, tracking, hash, size] = tier4FileSelector.value.split('|');
+      document.getElementById('tier4TargetName').textContent = name;
+      document.getElementById('tier4TargetHash').textContent = `${hash} (AES-256)`;
+      document.getElementById('tier4TargetSize').textContent = `${size} (Encrypted)`;
+    });
+  }
   function updateDurationStyle() {
     const radios = document.querySelectorAll('input[name="accessDuration"]');
     radios.forEach((r, idx) => {

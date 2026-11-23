@@ -385,10 +385,10 @@
               <td class="py-4 px-4 whitespace-nowrap font-mono text-xs text-slate-400">14.2 MB</td>
               <td class="py-4 px-5 whitespace-nowrap text-right">
                 <div class="inline-flex items-center gap-2">
-                  <button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-950/70 border border-rose-600 text-rose-200 hover:bg-rose-900 text-xs font-semibold transition-all shadow-sm">
+                  <a href="{{ route('faculty.preview.tier-4-access-request') }}?file=BOR_Resolution_2026_094_FacultyTenure_Clearance.pdf.enc&tracking=CVSU-BOR-2026-0094&hash=9e4f21...4011&size=14.2%20MB" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-950/70 border border-rose-600 text-rose-200 hover:bg-rose-900 text-xs font-semibold transition-all shadow-sm">
                     <span class="material-symbols-outlined text-[15px] text-rose-300">key</span>
                     <span>Request Elevation</span>
-                  </button>
+                  </a>
                   <button class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#0f223a] text-slate-300 hover:bg-[#172b47] hover:text-white text-xs font-medium border border-[#1f3a5f]">
                     <span class="material-symbols-outlined text-[15px] text-slate-400">visibility</span>
                     <span>Manifest</span>
@@ -511,10 +511,10 @@
               <td class="py-4 px-4 whitespace-nowrap font-mono text-xs text-slate-400">6.2 MB</td>
               <td class="py-4 px-5 whitespace-nowrap text-right">
                 <div class="inline-flex items-center gap-2">
-                  <button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-950/70 border border-rose-600 text-rose-200 hover:bg-rose-900 text-xs font-semibold transition-all shadow-sm">
+                  <a href="{{ route('faculty.preview.tier-4-access-request') }}?file=University_Annual_Financial_Ledger_FY2025.pdf.enc&tracking=CVSU-FIN-2025-1102&hash=8a1b2c...e8f9&size=6.2%20MB" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-950/70 border border-rose-600 text-rose-200 hover:bg-rose-900 text-xs font-semibold transition-all shadow-sm">
                     <span class="material-symbols-outlined text-[15px] text-rose-300">key</span>
                     <span>Request Elevation</span>
-                  </button>
+                  </a>
                   <button class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#0f223a] text-slate-300 hover:bg-[#172b47] hover:text-white text-xs font-medium border border-[#1f3a5f]">
                     <span class="material-symbols-outlined text-[15px] text-slate-400">visibility</span>
                     <span>Manifest</span>
@@ -603,5 +603,33 @@
   </main>
 </div>
 
+  <div id="tier-document-modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="tier-document-modal-title">
+    <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeTierDocumentModal()"></div>
+    <div class="relative w-full max-w-md overflow-hidden rounded-xl border border-emerald-500/30 bg-[#101827] text-slate-100 shadow-2xl">
+      <div class="h-1.5 bg-gradient-to-r from-sky-500 via-emerald-500 to-[#eabf55]"></div>
+      <div class="p-6">
+        <h2 id="tier-document-modal-title" class="text-lg font-bold text-white">Document Preview</h2>
+        <p class="mt-2 text-sm leading-6 text-slate-300">This demo opens a preview confirmation. Real document download and watermarked export can be connected later.</p>
+        <button type="button" onclick="closeTierDocumentModal()" class="mt-5 min-h-11 w-full rounded-lg bg-emerald-700 px-4 text-sm font-bold text-white hover:bg-emerald-600">Close Preview</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    function openTierDocumentModal() {
+      const modal = document.getElementById('tier-document-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeTierDocumentModal() {
+      const modal = document.getElementById('tier-document-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+    document.querySelectorAll('button').forEach((button) => {
+      if (/View & Export|View &amp; Export|Verify & Sign|Inspect Hash/i.test(button.textContent)) {
+        button.addEventListener('click', openTierDocumentModal);
+      }
+    });
+  </script>
 
 </body></html>
