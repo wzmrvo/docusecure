@@ -270,6 +270,30 @@
 <script>
   const tier4FileSelector = document.getElementById('tier4FileSelector');
   const params = new URLSearchParams(window.location.search);
+  const selectedDocumentId = params.get('document');
+  if (selectedDocumentId && tier4FileSelector) {
+    const selectedOption = Array.from(tier4FileSelector.options).find(option => option.value === selectedDocumentId);
+    if (selectedOption) {
+      tier4FileSelector.value = selectedDocumentId;
+      document.getElementById('tier4DocumentId').value = selectedDocumentId;
+      document.getElementById('tier4DocumentIdForm').value = selectedDocumentId;
+      document.getElementById('tier4TargetName').textContent = selectedOption.dataset.name;
+      document.getElementById('tier4TargetHash').textContent = `${selectedOption.dataset.hash} (AES-256)`;
+      document.getElementById('tier4TargetSize').textContent = `${selectedOption.dataset.size} (Encrypted)`;
+    }
+  }
+  const selectedDocumentId = params.get('document');
+  if (selectedDocumentId && tier4FileSelector) {
+    const selectedOption = Array.from(tier4FileSelector.options).find(option => option.value === selectedDocumentId);
+    if (selectedOption) {
+      tier4FileSelector.value = selectedDocumentId;
+      document.getElementById('tier4DocumentId').value = selectedDocumentId;
+      document.getElementById('tier4DocumentIdForm').value = selectedDocumentId;
+      document.getElementById('tier4TargetName').textContent = selectedOption.dataset.name;
+      document.getElementById('tier4TargetHash').textContent = `${selectedOption.dataset.hash} (AES-256)`;
+      document.getElementById('tier4TargetSize').textContent = `${selectedOption.dataset.size} (Encrypted)`;
+    }
+  }
   const selectedFile = params.get('file');
   const selectedHash = params.get('hash');
   const selectedSize = params.get('size');

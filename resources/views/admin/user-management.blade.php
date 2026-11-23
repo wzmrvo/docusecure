@@ -68,7 +68,7 @@
 <div class="flex items-start justify-between w-full">
 <div class="flex flex-col gap-1">
 <span class="font-label-sm text-label-sm text-primary uppercase">All Users</span>
-<span class="font-headline-lg text-headline-lg text-on-surface">3,420</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">{{ number_format($users->total()) }}</span>
 </div>
 <div class="w-10 h-10 rounded-lg bg-primary/15 text-primary flex items-center justify-center">
 <span class="material-symbols-outlined text-[20px]">groups</span>
@@ -89,7 +89,7 @@
 <div class="flex items-start justify-between w-full">
 <div class="flex flex-col gap-1">
 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Faculty</span>
-<span class="font-headline-lg text-headline-lg text-on-surface">1,800</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">{{ number_format($roleCounts['faculty'] ?? 0) }}</span>
 </div>
 <div class="w-10 h-10 rounded-lg bg-tertiary/15 text-tertiary flex items-center justify-center">
 <span class="material-symbols-outlined text-[20px]">school</span>
@@ -104,12 +104,12 @@
 </div>
 </div>
 </button>
-<!-- Card 3: Staff & Registrars -->
-<button class="role-filter-card text-left w-full p-5 rounded-xl bg-surface-container shadow-sm flex flex-col justify-between gap-4 transition-all hover:bg-surface-container-high cursor-pointer" data-role-filter="StaffAdmin" type="button">
+<!-- Card 3: Administrators -->
+<button class="role-filter-card text-left w-full p-5 rounded-xl bg-surface-container shadow-sm flex flex-col justify-between gap-4 transition-all hover:bg-surface-container-high cursor-pointer" data-role-filter="Admin" type="button">
 <div class="flex items-start justify-between w-full">
 <div class="flex flex-col gap-1">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Staff &amp; Registrars</span>
-<span class="font-headline-lg text-headline-lg text-on-surface">680</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Administrators</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">{{ number_format(($roleCounts['admin'] ?? 0)) }}</span>
 </div>
 <div class="w-10 h-10 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center">
 <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
@@ -129,7 +129,7 @@
 <div class="flex items-start justify-between w-full">
 <div class="flex flex-col gap-1">
 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Students</span>
-<span class="font-headline-lg text-headline-lg text-on-surface">940</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">{{ number_format($roleCounts['student'] ?? 0) }}</span>
 </div>
 <div class="w-10 h-10 rounded-lg bg-surface-container-highest text-on-surface-variant flex items-center justify-center">
 <span class="material-symbols-outlined text-[20px]">badge</span>
@@ -395,22 +395,42 @@
 </div>
 </td>
 <td class="py-4 px-5 text-on-surface">{{ $managedUser->department?->name ?: 'Not Assigned' }}</td>
-<td class="py-4 px-5" colspan="4">
-<form method="POST" action="{{ route('admin.preview.user-management.update', $managedUser) }}" class="flex flex-wrap items-center gap-2">
+<td class="py-4 px-5">
+<form method="POST" action="{{ route('admin.preview.user-management.update', $managedUser) }}">
 @csrf
 @method('PATCH')
-<select name="role" class="rounded bg-surface-container-highest px-2 py-1.5 text-xs text-on-surface">
+<input type="hidden" name="clearance_tier" value="{{ $managedUser->clearance_tier }}">
+<input type="hidden" name="account_status" value="{{ $managedUser->account_status }}">
+<select name="role" class="w-full rounded bg-surface-container-highest px-2 py-1.5 text-xs text-on-surface">
 <option value="admin" @selected($managedUser->role === 'admin')>Admin</option>
 <option value="faculty" @selected($managedUser->role === 'faculty')>Faculty</option>
 <option value="student" @selected($managedUser->role === 'student')>Student</option>
 <option value="viewer" @selected($managedUser->role === 'viewer')>Viewer</option>
 </select>
+<button type="submit" class="mt-2 rounded bg-primary px-3 py-1.5 text-xs font-semibold text-on-primary">Save</button>
+</form>
+</td>
+<td class="py-4 px-5">
+<form method="POST" action="{{ route('admin.preview.user-management.update', $managedUser) }}">
+@csrf
+@method('PATCH')
+<input type="hidden" name="role" value="{{ $managedUser->role }}">
+<input type="hidden" name="account_status" value="{{ $managedUser->account_status }}">
 <select name="clearance_tier" class="rounded bg-surface-container-highest px-2 py-1.5 text-xs text-on-surface">
 <option value="tier1" @selected($managedUser->clearance_tier === 'tier1')>Tier 1</option>
 <option value="tier2" @selected($managedUser->clearance_tier === 'tier2')>Tier 2</option>
 <option value="tier3" @selected($managedUser->clearance_tier === 'tier3')>Tier 3</option>
 <option value="tier4" @selected($managedUser->clearance_tier === 'tier4')>Tier 4</option>
 </select>
+<button type="submit" class="mt-2 rounded bg-primary px-3 py-1.5 text-xs font-semibold text-on-primary">Save</button>
+</form>
+</td>
+<td class="py-4 px-5">
+<form method="POST" action="{{ route('admin.preview.user-management.update', $managedUser) }}" class="flex items-center gap-2">
+@csrf
+@method('PATCH')
+<input type="hidden" name="role" value="{{ $managedUser->role }}">
+<input type="hidden" name="clearance_tier" value="{{ $managedUser->clearance_tier }}">
 <select name="account_status" class="rounded bg-surface-container-highest px-2 py-1.5 text-xs text-on-surface">
 <option value="active" @selected($managedUser->account_status === 'active')>Active</option>
 <option value="inactive" @selected($managedUser->account_status === 'inactive')>Inactive</option>
@@ -537,7 +557,7 @@
         emptyState.classList.remove('flex');
       }
 
-      summaryEl.textContent = `Showing ${visibleCount} of 3,420 institutional accounts`;
+      summaryEl.textContent = `Showing ${visibleCount} of {{ $users->total() }} institutional accounts`;
     }
 
     searchInput.addEventListener('input', applyFilters);

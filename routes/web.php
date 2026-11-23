@@ -156,7 +156,28 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
         ));
     })->name('dashboard');
     Route::get('/document-library', function () {
-        $documents = Document::with(['category', 'department', 'uploader'])->latest()->get();
+        $user = Auth::user();
+        $documents = Document::query()
+            ->with(['category', 'department', 'uploader'])
+            ->where(function ($query) use ($user) {
+                $query->whereIn('access_tier', ['tier1', 'tier2', 'tier3'])
+                    ->where(function ($departmentQuery) use ($user) {
+                        $departmentQuery->whereNull('department_id')
+                            ->orWhere('department_id', $user->department_id);
+                    })
+                    ->orWhere(function ($tier4Query) use ($user) {
+                        $tier4Query->where('access_tier', 'tier4')
+                            ->whereHas('accessRequests', function ($accessQuery) use ($user) {
+                                $accessQuery->where('requester_id', $user->id)
+                                    ->where('status', 'approved')
+                                    ->where(function ($expiryQuery) {
+                                        $expiryQuery->whereNull('expires_at')->orWhere('expires_at', '>', now());
+                                    });
+                            });
+                    });
+            })
+            ->latest()
+            ->get();
 
         return view('faculty.document-library', compact('documents'));
     })->name('document-library');
@@ -169,6 +190,7 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
             ->whereHas('document', function ($query) {
                 $query->where('access_tier', 'tier4');
             })
+            ->whereIn('status', ['pending', 'approved'])
             ->latest()
             ->get();
 
@@ -195,6 +217,7 @@ Route::get('/faculty/tier-4-access-request', function () {
         ->whereHas('document', function ($query) {
             $query->where('access_tier', 'tier4');
         })
+        ->whereIn('status', ['pending', 'approved'])
         ->latest()
         ->get();
 
@@ -279,8 +302,9 @@ Route::prefix('viewer/preview')->name('viewer.preview.')->middleware(['auth', 'r
     })->name('dashboard');
     Route::get('/document-library', function () {
         $publicDocuments = Document::where('access_tier', 'tier1')->latest()->get();
+        $documents = $publicDocuments;
 
-        return view('student.document-library', compact('publicDocuments'));
+        return view('student.document-library', compact('publicDocuments', 'documents'));
     })->name('document-library');
     Route::view('/categories', 'student.categories')->name('categories');
     Route::view('/library-research', 'student.library-research')->name('library-research');

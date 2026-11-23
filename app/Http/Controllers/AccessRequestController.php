@@ -23,6 +23,16 @@ class AccessRequestController extends Controller
             422,
             'Only restricted documents require an access request.',
         );
+        $user = Auth::user();
+        $requestedLevel = (int) substr($document->access_tier, -1);
+        $userLevel = (int) substr($user->clearance_tier, -1);
+        $roleAllowed = match ($document->access_tier) {
+            'tier2' => in_array($user->role, ['student', 'faculty'], true),
+            'tier3' => in_array($user->role, ['faculty', 'admin'], true),
+            'tier4' => in_array($user->role, ['faculty', 'admin'], true),
+            default => false,
+        };
+        abort_unless($roleAllowed && $requestedLevel > $userLevel, 422, 'You do not qualify for this restricted document tier.');
         $existing = AccessRequest::where('requester_id', Auth::id())
             ->where('document_id', $document->id)
             ->whereIn('status', ['pending', 'approved'])
@@ -59,12 +69,36 @@ class AccessRequestController extends Controller
     {
         abort_if($accessRequest->status !== 'pending', 409);
 
+        $validated = $request->validate([
+            'lease_hours' => ['nullable', 'integer', 'min:1', 'max:72'],
+            'decision_reason' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        $requester = $accessRequest->requester;
+        $document = $accessRequest->document;
+        if (in_array($document->access_tier, ['tier2', 'tier3'], true)
+            && $document->department_id
+            && $requester->department_id
+            && $document->department_id !== $requester->department_id) {
+            abort(422, 'Requester department does not match the document department.');
+        }
+        $tierAllowed = match ($document->access_tier) {
+            'tier2' => in_array($requester?->role, ['student', 'faculty'], true)
+                && (int) substr($requester->clearance_tier, -1) >= 1,
+            'tier3' => in_array($requester?->role, ['faculty', 'admin'], true)
+                && (int) substr($requester->clearance_tier, -1) >= 2,
+            'tier4' => in_array($requester?->role, ['faculty', 'admin'], true)
+                && (int) substr($requester->clearance_tier, -1) >= 3,
+            default => false,
+        };
+        abort_unless($tierAllowed, 422, 'Requester role cannot receive this document tier.');
+
         $accessRequest->update([
             'status' => 'approved',
             'reviewer_id' => Auth::id(),
             'reviewed_at' => now(),
-            'expires_at' => now()->addHours((int) $request->input('lease_hours', 24)),
-            'decision_reason' => $request->input('decision_reason'),
+            'expires_at' => now()->addHours((int) ($validated['lease_hours'] ?? 24)),
+            'decision_reason' => $validated['decision_reason'] ?? null,
         ]);
 
         AuditLog::create([

@@ -80,9 +80,12 @@ class DocumentController extends Controller
             || ($tier === 'tier1')
             || ($user->role === 'faculty'
                 && in_array($tier, ['tier2', 'tier3'], true)
-                && ($document->department_id === null || $document->department_id === $user->department_id))
-            || ($user->role === 'student' && in_array($tier, ['tier1', 'tier2'], true))
-            || (in_array($user->role, ['faculty', 'student'], true) && $tier === 'tier4' && $document->accessRequests()
+                && (int) substr($user->clearance_tier, -1) >= (int) substr($tier, -1)
+                && $document->department_id === $user->department_id)
+            || ($user->role === 'student'
+                && in_array($tier, ['tier1', 'tier2'], true)
+                && (int) substr($user->clearance_tier, -1) >= (int) substr($tier, -1))
+            || (in_array($user->role, ['faculty', 'student'], true) && in_array($tier, ['tier2', 'tier3', 'tier4'], true) && $document->accessRequests()
                 ->where('requester_id', $user->id)
                 ->where('status', 'approved')
                 ->where(function ($query) {
