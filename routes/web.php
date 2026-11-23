@@ -189,11 +189,14 @@ Route::view(
 
 // Faculty Form Submission Routes
 Route::post('/faculty/submit-department-file', function (Request $request) {
+    $request->files->set('file', $request->file('department_file'));
+    $request->merge([
+        'title' => $request->input('document_title'),
+        'tracking_number' => 'CEIT-'.strtoupper(substr(hash('sha256', (string) now()), 0, 12)),
+        'access_tier' => $request->input('access_tier', 'tier3'),
+    ]);
 
-    // Temporary placeholder until the actual upload handling is implemented.
-    return redirect()
-        ->route('faculty.preview.department-records')
-        ->with('info', 'Department file submission route reached. File processing is not yet configured.');
+    return app(DocumentController::class)->store($request);
 
 })->name('faculty.submit-department-file');
 

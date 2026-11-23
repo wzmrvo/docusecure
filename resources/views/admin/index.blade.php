@@ -335,34 +335,19 @@
                     </span>
                 </div>
 
-                <!-- Stream Event Items -->
                 <div class="flex flex-col gap-3">
-                    <div class="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-300 dark:border-amber-500/30 flex items-start gap-2.5 text-xs">
-                        <span class="material-symbols-outlined text-amber-500 text-[16px] mt-0.5 shrink-0">confirmation_number</span>
-                        <div class="flex flex-col flex-1 min-w-0">
-                            <span class="text-slate-900 dark:text-white font-medium truncate">Helpdesk ticket submitted — Prof. Dela Cruz</span>
-                            <span class="text-[11px] text-amber-600 dark:text-amber-300 font-mono">TKT-2026-88219 • MIS Helpdesk Portal</span>
+                    @forelse ($recentAuditLogs as $log)
+                        <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-[#121c2d] border border-slate-200 dark:border-white/5 flex items-start gap-2.5 text-xs">
+                            <span class="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5 shrink-0">receipt_long</span>
+                            <div class="flex flex-col flex-1 min-w-0">
+                                <span class="text-slate-900 dark:text-white font-medium truncate">{{ $log->description ?: $log->action }}</span>
+                                <span class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">{{ $log->user?->name ?: 'System' }} • {{ $log->action }}</span>
+                            </div>
+                            <span class="text-[10px] font-mono text-slate-400 shrink-0">{{ $log->created_at->diffForHumans() }}</span>
                         </div>
-                        <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 shrink-0">1m ago</span>
-                    </div>
-
-                    <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-[#121c2d] border border-slate-200 dark:border-white/5 flex items-start gap-2.5 text-xs">
-                        <span class="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5 shrink-0">login</span>
-                        <div class="flex flex-col flex-1 min-w-0">
-                            <span class="text-slate-900 dark:text-white font-medium truncate">User login — Prof. Juan Dela Cruz</span>
-                            <span class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">CEIT Computer Studies • IP: 10.24.12.8</span>
-                        </div>
-                        <span class="text-[10px] font-mono text-slate-400 shrink-0">2m ago</span>
-                    </div>
-
-                    <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-[#121c2d] border border-slate-200 dark:border-white/5 flex items-start gap-2.5 text-xs">
-                        <span class="material-symbols-outlined text-sky-500 text-[16px] mt-0.5 shrink-0">lock_open</span>
-                        <div class="flex flex-col flex-1 min-w-0">
-                            <span class="text-slate-900 dark:text-white font-medium truncate">Access granted to BOR_RES_2026.pdf</span>
-                            <span class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Authorized by Admin Bautista</span>
-                        </div>
-                        <span class="text-[10px] font-mono text-slate-400 shrink-0">8m ago</span>
-                    </div>
+                    @empty
+                        <div class="p-3 text-xs text-slate-500 dark:text-slate-400">No audit activity has been recorded.</div>
+                    @endforelse
                 </div>
             </div>
 

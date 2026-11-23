@@ -582,6 +582,28 @@
       </div>
     </div>
 
+    @isset($documents)
+    <div class="rounded-xl border border-[#1f3a5f] bg-[#152238] p-5 shadow-sm">
+      <div class="mb-3 flex items-center justify-between">
+        <h2 class="text-sm font-bold text-white">Stored Department Documents</h2>
+        <span class="font-mono text-xs text-slate-400">{{ $documents->count() }} records</span>
+      </div>
+      @forelse ($documents as $document)
+        <div class="flex items-center justify-between border-t border-[#1f3a5f] py-3">
+          <div class="min-w-0">
+            <p class="truncate text-xs font-semibold text-white">{{ $document->title }}</p>
+            <p class="font-mono text-[10px] text-slate-400">{{ $document->tracking_number }} • {{ strtoupper($document->access_tier) }}</p>
+          </div>
+          <a href="{{ route('documents.download', $document) }}" class="ml-3 inline-flex items-center gap-1 rounded-lg border border-[#1f3a5f] px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white">
+            <span class="material-symbols-outlined text-[15px]">download</span> Download
+          </a>
+        </div>
+      @empty
+        <p class="py-4 text-xs text-slate-400">No stored documents yet.</p>
+      @endforelse
+    </div>
+    @endisset
+
     <!-- Compliance Notice / Footer Banner -->
     <div class="bg-[#152238] rounded-xl border border-[#1f3a5f] p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div class="flex items-center gap-3">

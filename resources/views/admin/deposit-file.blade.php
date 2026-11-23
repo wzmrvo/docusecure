@@ -111,7 +111,7 @@
 
 <!-- Drag and Drop Active Card with refined border glow -->
 <div class="relative bg-surface-container p-6 rounded-xl text-center cursor-pointer transition-all border border-dashed border-emerald-500/40 hover:border-emerald-500 hover:bg-[#131d2e] group">
-  <input class="absolute inset-0 opacity-0 cursor-pointer" id="primaryDocInput" type="file">
+  <input class="absolute inset-0 opacity-0 cursor-pointer" id="primaryDocInput" name="file" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip">
   <div class="flex flex-col items-center justify-center gap-3">
     <div class="w-12 h-12 rounded-xl bg-surface-container-high group-hover:bg-primary group-hover:text-on-primary text-primary flex items-center justify-center transition-all shadow-inner border border-emerald-500/30">
       <span class="material-symbols-outlined text-[28px]">cloud_upload</span>
