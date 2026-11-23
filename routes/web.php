@@ -1,9 +1,18 @@
 <?php
 
+use App\Http\Controllers\AccessRequestController;
+use App\Http\Controllers\AccountApplicationController;
+use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\SystemSettingController;
+use App\Models\AccessRequest;
+use App\Models\AccountApplication;
+use App\Models\AuditLog;
+use App\Models\Document;
+use App\Models\DocumentCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 // Main Login Page
@@ -12,33 +21,18 @@ Route::get('/', function () {
 })->name('login');
 
 Route::post('/', function (Request $request) {
-    abort_if(app()->environment('production'), 404);
+    $validated = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required', 'string'],
+    ]);
 
-    $accounts = [
-        'admin@cvsu.edu.ph' => ['role' => 'admin', 'name' => 'Tier 4 Administrator'],
-        'faculty@cvsu.edu.ph' => ['role' => 'faculty', 'name' => 'Tier 3 Faculty'],
-        'student@cvsu.edu.ph' => ['role' => 'student', 'name' => 'Student Scholar'],
-        'viewer@cvsu.edu.ph' => ['role' => 'viewer', 'name' => 'Guest Viewer'],
-    ];
-
-    $email = strtolower(trim((string) $request->input('email')));
-    $password = (string) $request->input('password');
-
-    if (! isset($accounts[$email]) || $password !== 'Demo@123') {
-        return back()->withErrors(['email' => 'Demo sign-in failed.']);
+    if (! Auth::attempt([
+        'email' => strtolower(trim($validated['email'])),
+        'password' => $validated['password'],
+    ])) {
+        return back()->withErrors(['email' => 'The institutional credentials are invalid.']);
     }
 
-    $account = $accounts[$email];
-    $user = User::updateOrCreate(
-        ['email' => $email],
-        [
-            'name' => $account['name'],
-            'role' => $account['role'],
-            'password' => Hash::make('Demo@123'),
-        ],
-    );
-
-    Auth::login($user);
     $request->session()->regenerate();
 
     return redirect('/preview/two-factor');
@@ -48,10 +42,14 @@ Route::post('/', function (Request $request) {
 Route::view('/helpdesk', 'helpdesk.index')->name('helpdesk');
 
 // Institutional Account Request
-Route::view(
-    '/institutional-account-request',
-    'auth.institutional-account-request'
-)->name('institutional-account-request');
+Route::get('/institutional-account-request', fn () => view('auth.institutional-account-request'))
+    ->name('institutional-account-request');
+Route::post('/institutional-account-request', [AccountApplicationController::class, 'store'])
+    ->name('institutional-account-request.store');
+
+Route::get('/documents/{document}/download', [DocumentController::class, 'download'])
+    ->middleware('auth')
+    ->name('documents.download');
 
 // Frontend Preview Routes
 Route::prefix('preview')->group(function () {
@@ -84,13 +82,40 @@ Route::prefix('preview')->group(function () {
 // Admin Preview Routes
 Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/', fn () => view('admin.index'))->name('dashboard');
+    Route::get('/', function () {
+        $dashboard = [
+            'user_count' => User::count(),
+            'document_count' => Document::count(),
+            'pending_applications' => AccountApplication::where('status', 'pending')->count(),
+            'pending_access_requests' => AccessRequest::where('status', 'pending')->count(),
+            'audit_today' => AuditLog::whereDate('created_at', today())->count(),
+        ];
+        $recentAuditLogs = AuditLog::with('user')->latest()->limit(10)->get();
+        $recentUsers = User::with('department')->latest()->limit(5)->get();
+
+        return view('admin.index', compact('dashboard', 'recentAuditLogs', 'recentUsers'));
+    })->name('dashboard');
     Route::get('/access-levels', fn () => view('admin.access-levels'))->name('access-levels');
-    Route::get('/access-requests', fn () => view('admin.access-requests'))->name('access-requests');
-    Route::get('/audit-logs', fn () => view('admin.audit-logs'))->name('audit-logs');
-    Route::get('/user-management', fn () => view('admin.user-management'))->name('user-management');
-    Route::get('/system-settings', fn () => view('admin.system-settings'))->name('system-settings');
-    Route::get('/deposit-file', fn () => view('admin.deposit-file'))->name('deposit-file');
+    Route::get('/access-requests', [AccountApplicationController::class, 'index'])->name('access-requests');
+    Route::post('/access-requests/{application}/approve', [AccountApplicationController::class, 'approve'])->name('access-requests.approve');
+    Route::post('/access-requests/{application}/reject', [AccountApplicationController::class, 'reject'])->name('access-requests.reject');
+    Route::post('/document-access-requests/{accessRequest}/approve', [AccessRequestController::class, 'approve'])->name('document-access-requests.approve');
+    Route::post('/document-access-requests/{accessRequest}/reject', [AccessRequestController::class, 'reject'])->name('document-access-requests.reject');
+    Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs');
+    Route::get('/user-management', function () {
+        $users = User::with('department')->orderBy('name')->paginate(25);
+
+        return view('admin.user-management', compact('users'));
+    })->name('user-management');
+    Route::get('/system-settings', [SystemSettingController::class, 'index'])->name('system-settings');
+    Route::put('/system-settings', [SystemSettingController::class, 'update'])->name('system-settings.update');
+    Route::get('/deposit-file', function () {
+        $categories = DocumentCategory::where('active', true)->orderBy('name')->get();
+        $recentDocuments = Document::with(['uploader', 'category'])->latest()->limit(5)->get();
+
+        return view('admin.deposit-file', compact('categories', 'recentDocuments'));
+    })->name('deposit-file');
+    Route::post('/deposit-file', [DocumentController::class, 'store'])->name('deposit-file.store');
     Route::get('/provision-stage-1', fn () => view('admin.provision-stage-1'))->name('provision-stage-1');
     Route::get('/stage-3', fn () => view('admin.stage-3'))->name('stage-3');
     Route::get('/provisioning-receipt', fn () => view('admin.provisioning-receipt'))->name('provisioning-receipt');
@@ -108,12 +133,34 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
 Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 'role:faculty'])->group(function () {
 
     // Faculty Pages
-    Route::view('/', 'faculty.dashboard')->name('dashboard');
-    Route::view('/document-library', 'faculty.document-library')->name('document-library');
+    Route::get('/', function () {
+        $documents = Document::with(['category', 'department'])->latest()->limit(20)->get();
+        $pendingAccessRequests = AccessRequest::where('status', 'pending')->count();
+        $documentCount = Document::count();
+        $sealedDocumentCount = Document::where('status', 'sealed')->count();
+        $personnelCount = User::whereIn('role', ['faculty', 'student', 'admin'])->count();
+
+        return view('faculty.dashboard', compact(
+            'documents',
+            'pendingAccessRequests',
+            'documentCount',
+            'sealedDocumentCount',
+            'personnelCount',
+        ));
+    })->name('dashboard');
+    Route::get('/document-library', function () {
+        $documents = Document::with(['category', 'department', 'uploader'])->latest()->get();
+
+        return view('faculty.document-library', compact('documents'));
+    })->name('document-library');
     Route::view('/clearance-requests', 'faculty.clearance-requests')->name('clearance-requests');
     Route::view('/department-records', 'faculty.department-records')->name('department-records');
     Route::view('/submit-department-file', 'faculty.submit-department-file')->name('submit-department-file');
-    Route::view('/tier-4-access-request', 'faculty.tier-4-access-request')->name('tier-4-access-request');
+    Route::get('/tier-4-access-request', function () {
+        $documents = Document::where('access_tier', 'tier4')->latest()->get();
+
+        return view('faculty.tier-4-access-request', compact('documents'));
+    })->name('tier-4-access-request');
     Route::view('/clearance-submitted', 'faculty.clearance-submitted')->name('clearance-submitted');
 
     // Faculty Logout Confirmation
@@ -122,13 +169,18 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
     })->name('logout-confirmation');
 });
 
+Route::post('/faculty/access-requests', [AccessRequestController::class, 'store'])
+    ->middleware(['auth', 'role:faculty'])
+    ->name('faculty.access-requests.store');
+
 // Faculty Direct URL Routes
 // These allow pages to be opened without /preview in the URL.
 
-Route::view(
-    '/faculty/tier-4-access-request',
-    'faculty.tier-4-access-request'
-)->middleware(['auth', 'role:faculty'])->name('faculty.tier-4-access-request');
+Route::get('/faculty/tier-4-access-request', function () {
+    $documents = Document::where('access_tier', 'tier4')->latest()->get();
+
+    return view('faculty.tier-4-access-request', compact('documents'));
+})->middleware(['auth', 'role:faculty'])->name('faculty.tier-4-access-request');
 
 Route::view(
     '/faculty/clearance-submitted',
@@ -157,8 +209,26 @@ Route::post('/faculty/submit-tier-4-access-request', function (Request $request)
 // Student Preview Routes
 Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 'role:student'])->group(function () {
 
-    Route::view('/', 'student.dashboard')->name('dashboard');
-    Route::view('/document-library', 'student.document-library')->name('document-library');
+    Route::get('/', function () {
+        $documentCount = Document::whereIn('access_tier', ['tier1', 'tier2'])->count();
+        $accessRequestCount = AccessRequest::where('requester_id', Auth::id())->count();
+        $documents = Document::whereIn('access_tier', ['tier1', 'tier2'])
+            ->with(['category', 'department'])
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return view('student.dashboard', compact('documentCount', 'accessRequestCount', 'documents'));
+    })->name('dashboard');
+    Route::get('/document-library', function () {
+        $documents = Document::whereIn('access_tier', ['tier1', 'tier2'])
+            ->with(['category', 'department'])
+            ->latest()
+            ->get();
+        $documentCount = $documents->count();
+
+        return view('student.document-library', compact('documents', 'documentCount'));
+    })->name('document-library');
     Route::view('/categories', 'student.categories')->name('categories');
     Route::view('/library-research', 'student.library-research')->name('library-research');
     Route::view('/account-settings', 'student.account-settings')->name('account-settings');
@@ -169,8 +239,16 @@ Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 
 // Viewer Preview Routes
 Route::prefix('viewer/preview')->name('viewer.preview.')->middleware(['auth', 'role:viewer'])->group(function () {
 
-    Route::view('/', 'viewer.dashboard')->name('dashboard');
-    Route::view('/document-library', 'student.document-library')->name('document-library');
+    Route::get('/', function () {
+        $publicDocuments = Document::where('access_tier', 'tier1')->latest()->limit(20)->get();
+
+        return view('viewer.dashboard', compact('publicDocuments'));
+    })->name('dashboard');
+    Route::get('/document-library', function () {
+        $publicDocuments = Document::where('access_tier', 'tier1')->latest()->get();
+
+        return view('student.document-library', compact('publicDocuments'));
+    })->name('document-library');
     Route::view('/categories', 'student.categories')->name('categories');
     Route::view('/library-research', 'student.library-research')->name('library-research');
     Route::view('/account-settings', 'student.account-settings')->name('account-settings');

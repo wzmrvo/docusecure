@@ -12,6 +12,9 @@
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
+    @if (session('account_application_submitted'))
+    window.addEventListener('DOMContentLoaded', openAccountRequestModal);
+    @endif
 tailwind.config = {
     theme: {
         extend: {
@@ -304,7 +307,8 @@ tailwind.config = {
         <!-- Modal Scrollable Body -->
         <section class="overflow-y-auto px-6 py-6 space-y-7 custom-scroll flex-1 bg-white text-slate-800" data-purpose="modal-form-content">
 
-            <form class="space-y-7" id="clearance-request-form" onsubmit="event.preventDefault(); openAccountRequestModal();">
+            <form class="space-y-7" id="clearance-request-form" action="{{ route('institutional-account-request.store') }}" method="POST">
+                @csrf
 
                 <!-- Section 1: Personal & Institutional Identity -->
                 <div class="space-y-3.5" data-purpose="form-section-personal">

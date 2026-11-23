@@ -202,7 +202,7 @@
 </label>
 <span class="font-label-sm text-label-sm text-primary font-mono">ENCRYPTED INDEX</span>
 </div>
-<input class="w-full bg-surface-container text-on-surface font-body-md text-body-md px-3.5 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text" value="Board of Regents Resolution No. 2026-094: University Cybersecurity &amp; Cryptographic Infrastructure Charter">
+<input id="depositDocumentTitle" name="title" class="w-full bg-surface-container text-on-surface font-body-md text-body-md px-3.5 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text" value="Board of Regents Resolution No. 2026-094: University Cybersecurity &amp; Cryptographic Infrastructure Charter">
 </div>
 <!-- Reference / Tracking Number -->
 <div class="space-y-1.5">
@@ -214,7 +214,7 @@
 </div>
 <div class="relative flex items-center">
 <span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">tag</span>
-<input class="w-full bg-surface-container text-on-surface font-code-snippet text-code-snippet pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text" value="CVSU-BOR-2026-0094-SEC">
+<input id="depositTrackingNumber" name="tracking_number" class="w-full bg-surface-container text-on-surface font-code-snippet text-code-snippet pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text" value="CVSU-BOR-2026-0094-SEC">
 </div>
 </div>
 <!-- Originating Office / College -->
@@ -600,8 +600,34 @@
     modal.classList.add('hidden');
     modal.classList.remove('flex');
   }
-  function confirmDocumentSeal() {
+  async function confirmDocumentSeal() {
     closeSealReviewModal();
+    const fileInput = document.getElementById('primaryDocInput');
+    if (!fileInput || !fileInput.files.length) {
+      return;
+    }
+
+    const selectedTier = document.querySelector('input[name="clearance_tier"]:checked');
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+    formData.append('title', document.getElementById('depositDocumentTitle')?.value || 'Institutional Document');
+    formData.append('tracking_number', document.getElementById('depositTrackingNumber')?.value || `CVSU-${Date.now()}`);
+    formData.append('access_tier', selectedTier?.value || 'tier4');
+    formData.append('_token', '{{ csrf_token() }}');
+
+    try {
+      const response = await fetch('{{ route("admin.preview.deposit-file.store") }}', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (!response.ok) {
+        return;
+      }
+    } catch (_) {
+      return;
+    }
+
     const modal = document.getElementById('seal-success-modal');
     modal.classList.remove('hidden');
     modal.classList.add('flex');

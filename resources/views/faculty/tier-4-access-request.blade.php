@@ -75,9 +75,17 @@
   <div class="px-6 py-5 flex flex-col gap-4 overflow-y-auto max-h-[calc(85vh-140px)]">
     <div class="rounded-lg p-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
       <label for="tier4FileSelector" class="text-[12px] font-semibold text-slate-200">Target Tier 4 File</label>
+      <input type="hidden" id="tier4DocumentId" name="document_id" value="{{ $documents->first()?->id }}">
       <select id="tier4FileSelector" class="mt-2 w-full rounded border border-white/10 px-3 py-2 text-[13px] text-white" style="background: #1e293b;">
-        <option value="Board of Regents Resolution No. 2026-094: University Cybersecurity Mandate|CVSU-BOR-2026-0094|9e4f21...4011|14.2 MB">Board of Regents Resolution No. 2026-094</option>
-        <option value="University Annual Financial Ledger & Procurement Matrix FY2025|CVSU-FIN-2025-1102|8a1b2c...e8f9|6.2 MB">University Annual Financial Ledger FY2025</option>
+        @foreach ($documents as $document)
+          <option
+            value="{{ $document->id }}"
+            data-name="{{ $document->original_name }}"
+            data-hash="{{ $document->sha256 }}"
+            data-size="{{ number_format($document->size_bytes / 1048576, 1) }} MB"
+            @selected($loop->first)
+          >{{ $document->title }}</option>
+        @endforeach
       </select>
     </div>
     <!-- 2. TARGET RESTRICTED DOCUMENT CARD -->
@@ -141,7 +149,9 @@
     </div>
 
     <!-- 4. JUSTIFICATION & STATUTORY PURPOSE FORM -->
-    <form class="flex flex-col gap-3.5" id="clearanceSlipForm" onsubmit="event.preventDefault();">
+    <form class="flex flex-col gap-3.5" id="clearanceSlipForm" action="{{ route('faculty.access-requests.store') }}" method="POST">
+      @csrf
+      <input type="hidden" id="tier4DocumentIdForm" name="document_id" value="{{ $documents->first()?->id }}">
       <!-- Purpose Dropdown -->
       <div class="flex flex-col gap-1.5">
         <label class="text-[12px] font-semibold text-slate-200 flex items-center justify-between" for="operationalPurpose">
@@ -173,7 +183,7 @@
             BOARD CONFIDENTIAL
           </span>
         </label>
-        <textarea class="w-full p-2.5 rounded text-white font-body-sm text-[12px] placeholder:text-slate-500 focus:outline-none transition-colors resize-none border border-white/10" id="justificationDetail" rows="2" style="background: #1e293b;">Reviewing Section 4.2 regarding revised faculty tenure evaluation guidelines for the upcoming Academic Council accreditation audit.</textarea>
+        <textarea name="justification" required class="w-full p-2.5 rounded text-white font-body-sm text-[12px] placeholder:text-slate-500 focus:outline-none transition-colors resize-none border border-white/10" id="justificationDetail" rows="2" style="background: #1e293b;">Reviewing Section 4.2 regarding revised faculty tenure evaluation guidelines for the upcoming Academic Council accreditation audit.</textarea>
       </div>
 
       <!-- Lease Window & Hardware Token Sign-off Grid -->
@@ -231,7 +241,7 @@
       <button class="w-full sm:w-auto px-4 py-2 rounded text-slate-300 hover:text-white font-label-md text-[12px] font-medium transition-colors border border-white/20 hover:bg-white/5" id="cancelModalBtn" onclick="const m = document.getElementById('clearanceModalWrapper'); if(m){ m.style.opacity='0'; setTimeout(()=&gt;m.style.display='none', 200); }" type="button">
         Cancel
       </button>
-      <button class="w-full sm:w-auto px-5 py-2 rounded text-white font-label-md text-[12px] font-bold flex items-center justify-center gap-2 shadow-lg transition-all" id="submitSlipBtn" style="background: linear-gradient(135deg, #166534 0%, #14532d 100%); border: 1px solid rgba(52, 211, 153, 0.4);" type="button">
+      <button class="w-full sm:w-auto px-5 py-2 rounded text-white font-label-md text-[12px] font-bold flex items-center justify-center gap-2 shadow-lg transition-all" id="submitSlipBtn" style="background: linear-gradient(135deg, #166534 0%, #14532d 100%); border: 1px solid rgba(52, 211, 153, 0.4);" type="submit" form="clearanceSlipForm">
         <span class="material-symbols-outlined text-[16px]">add_task</span>
         <span>+ Sign &amp; Dispatch Slip to Dean &amp; MIS Desk</span>
       </button>
@@ -269,10 +279,12 @@
   }
   if (tier4FileSelector) {
     tier4FileSelector.addEventListener('change', () => {
-      const [name, tracking, hash, size] = tier4FileSelector.value.split('|');
-      document.getElementById('tier4TargetName').textContent = name;
-      document.getElementById('tier4TargetHash').textContent = `${hash} (AES-256)`;
-      document.getElementById('tier4TargetSize').textContent = `${size} (Encrypted)`;
+      const option = tier4FileSelector.options[tier4FileSelector.selectedIndex];
+      document.getElementById('tier4DocumentId').value = option.value;
+      document.getElementById('tier4DocumentIdForm').value = option.value;
+      document.getElementById('tier4TargetName').textContent = option.dataset.name;
+      document.getElementById('tier4TargetHash').textContent = `${option.dataset.hash} (AES-256)`;
+      document.getElementById('tier4TargetSize').textContent = `${option.dataset.size} (Encrypted)`;
     });
   }
   function updateDurationStyle() {
@@ -315,19 +327,6 @@
   if (closeBtn) closeBtn.addEventListener('click', hideModal);
   if (cancelBtn) cancelBtn.addEventListener('click', hideModal);
 
-  if (submitBtn) {
-    submitBtn.addEventListener('click', () => {
-      // Visual button loading state
-      const originalHTML = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span><span>Signing Token...</span>';
-      submitBtn.disabled = true;
-
-      setTimeout(() => {
-        hideModal();
-        window.location.href = '/faculty/clearance-submitted';
-      }, 900);
-    });
-  }
 </script></main><footer class="w-full bg-surface-container-lowest mt-space-xl py-space-lg px-space-lg"><div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex flex-col gap-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant font-bold">Cavite State University Data Privacy Act of 2012 (RA 10173) Directive Notice</span><span class="font-body-sm text-body-sm text-on-surface-variant">All document transactions, SHA-256 cryptographic handshakes, and clearance authorizations are logged in real-time under zero-trust audit protocols.</span></div><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[18px]">fingerprint</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Steganographic Watermark Protected • TLS 1.3 Strict</span></div></div></footer></div>
 
 

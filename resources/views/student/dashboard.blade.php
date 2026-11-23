@@ -24,11 +24,11 @@
             </div>
 
             <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-sans">
-                Welcome back, Juanito P. Mendoza
+                Welcome back, {{ Auth::user()->name }}
             </h1>
             <p class="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
-                BS in Information Technology (3rd Year, Regular Section A) • Student ID: 
-                <span class="font-mono font-bold text-sky-300 bg-sky-950/70 px-2 py-0.5 rounded border border-sky-400/40">2024-10892</span>
+                Institutional Student • Student ID:
+                <span class="font-mono font-bold text-sky-300 bg-sky-950/70 px-2 py-0.5 rounded border border-sky-400/40">{{ Auth::user()->identification_number ?: 'Pending ID' }}</span>
             </p>
         </div>
 
@@ -60,7 +60,7 @@
     <x-stat-card 
         icon="library_books"
         label="Verified Documents"
-        value="142 Files"
+        value="{{ number_format($documentCount) }} Files"
         badge="Tier 1-2 Accessible"
         badgeType="info"
         subtitle="Curricula, syllabi, circulars"

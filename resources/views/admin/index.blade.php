@@ -34,15 +34,15 @@
     <x-stat-card 
         icon="group"
         label="Total Users"
-        value="3,420"
-        subtitle="1,800 Faculty • 680 Staff • 940 Students"
+        value="{{ number_format($dashboard['user_count']) }}"
+        subtitle="{{ number_format($dashboard['user_count']) }} total registered accounts"
     />
 
     <x-stat-card 
         icon="support_agent"
         label="Inbound Queue"
-        value="17"
-        badge="3 Helpdesk · 14 Access"
+        value="{{ number_format($dashboard['pending_applications'] + $dashboard['pending_access_requests']) }}"
+        badge="{{ $dashboard['pending_applications'] }} Applications · {{ $dashboard['pending_access_requests'] }} Access"
         badgeType="warning"
         subtitle="3 Active Tickets • 14 Clearance Requests"
         :borderHighlight="true"
@@ -51,7 +51,7 @@
     <x-stat-card 
         icon="description"
         label="Total Documents"
-        value="14,892"
+        value="{{ number_format($dashboard['document_count']) }}"
         badge="AES-256 Validated"
         badgeType="success"
         subtitle="Cryptographically sealed under RA 10173"
@@ -60,7 +60,7 @@
     <x-stat-card 
         icon="verified_user"
         label="Audit Events Today"
-        value="1,248"
+        value="{{ number_format($dashboard['audit_today']) }}"
         badge="0 Incidents"
         badgeType="success"
         subtitle="Steganographic watermark intact"

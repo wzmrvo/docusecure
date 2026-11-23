@@ -130,8 +130,8 @@
     <x-stat-card 
         icon="folder_special"
         label="Total Sealed Records"
-        value="1,248"
-        badge="+32 this month"
+        value="{{ number_format($documentCount) }}"
+        badge="{{ $documents->count() }} Recent"
         badgeType="success"
         subtitle="CEIT Enclave Document Storage"
     />
@@ -139,8 +139,8 @@
     <x-stat-card 
         icon="task_alt"
         label="Active Sealed Archive"
-        value="1,186"
-        badge="95.0% Watermarked"
+        value="{{ number_format($sealedDocumentCount) }}"
+        badge="{{ $documentCount > 0 ? number_format(($sealedDocumentCount / $documentCount) * 100, 1) : '0.0' }}% Sealed"
         badgeType="success"
         subtitle="RA 10173 Cryptographic Lock"
     />
@@ -148,7 +148,7 @@
     <x-stat-card 
         icon="pending_actions"
         label="Pending Clearance Slips"
-        value="5"
+        value="{{ number_format($pendingAccessRequests) }}"
         badge="ACTION REQ"
         badgeType="warning"
         subtitle="3 Thesis Clearances • 2 Tier 4 Slips"
@@ -158,8 +158,8 @@
     <x-stat-card 
         icon="badge"
         label="Dept Personnel"
-        value="256"
-        subtitle="48 CEIT Faculty • 208 Thesis Scholars"
+        value="{{ number_format($personnelCount) }}"
+        subtitle="{{ number_format($personnelCount) }} institutional accounts"
     />
 </div>
 
@@ -208,7 +208,7 @@
                     <div class="h-full bg-emerald-500 rounded" style="width: 98%"></div>
                 </div>
                 <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-                    1,186 of 1,248 files cryptographically sealed and watermarked under Republic Act 10173 standards.
+                    {{ number_format($sealedDocumentCount) }} of {{ number_format($documentCount) }} stored files marked as sealed.
                 </p>
             </div>
 

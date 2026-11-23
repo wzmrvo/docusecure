@@ -46,4 +46,48 @@
 
 
 
+</div>
+<section class="mx-auto w-full max-w-[1440px] px-6 pb-8">
+  <div class="rounded-xl border border-[#1c2a3f] bg-[#101827] p-5">
+    <div class="mb-4 flex items-center justify-between">
+      <h2 class="text-sm font-bold text-white">Institutional Account Applications</h2>
+      <span class="font-mono text-xs text-slate-400">{{ $applications->total() }} records</span>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="border-b border-white/10 text-slate-400">
+          <tr><th class="py-3 pr-4">Applicant</th><th class="pr-4">Email</th><th class="pr-4">Clearance</th><th class="pr-4">Status</th><th class="text-right">Actions</th></tr>
+        </thead>
+        <tbody>
+          @forelse ($applications as $application)
+            <tr class="border-b border-white/5">
+              <td class="py-3 pr-4 font-semibold text-white">{{ $application->full_name }}</td>
+              <td class="pr-4 text-slate-300">{{ $application->institutional_email }}</td>
+              <td class="pr-4 text-slate-300">{{ strtoupper($application->clearance_tier) }}</td>
+              <td class="pr-4"><span class="rounded px-2 py-1 font-mono text-[10px]">{{ strtoupper($application->status) }}</span></td>
+              <td class="py-3 text-right">
+                @if ($application->status === 'pending')
+                  <div class="inline-flex items-center gap-2">
+                    <form method="POST" action="{{ route('admin.preview.access-requests.approve', $application) }}">
+                      @csrf
+                      <button type="submit" class="rounded bg-emerald-600 px-3 py-1.5 font-semibold text-white">Approve</button>
+                    </form>
+                    <form method="POST" action="{{ route('admin.preview.access-requests.reject', $application) }}" class="inline-flex items-center gap-2">
+                      @csrf
+                      <input name="rejection_reason" required placeholder="Reason" class="rounded border border-white/10 bg-white/5 px-2 py-1.5 text-white">
+                      <button type="submit" class="rounded border border-rose-500/30 px-3 py-1.5 text-rose-300">Reject</button>
+                    </form>
+                  </div>
+                @endif
+              </td>
+            </tr>
+          @empty
+            <tr><td colspan="5" class="py-6 text-center text-slate-400">No account applications yet.</td></tr>
+          @endforelse
+        </tbody>
+      </table>
+      <div class="mt-4">{{ $applications->links() }}</div>
+    </div>
+  </div>
+</section>
 </body></html>
