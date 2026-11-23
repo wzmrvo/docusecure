@@ -84,7 +84,7 @@
 <div class="flex flex-col gap-1 min-w-0">
 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">24H EVENT VELOCITY</span>
 <div class="flex items-baseline gap-2.5">
-<span class="font-headline-lg text-headline-lg text-on-surface">1,248</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">{{ number_format($logs->total()) }}</span>
 <span class="font-label-sm text-label-sm text-primary bg-primary/15 px-2 py-0.5 rounded">+14.2%</span>
 </div>
 <span class="font-body-sm text-body-sm text-on-surface-variant truncate">Signed events across 6 campus nodes</span>
@@ -141,7 +141,7 @@
 <div class="hidden bg-primary/15 rounded-xl px-5 py-3.5 flex items-center justify-between gap-4" id="ledgerStatusBanner">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-<span class="font-body-md text-body-md text-on-surface">Ledger Integrity Verified: All 1,248 SHA-256 event hashes match the immutable RA 10173 Merkle root.</span>
+<span class="font-body-md text-body-md text-on-surface">Ledger Integrity: {{ number_format($logs->total()) }} database audit events currently recorded.</span>
 </div>
 <span class="font-label-sm text-label-sm text-primary uppercase">0 TAMPERED BLOCKS</span>
 </div>
@@ -329,7 +329,7 @@
 </div>
 <!-- Pagination Footer -->
 <div class="bg-surface-container-low px-5 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
-<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 5 of 1,248 events today</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing {{ $logs->count() }} of {{ $logs->total() }} audit events</span>
 <div class="flex items-center gap-1.5">
 <button class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">Previous</button>
 <button class="px-3 py-1.5 rounded bg-primary text-on-primary font-label-sm text-label-sm" type="button">1</button>

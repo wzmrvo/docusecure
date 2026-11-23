@@ -22,6 +22,7 @@
 <span class="material-symbols-outlined text-[20px]">notifications</span>
 <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500"></span>
 </button>
+</form>
 <div class="h-6 w-px bg-[#1e2e46]"></div>
 <!-- Admin Profile Info -->
 <div class="flex items-center gap-3">
@@ -66,7 +67,10 @@
 <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
 <span>POLICIES COMMITTED</span>
 </div>
-<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg shadow-md hover:bg-primary-fixed transition-colors cursor-pointer" id="save-changes-btn" type="button">
+<form method="POST" action="{{ route('admin.preview.system-settings.update') }}" id="system-settings-form" class="inline-flex">
+@csrf
+@method('PUT')
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg shadow-md hover:bg-primary-fixed transition-colors cursor-pointer" id="save-changes-btn" type="submit">
 <span class="material-symbols-outlined text-[18px]">save</span>
 <span>Save Changes</span>
 </button>
