@@ -122,7 +122,7 @@
 <div class="flex flex-wrap items-center justify-between gap-4"><div class="flex items-center gap-2">
   <a class="font-label-sm text-label-sm text-outline hover:text-on-surface uppercase tracking-wider transition-colors" href="{{ route('admin.preview.dashboard') }}">ADMIN CONSOLE</a>
   <span class="material-symbols-outlined text-outline text-[14px]">chevron_right</span>
-  <a class="font-label-sm text-label-sm text-slate-300 hover:text-primary uppercase tracking-wider flex items-center gap-1 transition-colors" href="{{ route('admin.preview.deposit-file') }}">
+  <a class="font-label-sm text-label-sm text-slate-300 hover:text-primary uppercase tracking-wider flex items-center gap-1 transition-colors" href="{{ route('admin.preview.access-levels') }}">
     <span class="material-symbols-outlined text-[16px]">folder</span>
     <span>DOCUMENT MANAGEMENT</span>
   </a>
@@ -159,7 +159,7 @@
 </div>
 </div>
 <div class="flex items-center gap-3 shrink-0">
-<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.deposit-file') }}">
+<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.access-levels') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
 <span>View Staged Batch (3)</span>
 </a>
@@ -249,7 +249,7 @@
 
 <!-- Secondary Appendices Accordion / Add -->
 <div class="flex items-center justify-between pt-1 flex-wrap gap-2">
-  <a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.deposit-file') }}">
+  <a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.access-levels') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
 <span>View Staged Batch (3)</span>
 </a>
@@ -593,12 +593,12 @@
 <span>Seal Document &amp; Commit to Enclave</span>
 </a>
 <!-- Secondary Staging Action -->
-<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.deposit-file') }}">
+<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.access-levels') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
 <span>View Staged Batch (3)</span>
 </a>
 <!-- Cancel Link -->
-<div class="text-center pt-1"><a class="font-label-md text-label-md text-slate-400 hover:text-primary transition-colors inline-flex items-center gap-1.5 font-medium" href="{{ route('admin.preview.deposit-file') }}">
+<div class="text-center pt-1"><a class="font-label-md text-label-md text-slate-400 hover:text-primary transition-colors inline-flex items-center gap-1.5 font-medium" href="{{ route('admin.preview.access-levels') }}">
   <span class="material-symbols-outlined text-[16px]">arrow_back</span>
   <span>Cancel &amp; Return to Document Management</span>
 </a></div>
@@ -695,16 +695,4 @@
 
 
 
-
-<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
-<script>(function(){
-  var path=window.location.pathname.replace(/\/$/,'')||'/';
-  document.querySelectorAll('aside a[href]').forEach(function(link){
-    var raw=link.getAttribute('href')||'';
-    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
-    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
-    var target=url.pathname.replace(/\/$/,'')||'/';
-    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
-  });
-})();</script>
 </body></html>

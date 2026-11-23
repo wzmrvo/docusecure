@@ -339,7 +339,6 @@
 </div>
 </div>
 <!-- Card 2: 2. VAULT CLEARANCE TIER DELEGATION -->
-<div id="vault-clearance-tier-delegation"></div>
 <div class="bg-[#0b1322] border border-[#1e293b] rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
 <div class="flex items-center justify-between border-b border-[#1e293b] pb-3">
 <div class="flex items-center space-x-2">
@@ -473,16 +472,4 @@
 </div>
 </main>
 </div>
-
-<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
-<script>(function(){
-  var path=window.location.pathname.replace(/\/$/,'')||'/';
-  document.querySelectorAll('aside a[href]').forEach(function(link){
-    var raw=link.getAttribute('href')||'';
-    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
-    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
-    var target=url.pathname.replace(/\/$/,'')||'/';
-    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
-  });
-})();</script>
 </body></html>

@@ -442,8 +442,8 @@
 </td>
 <td class="py-4 px-6 text-right"><div class="inline-flex items-center gap-2">
 <button class="px-3 py-1.5 rounded bg-primary/20 text-primary hover:bg-primary/30 font-label-sm text-label-sm transition-colors cursor-pointer" onclick="alert('Security Clearance Override: Account unlocked. Audit event CVSU-SEC-402 logged.'); this.closest('tr').setAttribute('data-status', 'Active'); this.closest('tr').querySelector('td:nth-child(5)').innerHTML='&lt;span class=\'inline-flex items-center gap-2 font-label-md text-label-md text-primary\'&gt;&lt;span class=\'w-2 h-2 rounded-full bg-primary\'&gt;&lt;/span&gt;Active • TOTP&lt;/span&gt;'; this.remove();" type="button">Unlock</button>
-<a href="/admin/preview/provision-stage-1#vault-clearance-tier-delegation" class="px-3 py-1.5 rounded bg-surface-container-highest text-on-surface hover:bg-surface-bright font-label-sm text-label-sm transition-colors cursor-pointer inline-flex items-center">Edit &amp; Auth</a>
-<a href="/admin/preview/audit-logs" class="p-1.5 rounded bg-surface-container-highest text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-sm text-label-sm transition-colors cursor-pointer inline-flex items-center" title="View Security Audit Trail"><span class="material-symbols-outlined text-[16px]">history</span></a>
+<a href="{{ route('admin.preview.provision-stage-1') }}" class="px-3 py-1.5 rounded bg-surface-container-highest text-on-surface hover:bg-surface-bright font-label-sm text-label-sm transition-colors cursor-pointer inline-flex items-center">Edit &amp; Auth</a>
+<a href="{{ route('admin.preview.audit-logs') }}" class="p-1.5 rounded bg-surface-container-highest text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-sm text-label-sm transition-colors cursor-pointer inline-flex items-center" title="View Security Audit Trail"><span class="material-symbols-outlined text-[16px]">history</span></a>
 </div></td>
 </tr>
 </tbody>
@@ -617,16 +617,4 @@
 
 
 
-
-<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
-<script>(function(){
-  var path=window.location.pathname.replace(/\/$/,'')||'/';
-  document.querySelectorAll('aside a[href]').forEach(function(link){
-    var raw=link.getAttribute('href')||'';
-    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
-    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
-    var target=url.pathname.replace(/\/$/,'')||'/';
-    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
-  });
-})();</script>
 </body></html>

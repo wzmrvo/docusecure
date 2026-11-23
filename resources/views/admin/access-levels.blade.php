@@ -131,7 +131,7 @@
 </div>
 </div>
 <!-- Action Buttons -->
-<div class="flex items-center gap-3 self-start lg:self-auto shrink-0"><a href="/admin/preview/audit-logs" class="flex items-center gap-2 px-3.5 py-2.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md transition-all shadow-sm border border-[#1c2a3f]" id="exportSchemaBtn" title="Export schema to Audit Logs &amp; Ledger">
+<div class="flex items-center gap-3 self-start lg:self-auto shrink-0"><a href="{{ route('admin.preview.audit-logs') }}" class="flex items-center gap-2 px-3.5 py-2.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md transition-all shadow-sm border border-[#1c2a3f]" id="exportSchemaBtn" title="Export schema to Audit Logs &amp; Ledger">
   <span class="material-symbols-outlined text-[18px] text-on-surface-variant">download_for_offline</span>
   <span>Export Schema</span>
 </a>
@@ -145,7 +145,113 @@
 </a></div>
 </div>
 <!-- 2. Four Institutional Clearance Tier Cards -->
-<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4"><!-- Tier 1: Public Institutional --><div class="relative bg-surface-container rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group border border-[#1c2a3f] hover:border-emerald-500/40"><div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div><div class="absolute -right-8 -top-8 w-24 h-24 bg-primary/10 rounded-full blur-xl pointer-events-none"></div><div class="flex flex-col gap-3 pt-1"><div class="flex items-center justify-between"><span class="px-2.5 py-0.5 rounded font-label-sm text-[10px] font-bold tracking-wider bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">TIER 1 • PUBLIC</span><button class="text-on-surface-variant hover:text-white p-1 rounded hover:bg-surface-container-high transition-colors" title="Configure Tier Policies"><span class="material-symbols-outlined text-[18px]">tune</span></button></div><div class="flex flex-col"><h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Institutional Public</h2><span class="font-body-sm text-xs text-on-surface-variant">Press releases, university catalogs, open bulletins</span></div></div><div class="mt-5 pt-3.5 flex flex-col gap-3 bg-surface-container-low/70 rounded-lg p-3 border border-[#1c2a3f]/60"><div class="flex items-baseline justify-between"><span class="text-xs text-on-surface-variant font-medium">Sealed Records</span><span class="font-code-snippet text-xs font-bold text-on-surface">4,820 docs</span></div><div class="flex items-center justify-between"><span class="text-[11px] font-mono text-on-surface-variant uppercase tracking-wide">Clearance</span><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-label-sm text-[11px] font-semibold border border-emerald-500/20">Public / Guest</span></div><div class="flex items-center justify-between pt-1 border-t border-[#1c2a3f]/60 text-xs"><div class="flex items-center gap-1.5 text-on-surface-variant"><span class="material-symbols-outlined text-[15px] text-emerald-400">lock_open</span><span class="font-code-snippet text-[11px]">TLS 1.3 Strict</span></div><span class="text-[10px] font-mono text-emerald-400 font-semibold">Zero-Auth</span></div></div><a href="{{ route('admin.preview.access-levels') }}" class="mt-3 w-full py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-xs font-medium text-slate-200 hover:text-white border border-[#22334d] flex items-center justify-center gap-1.5 transition-colors" title="Configure Tier 1 Public Clearance in System Settings"><span class="material-symbols-outlined text-[14px] text-emerald-400">shield</span><span>Configure Clearance</span></a></div><!-- Tier 2: Internal Academic --><div class="relative bg-surface-container rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group border border-[#1c2a3f] hover:border-blue-500/40"><div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div><div class="absolute -right-8 -top-8 w-24 h-24 bg-tertiary/10 rounded-full blur-xl pointer-events-none"></div><div class="flex flex-col gap-3 pt-1"><div class="flex items-center justify-between"><span class="px-2.5 py-0.5 rounded font-label-sm text-[10px] font-bold tracking-wider bg-blue-500/15 border border-blue-500/30 text-blue-300">TIER 2 • INTERNAL</span><button class="text-on-surface-variant hover:text-white p-1 rounded hover:bg-surface-container-high transition-colors" title="Configure Tier Policies"><span class="material-symbols-outlined text-[18px]">tune</span></button></div><div class="flex flex-col"><h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Internal Academic</h2><span class="font-body-sm text-xs text-on-surface-variant">Syllabi, staff minutes, unit memos, internal schedules</span></div></div><div class="mt-5 pt-3.5 flex flex-col gap-3 bg-surface-container-low/70 rounded-lg p-3 border border-[#1c2a3f]/60"><div class="flex items-baseline justify-between"><span class="text-xs text-on-surface-variant font-medium">Sealed Records</span><span class="font-code-snippet text-xs font-bold text-on-surface">6,102 docs</span></div><div class="flex items-center justify-between"><span class="text-[11px] font-mono text-on-surface-variant uppercase tracking-wide">Clearance</span><span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 font-label-sm text-[11px] font-semibold border border-blue-500/20">Faculty &amp; Staff</span></div><div class="flex items-center justify-between pt-1 border-t border-[#1c2a3f]/60 text-xs"><div class="flex items-center gap-1.5 text-on-surface-variant"><span class="material-symbols-outlined text-[15px] text-blue-400">security</span><span class="font-code-snippet text-[11px]">CvSU OAuth 2.0</span></div><span class="text-[10px] font-mono text-blue-400 font-semibold">SSO Validated</span></div></div><a href="{{ route('admin.preview.access-levels') }}" class="mt-3 w-full py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-xs font-medium text-slate-200 hover:text-white border border-[#22334d] flex items-center justify-center gap-1.5 transition-colors" title="Configure Tier 2 Internal Clearance in System Settings"><span class="material-symbols-outlined text-[14px] text-blue-400">shield</span><span>Configure Clearance</span></a></div><!-- Tier 3: Confidential Records --><div class="relative bg-surface-container rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group border border-[#1c2a3f] hover:border-amber-500/40"><div class="absolute top-0 left-0 right-0 h-1 bg-amber-500"></div><div class="absolute -right-8 -top-8 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div><div class="flex flex-col gap-3 pt-1"><div class="flex items-center justify-between"><span class="px-2.5 py-0.5 rounded font-label-sm text-[10px] font-bold tracking-wider bg-amber-500/15 border border-amber-500/30 text-amber-300">TIER 3 • CONFIDENTIAL</span><button class="text-on-surface-variant hover:text-white p-1 rounded hover:bg-surface-container-high transition-colors" title="Configure Tier Policies"><span class="material-symbols-outlined text-[18px]">tune</span></button></div><div class="flex flex-col"><h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Confidential Records</h2><span class="font-body-sm text-xs text-on-surface-variant">Transcripts, faculty evaluations, budget allocations</span></div></div><div class="mt-5 pt-3.5 flex flex-col gap-3 bg-surface-container-low/70 rounded-lg p-3 border border-[#1c2a3f]/60"><div class="flex items-baseline justify-between"><span class="text-xs text-on-surface-variant font-medium">Sealed Records</span><span class="font-code-snippet text-xs font-bold text-amber-300">3,210 docs</span></div><div class="flex items-center justify-between"><span class="text-[11px] font-mono text-on-surface-variant uppercase tracking-wide">Clearance</span><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 font-label-sm text-[11px] font-semibold border border-amber-500/20">Dean / Dept Head</span></div><div class="flex items-center justify-between pt-1 border-t border-[#1c2a3f]/60 text-xs"><div class="flex items-center gap-1.5 text-on-surface-variant"><span class="material-symbols-outlined text-[15px] text-amber-400">verified_user</span><span class="font-code-snippet text-[11px]">AES-256 Ledger</span></div><span class="text-[10px] font-mono text-amber-400 font-semibold">Dual-Key</span></div></div><a href="{{ route('admin.preview.access-levels') }}" class="mt-3 w-full py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-xs font-medium text-slate-200 hover:text-white border border-[#22334d] flex items-center justify-center gap-1.5 transition-colors" title="Configure Tier 3 Confidential Clearance in System Settings"><span class="material-symbols-outlined text-[14px] text-amber-400">shield</span><span>Configure Clearance</span></a></div><!-- Tier 4: Restricted Vault --><div class="relative bg-surface-container rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group border border-[#1c2a3f] hover:border-rose-500/40"><div class="absolute top-0 left-0 right-0 h-1 bg-rose-500"></div><div class="absolute -right-8 -top-8 w-24 h-24 bg-rose-500/10 rounded-full blur-xl pointer-events-none"></div><div class="flex flex-col gap-3 pt-1"><div class="flex items-center justify-between"><span class="px-2.5 py-0.5 rounded font-label-sm text-[10px] font-bold tracking-wider bg-rose-500/20 border border-rose-500/40 text-rose-300">TIER 4 • RESTRICTED</span><button class="text-on-surface-variant hover:text-white p-1 rounded hover:bg-surface-container-high transition-colors" title="Configure Tier Policies"><span class="material-symbols-outlined text-[18px]">tune</span></button></div><div class="flex flex-col"><h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Restricted Vault</h2><span class="font-body-sm text-xs text-on-surface-variant">BOR resolutions, HSM keys, proprietary patents</span></div></div><div class="mt-5 pt-3.5 flex flex-col gap-3 bg-surface-container-low/70 rounded-lg p-3 border border-[#1c2a3f]/60"><div class="flex items-baseline justify-between"><span class="text-xs text-on-surface-variant font-medium">Sealed Records</span><span class="font-code-snippet text-xs font-bold text-rose-400">760 docs</span></div><div class="flex items-center justify-between"><span class="text-[11px] font-mono text-on-surface-variant uppercase tracking-wide">Clearance</span><span class="px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 font-label-sm text-[11px] font-semibold border border-rose-500/30">Registrar / Superadmin</span></div><div class="flex items-center justify-between pt-1 border-t border-[#1c2a3f]/60 text-xs"><div class="flex items-center gap-1.5 text-on-surface-variant"><span class="material-symbols-outlined text-[15px] text-rose-400">key</span><span class="font-code-snippet text-[11px]">HSM + FIDO2 2FA</span></div><span class="text-[10px] font-mono text-rose-400 font-semibold">Enclave</span></div></div><a href="{{ route('admin.preview.access-levels') }}" class="mt-3 w-full py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-xs font-medium text-slate-200 hover:text-white border border-[#22334d] flex items-center justify-center gap-1.5 transition-colors" title="Configure Tier 4 Restricted Vault Clearance in System Settings"><span class="material-symbols-outlined text-[14px] text-rose-400">shield</span><span>Configure Clearance</span></a></div></div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4"><!-- Tier 1: Public Institutional -->
+<div class="relative bg-surface-container rounded-xl p-3.5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden border border-[#1c2a3f] hover:border-emerald-500/40 group">
+  <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
+  <div class="flex flex-col gap-2 pt-0.5">
+    <div class="flex items-center justify-between">
+      <span class="px-2 py-0.5 rounded font-mono text-[10px] font-bold tracking-wider bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">TIER 1 • PUBLIC</span>
+      <span class="font-mono text-xs font-bold text-slate-200">4,820 <span class="text-[11px] font-normal text-slate-400">docs</span></span>
+    </div>
+    <div class="flex flex-col">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">Institutional Public</h2>
+        <button class="text-slate-400 hover:text-white p-0.5 rounded hover:bg-surface-container-high transition-colors" title="Configure Tier Policies">
+          <span class="material-symbols-outlined text-[16px]">tune</span>
+        </button>
+      </div>
+      <p class="text-[11px] text-slate-400 truncate">Press releases, university catalogs, open bulletins</p>
+    </div>
+  </div>
+  <div class="mt-3 pt-2.5 flex items-center justify-between border-t border-[#1c2a3f]/60 text-[11px]">
+    <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 font-medium border border-emerald-500/20">Public / Guest</span>
+    <div class="flex items-center gap-1 text-slate-400 font-mono text-[10px]">
+      <span class="material-symbols-outlined text-[13px] text-emerald-400">lock_open</span>
+      <span>TLS 1.3 Strict</span>
+    </div>
+  </div>
+</div>
+
+<!-- Tier 2: Internal Academic -->
+<div class="relative bg-surface-container rounded-xl p-3.5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden border border-[#1c2a3f] hover:border-blue-500/40 group">
+  <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
+  <div class="flex flex-col gap-2 pt-0.5">
+    <div class="flex items-center justify-between">
+      <span class="px-2 py-0.5 rounded font-mono text-[10px] font-bold tracking-wider bg-blue-500/15 border border-blue-500/30 text-blue-300">TIER 2 • INTERNAL</span>
+      <span class="font-mono text-xs font-bold text-slate-200">6,102 <span class="text-[11px] font-normal text-slate-400">docs</span></span>
+    </div>
+    <div class="flex flex-col">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-semibold text-white group-hover:text-blue-300 transition-colors">Internal Academic</h2>
+        <button class="text-slate-400 hover:text-white p-0.5 rounded hover:bg-surface-container-high transition-colors" title="Configure Tier Policies">
+          <span class="material-symbols-outlined text-[16px]">tune</span>
+        </button>
+      </div>
+      <p class="text-[11px] text-slate-400 truncate">Syllabi, staff minutes, unit memos, internal schedules</p>
+    </div>
+  </div>
+  <div class="mt-3 pt-2.5 flex items-center justify-between border-t border-[#1c2a3f]/60 text-[11px]">
+    <span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 font-medium border border-blue-500/20">Faculty &amp; Staff</span>
+    <div class="flex items-center gap-1 text-slate-400 font-mono text-[10px]">
+      <span class="material-symbols-outlined text-[13px] text-blue-400">security</span>
+      <span>CvSU SSO</span>
+    </div>
+  </div>
+</div>
+
+<!-- Tier 3: Confidential Records -->
+<div class="relative bg-surface-container rounded-xl p-3.5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden border border-[#1c2a3f] hover:border-amber-500/40 group">
+  <div class="absolute top-0 left-0 right-0 h-1 bg-amber-500"></div>
+  <div class="flex flex-col gap-2 pt-0.5">
+    <div class="flex items-center justify-between">
+      <span class="px-2 py-0.5 rounded font-mono text-[10px] font-bold tracking-wider bg-amber-500/15 border border-amber-500/30 text-amber-300">TIER 3 • CONFIDENTIAL</span>
+      <span class="font-mono text-xs font-bold text-amber-300">3,210 <span class="text-[11px] font-normal text-slate-400">docs</span></span>
+    </div>
+    <div class="flex flex-col">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-semibold text-white group-hover:text-amber-300 transition-colors">Confidential Records</h2>
+        <button class="text-slate-400 hover:text-white p-0.5 rounded hover:bg-surface-container-high transition-colors" title="Configure Tier Policies">
+          <span class="material-symbols-outlined text-[16px]">tune</span>
+        </button>
+      </div>
+      <p class="text-[11px] text-slate-400 truncate">Transcripts, faculty evaluations, budget allocations</p>
+    </div>
+  </div>
+  <div class="mt-3 pt-2.5 flex items-center justify-between border-t border-[#1c2a3f]/60 text-[11px]">
+    <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 font-medium border border-amber-500/20">Dean / Dept Head</span>
+    <div class="flex items-center gap-1 text-slate-400 font-mono text-[10px]">
+      <span class="material-symbols-outlined text-[13px] text-amber-400">verified_user</span>
+      <span>AES-256 Dual-Key</span>
+    </div>
+  </div>
+</div>
+
+<!-- Tier 4: Restricted Vault -->
+<div class="relative bg-surface-container rounded-xl p-3.5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden border border-[#1c2a3f] hover:border-rose-500/40 group">
+  <div class="absolute top-0 left-0 right-0 h-1 bg-rose-500"></div>
+  <div class="flex flex-col gap-2 pt-0.5">
+    <div class="flex items-center justify-between">
+      <span class="px-2 py-0.5 rounded font-mono text-[10px] font-bold tracking-wider bg-rose-500/20 border border-rose-500/40 text-rose-300">TIER 4 • RESTRICTED</span>
+      <span class="font-mono text-xs font-bold text-rose-400">760 <span class="text-[11px] font-normal text-slate-400">docs</span></span>
+    </div>
+    <div class="flex flex-col">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-semibold text-white group-hover:text-rose-300 transition-colors">Restricted Vault</h2>
+        <button class="text-slate-400 hover:text-white p-0.5 rounded hover:bg-surface-container-high transition-colors" title="Configure Tier Policies">
+          <span class="material-symbols-outlined text-[16px]">tune</span>
+        </button>
+      </div>
+      <p class="text-[11px] text-slate-400 truncate">BOR resolutions, HSM keys, proprietary patents</p>
+    </div>
+  </div>
+  <div class="mt-3 pt-2.5 flex items-center justify-between border-t border-[#1c2a3f]/60 text-[11px]">
+    <span class="px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 font-medium border border-rose-500/30">Registrar / Superadmin</span>
+    <div class="flex items-center gap-1 text-slate-400 font-mono text-[10px]">
+      <span class="material-symbols-outlined text-[13px] text-rose-400">key</span>
+      <span>HSM + FIDO2</span>
+    </div>
+  </div>
+</div></div>
 <!-- 3. Main Workspace Grid: Categories Table (8 cols) & Side Quick Config Drawer (4 cols) -->
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 <!-- Table Section (8 cols) -->
@@ -189,7 +295,7 @@
 <span class="font-code-snippet text-code-snippet text-on-surface-variant">SHA256: d8f39a0...7b41e (Synchronized across CvSU Silang, Carmona &amp; Main Campuses)</span>
 </div>
 </div>
-<a href="{{ route('admin.preview.audit-logs') }}" class="px-3 py-1.5 rounded bg-surface-container hover:bg-surface-container-highest text-primary font-code-snippet text-code-snippet transition-colors border border-emerald-500/20" title="Inspect Synchronized Ledger in Audit Logs">Verify Merkle Root</a>
+<a href="{{ route('admin.preview.audit-logs') }}?verify=merkle-root" class="px-3 py-1.5 rounded bg-surface-container hover:bg-surface-container-highest text-primary font-code-snippet text-code-snippet transition-colors border border-emerald-500/20" title="Inspect Synchronized Ledger in Audit Logs">Verify Merkle Root</a>
 </div>
 </div>
 <!-- Quick Configuration Drawer / Policy Controls (4 cols) -->
@@ -401,15 +507,5 @@
 
 
 
-<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
-<script>(function(){
-  var path=window.location.pathname.replace(/\/$/,'')||'/';
-  document.querySelectorAll('aside a[href]').forEach(function(link){
-    var raw=link.getAttribute('href')||'';
-    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
-    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
-    var target=url.pathname.replace(/\/$/,'')||'/';
-    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
-  });
-})();</script>
+
 </body></html>

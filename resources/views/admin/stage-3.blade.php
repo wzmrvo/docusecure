@@ -166,7 +166,8 @@
 <div class="flex items-center gap-2.5">
 <div class="relative">
 <div class="w-8 h-8 rounded-lg bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 flex items-center justify-center font-mono font-bold text-xs">
-              <img alt="Cavite State University Logo" class="w-full h-full object-contain p-1" src="{{ asset('images/cvsu-logo.png') }}"/></div>
+              CVSU
+            </div>
 <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-[#0f172a]"></span>
 </div>
 <div>
@@ -186,7 +187,7 @@
 <!-- Top Header & Breadcrumb -->
 <div class="space-y-3">
 <div class="flex items-center gap-2 text-xs font-mono">
-<a class="text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1.5" href="{{ route('admin.preview.provision-stage-1') }}">
+<a class="text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1.5" href="{{ route('admin.preview.provision-stage-2-embedded') }}">
 <span class="material-symbols-outlined text-sm">arrow_back</span>
             BACK TO STAGE 02
           </a>
@@ -503,7 +504,7 @@
 <div class="pt-2 pb-6 space-y-3">
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
 <!-- Back to Stage 02 Button -->
-<a class="h-12 bg-[#0f172a] hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 px-4" href="{{ route('admin.preview.provision-stage-1') }}">
+<a class="h-12 bg-[#0f172a] hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 px-4" href="{{ route('admin.preview.provision-stage-2-embedded') }}">
 <span class="material-symbols-outlined text-slate-400 text-lg">arrow_back</span>
 <span>Back to Stage 02</span>
 </a>
@@ -539,16 +540,4 @@
 </footer>
 </main>
 </div>
-
-<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
-<script>(function(){
-  var path=window.location.pathname.replace(/\/$/,'')||'/';
-  document.querySelectorAll('aside a[href]').forEach(function(link){
-    var raw=link.getAttribute('href')||'';
-    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
-    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
-    var target=url.pathname.replace(/\/$/,'')||'/';
-    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
-  });
-})();</script>
 </body></html>

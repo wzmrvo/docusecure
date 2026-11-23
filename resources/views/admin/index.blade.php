@@ -8,7 +8,7 @@
 <a href="{{ route('admin.preview.dashboard') }}" data-route="dashboard" class="flex items-center gap-3 hover:opacity-90 transition-opacity"><img alt="CvSU Logo" class="h-8 w-8 object-contain" src="{{ asset('images/cvsu-logo.png') }}"><div class="flex flex-col"><span class="text-base font-bold text-white tracking-tight flex items-center gap-1.5">DocuSecure<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span></span><span class="text-[11px] font-mono text-emerald-400 font-medium">CvSU MIS Admin</span></div></a>
 </div>
 <!-- Navigation Links -->
-<nav class="flex flex-col gap-1.5 p-4 text-sm font-medium"><div class="px-3 pt-2 pb-1 text-[11px] font-mono uppercase tracking-wider text-slate-500">Navigation</div><a aria-current="page" data-route="dashboard" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-emerald-600/15 border border-emerald-500/30 text-emerald-400 font-semibold transition-colors" href="{{ route('admin.preview.dashboard') }}"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a data-route="user-management" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.user-management') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">group</span><span>User Management</span></a><a data-route="access-requests" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.access-requests') }}"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px] text-slate-400">fact_check</span><span>Access Requests</span></div><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">12</span></a><a data-route="document-access-levels" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.access-levels') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">shield</span><span>Document Access Levels</span></a><a data-route="file-creation" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.deposit-file') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">note_add</span><span>Deposit &amp; File Creation</span></a><a data-route="audit-logs" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.audit-logs') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">receipt_long</span><span>Audit Logs</span></a><a data-route="system-settings" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.system-settings') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">settings</span><span>System Settings</span></a></nav>
+<nav class="flex flex-col gap-1.5 p-4 text-sm font-medium"><div class="px-3 pt-2 pb-1 text-[11px] font-mono uppercase tracking-wider text-slate-500">Navigation</div><a aria-current="page" data-route="dashboard" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-emerald-600/15 border border-emerald-500/30 text-emerald-400 font-semibold transition-colors" href="{{ route('admin.preview.dashboard') }}"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a data-route="user-management" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.user-management') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">group</span><span>User Management</span></a><a data-route="access-requests" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="#requests-queue"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px] text-slate-400">fact_check</span><span>Access Requests</span></div><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">14</span></a><a data-route="document-access-levels" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.access-levels') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">shield</span><span>Document Access Levels</span></a><a data-route="file-creation" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.deposit-file') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">note_add</span><span>Deposit &amp; File Creation</span></a><a data-route="audit-logs" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.audit-logs') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">receipt_long</span><span>Audit Logs</span></a><a data-route="system-settings" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-300 hover:bg-surface-container-high hover:text-white transition-colors" href="{{ route('admin.preview.system-settings') }}"><span class="material-symbols-outlined text-[20px] text-slate-400">settings</span><span>System Settings</span></a></nav>
 </div>
 <!-- Bottom Admin Badge -->
 <div class="p-4 border-t border-[#1c2a3f] bg-[#0c1320] flex flex-col gap-2.5">
@@ -95,27 +95,7 @@
           </div>
 </div>
 <!-- Stat 2: Pending Access Requests -->
-<div class="bg-[#0e1726] border border-[#1d2d44] p-5 rounded-xl flex flex-col justify-between shadow-sm hover:border-amber-500/40 transition-colors">
-<div class="flex items-start justify-between">
-<div>
-<span class="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-medium">Pending Requests</span>
-<div class="flex items-baseline gap-2 mt-1.5">
-<span class="text-3xl font-bold text-white tracking-tight">12</span>
-<span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300">Requires Review</span>
-</div>
-</div>
-<div class="w-10 h-10 rounded-lg bg-amber-950/40 border border-amber-500/30 flex items-center justify-center text-amber-400">
-<span class="material-symbols-outlined text-[22px]">pending_actions</span>
-</div>
-</div>
-<div class="mt-4 pt-3 border-t border-[#1a293f] flex items-center justify-between text-[11px]">
-<span class="text-amber-300 font-medium font-mono">Action needed</span>
-<a class="text-emerald-400 hover:text-emerald-300 font-semibold font-mono flex items-center gap-0.5" href="{{ route('admin.preview.access-requests') }}">
-<span>Queue</span>
-<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
-</a>
-</div>
-</div>
+<div class="bg-[#0e1726] border border-[#1d2d44] p-5 rounded-xl flex flex-col justify-between shadow-sm hover:border-amber-500/40 transition-colors"><div class="flex items-start justify-between"><div><span class="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-medium">Inbound Queue</span><div class="flex items-baseline gap-2 mt-1.5"><span class="text-3xl font-bold text-white tracking-tight">17</span><span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300">3 Helpdesk · 14 Access</span></div></div><div class="w-10 h-10 rounded-lg bg-amber-950/40 border border-amber-500/30 flex items-center justify-center text-amber-400"><span class="material-symbols-outlined text-[22px]">support_agent</span></div></div><div class="mt-4 pt-3 border-t border-[#1a293f] flex items-center justify-between text-[11px]"><span class="text-slate-400 font-mono text-[10px]">3 Active Helpdesk · 14 Clearance Requests</span><a class="text-emerald-400 hover:text-emerald-300 font-semibold font-mono flex items-center gap-0.5" href="#requests-queue"><span>Queue</span><span class="material-symbols-outlined text-[13px]">arrow_forward</span></a></div></div>
 <!-- Stat 3: Total Documents -->
 <div class="bg-[#0e1726] border border-[#1d2d44] p-5 rounded-xl flex flex-col justify-between shadow-sm hover:border-emerald-500/40 transition-colors">
 <div class="flex items-start justify-between">
@@ -167,94 +147,13 @@
 <p class="text-xs text-slate-400">Review and authorize institutional clearance applications</p>
 </div>
 </div>
-<span class="text-xs font-mono font-semibold px-2.5 py-1 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300">
-                12 Pending
-              </span>
+<span class="text-xs font-mono font-semibold px-2.5 py-1 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300">17 In Queue (3 Tickets)</span>
 </div>
 <!-- List of Request Cards -->
-<div class="flex flex-col gap-3.5 mt-4">
-<!-- Request Item 1 -->
-<div class="bg-[#121c2d] border border-[#1e2f47] p-4 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#2b4163] transition-colors">
-<div class="flex flex-col gap-1.5">
-<div class="flex flex-wrap items-center gap-2">
-<span class="text-sm font-bold text-white">Prof. Juan Dela Cruz</span>
-<span class="text-xs font-mono text-slate-400">• CEIT (Computer Studies)</span>
-<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold uppercase">Level 3 Confidential</span>
-</div>
-<div class="flex items-center gap-1.5 text-xs text-slate-200">
-<span class="material-symbols-outlined text-[16px] text-sky-400">description</span>
-<span class="font-mono font-medium text-sky-300">Faculty Tenure Dossier.pdf</span>
-</div>
-<p class="text-xs text-slate-400 italic">Reason: “Promotion &amp; Board Review”</p>
-</div>
-<div class="flex items-center gap-2 shrink-0">
-<button class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm active:scale-95">
-                    Approve
-                  </button>
-<button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-rose-950/60 hover:text-rose-400 border border-[#253956] text-slate-300 text-xs transition-colors">
-                    Reject
-                  </button>
-<button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-[#20324c] border border-[#253956] text-slate-300 text-xs transition-colors">
-                    View Details
-                  </button>
-</div>
-</div>
-<!-- Request Item 2 -->
-<div class="bg-[#121c2d] border border-[#1e2f47] p-4 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#2b4163] transition-colors">
-<div class="flex flex-col gap-1.5">
-<div class="flex flex-wrap items-center gap-2">
-<span class="text-sm font-bold text-white">Dr. Maricel Reyes</span>
-<span class="text-xs font-mono text-slate-400">• CAS (Biological Sci)</span>
-<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold uppercase">Level 3 Confidential</span>
-</div>
-<div class="flex items-center gap-1.5 text-xs text-slate-200">
-<span class="material-symbols-outlined text-[16px] text-emerald-400">table_chart</span>
-<span class="font-mono font-medium text-emerald-300">CHED Regional Accreditation.xlsx</span>
-</div>
-<p class="text-xs text-slate-400 italic">Reason: “Accreditation submission”</p>
-</div>
-<div class="flex items-center gap-2 shrink-0">
-<button class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm active:scale-95">
-                    Approve
-                  </button>
-<button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-rose-950/60 hover:text-rose-400 border border-[#253956] text-slate-300 text-xs transition-colors">
-                    Reject
-                  </button>
-<button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-[#20324c] border border-[#253956] text-slate-300 text-xs transition-colors">
-                    View Details
-                  </button>
-</div>
-</div>
-<!-- Request Item 3 -->
-<div class="bg-[#121c2d] border border-[#1e2f47] p-4 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#2b4163] transition-colors">
-<div class="flex flex-col gap-1.5">
-<div class="flex flex-wrap items-center gap-2">
-<span class="text-sm font-bold text-white">Engr. Kyle Arboleda</span>
-<span class="text-xs font-mono text-slate-400">• COE (Engineering)</span>
-<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/15 border border-sky-500/30 text-sky-300 font-semibold uppercase">Level 2 Internal</span>
-</div>
-<div class="flex items-center gap-1.5 text-xs text-slate-200">
-<span class="material-symbols-outlined text-[16px] text-sky-400">description</span>
-<span class="font-mono font-medium text-sky-300">Lab Infrastructure Inventory.pdf</span>
-</div>
-<p class="text-xs text-slate-400 italic">Reason: “Procurement &amp; annual maintenance plan”</p>
-</div>
-<div class="flex items-center gap-2 shrink-0">
-<button class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm active:scale-95">
-                    Approve
-                  </button>
-<button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-rose-950/60 hover:text-rose-400 border border-[#253956] text-slate-300 text-xs transition-colors">
-                    Reject
-                  </button>
-<button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-[#20324c] border border-[#253956] text-slate-300 text-xs transition-colors">
-                    View Details
-                  </button>
-</div>
-</div>
-</div>
+<div class="flex flex-col gap-3.5 mt-4"><div class="bg-[#141f30] border border-amber-500/40 p-4 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-amber-400 transition-colors relative overflow-hidden"><div class="flex flex-col gap-1.5 min-w-0 flex-1"><div class="flex flex-wrap items-center gap-2"><span class="text-sm font-bold text-white">Prof. Juan Dela Cruz</span><span class="text-xs font-mono text-slate-400">• CEIT (Computer Studies)</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold uppercase flex items-center gap-1 shrink-0"><span class="material-symbols-outlined text-[12px]">confirmation_number</span>Helpdesk Ticket</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 border border-rose-500/30 text-rose-300 font-semibold uppercase shrink-0">Critical</span></div><div class="flex items-center gap-1.5 text-xs text-slate-200"><span class="material-symbols-outlined text-[16px] text-amber-400 shrink-0">lock_reset</span><span class="font-mono font-medium text-amber-300 truncate">TKT-2026-88219 (Incident INC-2026-CVSU-88219A): Critical Account Lockout Bypass Request</span></div><div class="flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-400"><span class="text-emerald-400 font-medium">Portal Ticket</span><span>•</span><span>Source: MIS Helpdesk Self-Service Portal</span><span>•</span><span class="text-slate-300">Received 1m ago</span></div></div><div class="flex items-center gap-2 shrink-0 sm:ml-auto"><button class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm active:scale-95 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">key</span><span>Resolve Unlock</span></button><button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-[#20324c] border border-[#253956] text-slate-300 text-xs transition-colors font-medium">Review</button></div></div><div class="bg-[#121c2d] border border-[#1e2f47] p-4 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#2b4163] transition-colors"><div class="flex flex-col gap-1.5 min-w-0 flex-1"><div class="flex flex-wrap items-center gap-2"><span class="text-sm font-bold text-white">Prof. Juan Dela Cruz</span><span class="text-xs font-mono text-slate-400">• CEIT (Computer Studies)</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 border border-rose-500/30 text-rose-300 font-semibold uppercase shrink-0">Tier 4 Restricted Elevation</span></div><div class="flex items-center gap-1.5 text-xs text-slate-200"><span class="material-symbols-outlined text-[16px] text-sky-400 shrink-0">description</span><span class="font-mono font-medium text-sky-300 truncate">BOR_Resolution_2026_094_FacultyTenure_Clearance.pdf</span></div><div class="flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-400"><span class="text-emerald-400 font-medium">Docket: CLR-2026-CEIT-0842</span><span>•</span><span>Stage 02 Dean Endorsed</span></div></div><div class="flex items-center gap-2 shrink-0 sm:ml-auto"><button class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm active:scale-95">Approve</button><button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-rose-950/60 hover:text-rose-400 border border-[#253956] text-slate-300 text-xs transition-colors font-medium">Reject</button><button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-[#20324c] border border-[#253956] text-slate-300 text-xs transition-colors font-medium">View Details</button></div></div><div class="bg-[#121c2d] border border-[#1e2f47] p-4 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#2b4163] transition-colors"><div class="flex flex-col gap-1.5 min-w-0 flex-1"><div class="flex flex-wrap items-center gap-2"><span class="text-sm font-bold text-white">Engr. Maria Santos, M.Sc.</span><span class="text-xs font-mono text-slate-400">• CEIT (Dept. of IT)</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950/60 border border-purple-500/30 text-purple-300 font-semibold uppercase shrink-0">Institutional Account Application</span></div><div class="flex items-center gap-1.5 text-xs text-slate-200"><span class="material-symbols-outlined text-[16px] text-amber-400 shrink-0">badge</span><span class="font-mono font-medium text-amber-300">Tier 3 Faculty Request</span><span class="text-slate-400 font-mono text-[11px]">(Ref: DOCUSEC-REQ-2026-v4)</span></div><p class="text-xs text-slate-400 italic">New Faculty Provisioning &amp; Keycard Verification</p></div><div class="flex items-center gap-2 shrink-0 sm:ml-auto"><button class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm active:scale-95">Review &amp; Provision</button><button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-rose-950/60 hover:text-rose-400 border border-[#253956] text-slate-300 text-xs transition-colors font-medium">Reject</button><button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-[#20324c] border border-[#253956] text-slate-300 text-xs transition-colors font-medium">View Details</button></div></div><div class="bg-[#121c2d] border border-[#1e2f47] p-4 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#2b4163] transition-colors"><div class="flex flex-col gap-1.5 min-w-0 flex-1"><div class="flex flex-wrap items-center gap-2"><span class="text-sm font-bold text-white">Dr. Maricel Reyes</span><span class="text-xs font-mono text-slate-400">• CAS (Biological Sci)</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold uppercase shrink-0">Tier 3 Confidential</span></div><div class="flex items-center gap-1.5 text-xs text-slate-200"><span class="material-symbols-outlined text-[16px] text-emerald-400 shrink-0">table_chart</span><span class="font-mono font-medium text-emerald-300 truncate">CHED Regional Accreditation.xlsx</span></div><p class="text-xs text-slate-400 italic">Reason: “Accreditation submission”</p></div><div class="flex items-center gap-2 shrink-0 sm:ml-auto"><button class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm active:scale-95">Approve</button><button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-rose-950/60 hover:text-rose-400 border border-[#253956] text-slate-300 text-xs transition-colors font-medium">Reject</button><button class="px-3 py-1.5 rounded-lg bg-[#182538] hover:bg-[#20324c] border border-[#253956] text-slate-300 text-xs transition-colors font-medium">View Details</button></div></div></div>
 <!-- Footer Link -->
 <div class="mt-4 pt-3 border-t border-[#1a293f] flex items-center justify-between">
-<span class="text-xs text-slate-400">Showing 3 of 12 urgent requests</span>
+<span class="text-xs text-slate-400">Showing 4 of 17 active items (3 Helpdesk Tickets · 8 Document Clearances · 6 Account Applications)</span>
 <a class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 font-mono transition-colors" href="{{ route('admin.preview.access-requests') }}" data-route="access-requests">
 <span>View All Requests</span>
 <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
@@ -416,7 +315,7 @@
 <span class="material-symbols-outlined text-emerald-400 text-[18px]">bolt</span>
 <span>Quick Admin Actions</span>
 </h3>
-<div class="flex flex-col gap-2.5"><a href="{{ route('admin.preview.user-management') }}" data-route="provision-user" class="w-full flex items-center justify-between p-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">person_add</span><span>Provision New User</span></span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a><a href="{{ route('admin.preview.access-requests') }}" data-route="access-requests" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-amber-400">pending_actions</span><span>Review Pending Requests</span></span><span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">12</span></a><a href="{{ route('admin.preview.audit-logs') }}" data-route="audit-logs" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-sky-400">download</span><span>Export Audit Log (CSV/PDF)</span></span><span class="material-symbols-outlined text-[16px] text-slate-400">file_download</span></a><a href="#" data-route="system-settings" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-slate-400">build</span><span>System Maintenance &amp; Backup</span></span><span class="text-[10px] font-mono text-emerald-400">Ready</span></a></div>
+<div class="flex flex-col gap-2.5"><a href="#requests-queue" data-route="helpdesk-queue" class="w-full flex items-center justify-between p-3 rounded-lg bg-amber-950/40 hover:bg-amber-900/60 border border-amber-500/40 text-amber-200 font-medium text-xs transition-colors shadow-sm text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-amber-300">support_agent</span><span>Triage Helpdesk Tickets</span></span><span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/30 text-amber-300">3 Open</span></a><a href="#requests-queue" data-route="access-requests" class="w-full flex items-center justify-between p-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">pending_actions</span><span>Process Access Queue</span></span><span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-black/25 text-white">14</span></a><a href="{{ route('admin.preview.provision-stage-1') }}" data-route="provision-user" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-emerald-400">person_add</span><span>Provision New Institutional User</span></span><span class="material-symbols-outlined text-[16px] text-slate-400">arrow_forward</span></a><a href="#" data-route="audit-logs" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-sky-400">download</span><span>Export Audit Log (CSV/PDF)</span></span><span class="material-symbols-outlined text-[16px] text-slate-400">file_download</span></a><a href="#" data-route="system-settings" class="w-full flex items-center justify-between p-3 rounded-lg bg-[#141f30] hover:bg-[#1a293f] border border-[#223550] text-slate-200 font-medium text-xs transition-colors text-left"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-slate-400">build</span><span>System Maintenance &amp; Backup</span></span><span class="text-[10px] font-mono text-emerald-400">Ready</span></a></div>
 </div>
 <!-- Section B: Live Audit Logs Activity -->
 <div class="bg-[#0e1726] border border-[#1d2d44] rounded-xl p-5 shadow-sm flex flex-col justify-between">
@@ -432,7 +331,7 @@
                 </span>
 </div>
 <!-- Stream Event Items -->
-<div class="flex flex-col gap-3">
+<div class="flex flex-col gap-3"><div class="p-2.5 rounded-lg bg-[#141f30] border border-amber-500/30 flex items-start gap-2.5 text-xs"><span class="material-symbols-outlined text-amber-400 text-[16px] mt-0.5 shrink-0">confirmation_number</span><div class="flex flex-col flex-1 min-w-0"><span class="text-white font-medium truncate">Helpdesk ticket submitted — Prof. Juan Dela Cruz</span><span class="text-[11px] text-amber-300 font-mono">TKT-2026-88219 • MIS Helpdesk Portal</span></div><span class="text-[10px] font-mono text-emerald-400 shrink-0">1m ago</span></div>
 <!-- Event 1 -->
 <div class="p-2.5 rounded-lg bg-[#121c2d] border border-[#1e2f47] flex items-start gap-2.5 text-xs">
 <span class="material-symbols-outlined text-emerald-400 text-[16px] mt-0.5 shrink-0">login</span>
@@ -490,15 +389,7 @@
 
 
 
-<style>.docusecure-nav-current{background:rgba(148,163,184,.20)!important;color:#fff!important;outline:1px solid rgba(148,163,184,.22)}.docusecure-nav-current span{color:inherit}</style>
-<script>(function(){
-  var path=window.location.pathname.replace(/\/$/,'')||'/';
-  document.querySelectorAll('aside a[href]').forEach(function(link){
-    var raw=link.getAttribute('href')||'';
-    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw==='/' || raw.indexOf('javascript:')===0) return;
-    var url; try{url=new URL(raw,window.location.origin);}catch(e){return;}
-    var target=url.pathname.replace(/\/$/,'')||'/';
-    if(target===path){link.classList.add('docusecure-nav-current');link.setAttribute('aria-current','page');}
-  });
-})();</script>
+
+
+
 </body></html>
