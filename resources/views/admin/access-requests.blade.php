@@ -90,4 +90,48 @@
     </div>
   </div>
 </section>
+<section class="mx-auto w-full max-w-[1440px] px-6 pb-8">
+  <div class="rounded-xl border border-[#1c2a3f] bg-[#101827] p-5">
+    <div class="mb-4 flex items-center justify-between">
+      <h2 class="text-sm font-bold text-white">Document Access Requests</h2>
+      <span class="font-mono text-xs text-slate-400">{{ $documentAccessRequests->total() }} records</span>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="border-b border-white/10 text-slate-400">
+          <tr><th class="py-3 pr-4">Requester</th><th class="pr-4">Document</th><th class="pr-4">Status</th><th class="pr-4">Justification</th><th class="text-right">Actions</th></tr>
+        </thead>
+        <tbody>
+          @forelse ($documentAccessRequests as $accessRequest)
+            <tr class="border-b border-white/5">
+              <td class="py-3 pr-4 font-semibold text-white">{{ $accessRequest->requester?->name }}</td>
+              <td class="pr-4 text-slate-300">{{ $accessRequest->document?->title }}</td>
+              <td class="pr-4"><span class="rounded px-2 py-1 font-mono text-[10px]">{{ strtoupper($accessRequest->status) }}</span></td>
+              <td class="max-w-md pr-4 text-slate-400">{{ $accessRequest->justification }}</td>
+              <td class="py-3 text-right">
+                @if ($accessRequest->status === 'pending')
+                  <div class="inline-flex items-center gap-2">
+                    <form method="POST" action="{{ route('admin.preview.document-access-requests.approve', $accessRequest) }}">
+                      @csrf
+                      <input type="hidden" name="lease_hours" value="24">
+                      <button type="submit" class="rounded bg-emerald-600 px-3 py-1.5 font-semibold text-white">Approve</button>
+                    </form>
+                    <form method="POST" action="{{ route('admin.preview.document-access-requests.reject', $accessRequest) }}" class="inline-flex items-center gap-2">
+                      @csrf
+                      <input name="decision_reason" required placeholder="Reason" class="rounded border border-white/10 bg-white/5 px-2 py-1.5 text-white">
+                      <button type="submit" class="rounded border border-rose-500/30 px-3 py-1.5 text-rose-300">Reject</button>
+                    </form>
+                  </div>
+                @endif
+              </td>
+            </tr>
+          @empty
+            <tr><td colspan="5" class="py-6 text-center text-slate-400">No document access requests yet.</td></tr>
+          @endforelse
+        </tbody>
+      </table>
+      <div class="mt-4">{{ $documentAccessRequests->links() }}</div>
+    </div>
+  </div>
+</section>
 </body></html>

@@ -160,8 +160,14 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
     Route::view('/submit-department-file', 'faculty.submit-department-file')->name('submit-department-file');
     Route::get('/tier-4-access-request', function () {
         $documents = Document::where('access_tier', 'tier4')->latest()->get();
+        $pendingAccessRequests = AccessRequest::where('requester_id', Auth::id())
+            ->whereHas('document', function ($query) {
+                $query->where('access_tier', 'tier4');
+            })
+            ->latest()
+            ->get();
 
-        return view('faculty.tier-4-access-request', compact('documents'));
+        return view('faculty.tier-4-access-request', compact('documents', 'pendingAccessRequests'));
     })->name('tier-4-access-request');
     Route::view('/clearance-submitted', 'faculty.clearance-submitted')->name('clearance-submitted');
 
@@ -180,8 +186,14 @@ Route::post('/faculty/access-requests', [AccessRequestController::class, 'store'
 
 Route::get('/faculty/tier-4-access-request', function () {
     $documents = Document::where('access_tier', 'tier4')->latest()->get();
+    $pendingAccessRequests = AccessRequest::where('requester_id', Auth::id())
+        ->whereHas('document', function ($query) {
+            $query->where('access_tier', 'tier4');
+        })
+        ->latest()
+        ->get();
 
-    return view('faculty.tier-4-access-request', compact('documents'));
+    return view('faculty.tier-4-access-request', compact('documents', 'pendingAccessRequests'));
 })->middleware(['auth', 'role:faculty'])->name('faculty.tier-4-access-request');
 
 Route::view(

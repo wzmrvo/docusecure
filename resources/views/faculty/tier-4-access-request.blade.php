@@ -73,6 +73,14 @@
 
   <!-- MODAL BODY -->
   <div class="px-6 py-5 flex flex-col gap-4 overflow-y-auto max-h-[calc(85vh-140px)]">
+    @if ($pendingAccessRequests->isNotEmpty())
+      <div class="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3">
+        <p class="text-[11px] font-mono text-emerald-300">Existing request status</p>
+        @foreach ($pendingAccessRequests as $request)
+          <p class="mt-1 text-xs text-slate-200">{{ $request->document?->title }} — {{ strtoupper($request->status) }}</p>
+        @endforeach
+      </div>
+    @endif
     <div class="rounded-lg p-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
       <label for="tier4FileSelector" class="text-[12px] font-semibold text-slate-200">Target Tier 4 File</label>
       <input type="hidden" id="tier4DocumentId" name="document_id" value="{{ $documents->first()?->id }}">

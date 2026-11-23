@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccessRequest;
 use App\Models\AccountApplication;
 use App\Models\AccountProvisioningRecord;
 use App\Models\AuditLog;
@@ -49,8 +50,11 @@ class AccountApplicationController extends Controller
         $applications = AccountApplication::query()
             ->latest()
             ->paginate(20);
+        $documentAccessRequests = AccessRequest::with(['requester', 'document', 'reviewer'])
+            ->latest()
+            ->paginate(20, ['*'], 'access_page');
 
-        return view('admin.access-requests', compact('applications'));
+        return view('admin.access-requests', compact('applications', 'documentAccessRequests'));
     }
 
     public function approve(AccountApplication $application)

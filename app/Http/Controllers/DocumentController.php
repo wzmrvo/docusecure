@@ -78,7 +78,9 @@ class DocumentController extends Controller
         $allowed = $user && (
             $user->role === 'admin'
             || ($tier === 'tier1')
-            || ($user->role === 'faculty' && in_array($tier, ['tier2', 'tier3'], true))
+            || ($user->role === 'faculty'
+                && in_array($tier, ['tier2', 'tier3'], true)
+                && ($document->department_id === null || $document->department_id === $user->department_id))
             || ($user->role === 'student' && in_array($tier, ['tier1', 'tier2'], true))
             || (in_array($user->role, ['faculty', 'student'], true) && $tier === 'tier4' && $document->accessRequests()
                 ->where('requester_id', $user->id)
