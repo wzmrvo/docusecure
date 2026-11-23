@@ -6,6 +6,7 @@ use App\Models\AuditLog;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -22,33 +23,38 @@ class DocumentController extends Controller
         ]);
 
         $uploaded = $request->file('file');
-        $path = $uploaded->store('documents', 'local');
+        $path = null;
+        $document = null;
 
-        $document = Document::create([
-            'title' => $validated['title'],
-            'tracking_number' => $validated['tracking_number'],
-            'category_id' => $validated['category_id'] ?? null,
-            'department_id' => Auth::user()?->department_id,
-            'uploader_id' => Auth::id(),
-            'file_path' => $path,
-            'original_name' => $uploaded->getClientOriginalName(),
-            'mime_type' => $uploaded->getClientMimeType(),
-            'size_bytes' => $uploaded->getSize(),
-            'sha256' => hash_file('sha256', $uploaded->getRealPath()),
-            'access_tier' => $validated['access_tier'],
-            'status' => 'sealed',
-            'sealed_at' => now(),
-        ]);
+        DB::transaction(function () use (&$document, &$path, $validated, $uploaded) {
+            $path = $uploaded->store('documents', 'local');
 
-        AuditLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'document.sealed',
-            'subject_type' => Document::class,
-            'subject_id' => $document->id,
-            'description' => 'Document sealed and committed to the vault.',
-            'ip_address' => $request->ip(),
-            'metadata' => ['sha256' => $document->sha256],
-        ]);
+            $document = Document::create([
+                'title' => $validated['title'],
+                'tracking_number' => $validated['tracking_number'],
+                'category_id' => $validated['category_id'] ?? null,
+                'department_id' => Auth::user()?->department_id,
+                'uploader_id' => Auth::id(),
+                'file_path' => $path,
+                'original_name' => $uploaded->getClientOriginalName(),
+                'mime_type' => $uploaded->getClientMimeType(),
+                'size_bytes' => $uploaded->getSize(),
+                'sha256' => hash_file('sha256', $uploaded->getRealPath()),
+                'access_tier' => $validated['access_tier'],
+                'status' => 'sealed',
+                'sealed_at' => now(),
+            ]);
+
+            AuditLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'document.sealed',
+                'subject_type' => Document::class,
+                'subject_id' => $document->id,
+                'description' => 'Document sealed and committed to the vault.',
+                'ip_address' => request()->ip(),
+                'metadata' => ['sha256' => $document->sha256],
+            ]);
+        });
 
         return back()->with('document_committed', true)->with('committed_document', $document->only([
             'title',
@@ -67,7 +73,7 @@ class DocumentController extends Controller
             || ($tier === 'tier1')
             || ($user->role === 'faculty' && in_array($tier, ['tier2', 'tier3'], true))
             || ($user->role === 'student' && in_array($tier, ['tier1', 'tier2'], true))
-            || ($user->role === 'faculty' && $tier === 'tier4' && $document->accessRequests()
+            || (in_array($user->role, ['faculty', 'student'], true) && $tier === 'tier4' && $document->accessRequests()
                 ->where('requester_id', $user->id)
                 ->where('status', 'approved')
                 ->where(function ($query) {
@@ -93,5 +99,55 @@ class DocumentController extends Controller
         ]);
 
         return Storage::disk('local')->download($document->file_path, $document->original_name);
+    }
+
+    public function update(Request $request, Document $document)
+    {
+        $user = Auth::user();
+        abort_unless($user && ($user->role === 'admin' || $document->uploader_id === $user->id), 403);
+
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'access_tier' => ['required', 'in:tier1,tier2,tier3,tier4'],
+            'category_id' => ['nullable', 'exists:document_categories,id'],
+        ]);
+
+        $document->update($validated);
+
+        AuditLog::create([
+            'user_id' => $user->id,
+            'action' => 'document.updated',
+            'subject_type' => Document::class,
+            'subject_id' => $document->id,
+            'description' => 'Document metadata updated.',
+            'ip_address' => $request->ip(),
+            'metadata' => ['access_tier' => $document->access_tier],
+        ]);
+
+        return back()->with('success', 'Document updated.');
+    }
+
+    public function destroy(Request $request, Document $document)
+    {
+        $user = Auth::user();
+        abort_unless($user && ($user->role === 'admin' || $document->uploader_id === $user->id), 403);
+
+        DB::transaction(function () use ($document, $request, $user) {
+            Storage::disk('local')->delete($document->file_path);
+
+            AuditLog::create([
+                'user_id' => $user->id,
+                'action' => 'document.deleted',
+                'subject_type' => Document::class,
+                'subject_id' => $document->id,
+                'description' => 'Document deleted and private file removed.',
+                'ip_address' => $request->ip(),
+                'metadata' => ['original_name' => $document->original_name],
+            ]);
+
+            $document->delete();
+        });
+
+        return back()->with('success', 'Document deleted.');
     }
 }

@@ -86,6 +86,8 @@
                 <span class="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">4 Verified Today</span>
             </div>
 
+            @if(false)
+            <!-- Static preview list intentionally hidden -->
             <!-- List of Public Documents -->
             <div class="flex flex-col gap-3">
                 <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-slate-400 transition">
@@ -135,6 +137,22 @@
                         <span>Download</span>
                     </button>
                 </div>
+            </div>
+        </div>
+
+            @endif
+            <div class="flex flex-col gap-3">
+                @forelse ($publicDocuments as $document)
+                    <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <span class="text-xs font-bold text-slate-900 dark:text-white truncate block">{{ $document->title }}</span>
+                            <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400">{{ $document->tracking_number }} • {{ number_format($document->size_bytes / 1048576, 1) }} MB</span>
+                        </div>
+                        <a href="{{ route('documents.download', $document) }}" class="shrink-0 px-3 py-1.5 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-semibold">Download</a>
+                    </div>
+                @empty
+                    <p class="p-4 text-xs text-slate-500 dark:text-slate-400">No public documents are available yet.</p>
+                @endforelse
             </div>
         </div>
 

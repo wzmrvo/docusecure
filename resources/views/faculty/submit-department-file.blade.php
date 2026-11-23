@@ -248,7 +248,8 @@
         </div>
 
         <!-- Main Form Workspace Split -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <form id="departmentUploadForm" action="{{ route('faculty.submit-department-file') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            @csrf
 
             <!-- LEFT COLUMN -->
             <div class="lg:col-span-8 flex flex-col gap-6">
@@ -717,7 +718,7 @@
             </div>
         </div>
     </footer>
-</div>
+</form>
 
 <!-- ==================== CONFIRMATION MODAL ==================== -->
 <div class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md" id="confirmationModal">

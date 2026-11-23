@@ -18,6 +18,21 @@ class AccessRequestController extends Controller
         ]);
 
         $document = Document::findOrFail($validated['document_id']);
+        abort_unless(
+            $document->access_tier !== 'tier1',
+            422,
+            'Only restricted documents require an access request.',
+        );
+        $existing = AccessRequest::where('requester_id', Auth::id())
+            ->where('document_id', $document->id)
+            ->whereIn('status', ['pending', 'approved'])
+            ->first();
+
+        if ($existing) {
+            return back()->with('success', $existing->status === 'approved'
+                ? 'This document access is already approved.'
+                : 'This document access request is already pending.');
+        }
 
         $accessRequest = AccessRequest::create([
             'requester_id' => Auth::id(),
