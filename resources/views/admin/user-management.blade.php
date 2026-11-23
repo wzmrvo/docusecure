@@ -161,10 +161,10 @@
 <div class="relative">
 <select class="appearance-none bg-surface-container-highest text-on-surface pl-3.5 pr-9 py-2.5 rounded-lg font-label-md text-label-md focus:outline-none cursor-pointer" id="roleFilterSelect">
 <option value="all">All Roles</option>
-<option value="Superadmin">Superadmin</option>
 <option value="Admin">Admin</option>
 <option value="Faculty">Faculty</option>
-<option value="Staff">Staff</option>
+<option value="Student">Student</option>
+<option value="Viewer">Viewer</option>
 </select>
 <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px] pointer-events-none">expand_more</span>
 </div>
@@ -172,8 +172,8 @@
 <select class="appearance-none bg-surface-container-highest text-on-surface pl-3.5 pr-9 py-2.5 rounded-lg font-label-md text-label-md focus:outline-none cursor-pointer" id="statusFilterSelect">
 <option value="all">All Statuses</option>
 <option value="Active">Active</option>
-<option value="Pending 2FA">Pending 2FA</option>
-<option value="Locked">Locked</option>
+<option value="Inactive">Inactive</option>
+<option value="Suspended">Suspended</option>
 </select>
 <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px] pointer-events-none">expand_more</span>
 </div>
@@ -193,6 +193,7 @@
 </tr>
 </thead>
 <tbody class="font-body-md text-body-md" id="usersTableBody">
+@if(false)
 <!-- Row 1 -->
 <tr class="user-row bg-surface-container hover:bg-surface-container-high transition-colors" data-role="Superadmin" data-search="Engr. R. Bautista rbautista@cvsu.edu.ph MIS Operations" data-status="Active">
 <td class="py-4 px-6">
@@ -378,6 +379,50 @@
 <a href="{{ route('admin.preview.audit-logs') }}" class="p-1.5 rounded bg-surface-container-highest text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-sm text-label-sm transition-colors cursor-pointer inline-flex items-center" title="View Security Audit Trail"><span class="material-symbols-outlined text-[16px]">history</span></a>
 </div></td>
 </tr>
+@endif
+@forelse ($users as $managedUser)
+<tr class="user-row bg-surface-container-low hover:bg-surface-container-high transition-colors"
+    data-role="{{ ucfirst($managedUser->role) }}"
+    data-search="{{ $managedUser->name }} {{ $managedUser->email }} {{ $managedUser->department?->name }}"
+    data-status="{{ ucfirst($managedUser->account_status) }}">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-label-md text-label-md shrink-0">{{ strtoupper(substr($managedUser->name, 0, 2)) }}</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">{{ $managedUser->name }}</span>
+<span class="font-code-snippet text-code-snippet text-on-surface-variant truncate">{{ $managedUser->email }}</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-5 text-on-surface">{{ $managedUser->department?->name ?: 'Not Assigned' }}</td>
+<td class="py-4 px-5" colspan="4">
+<form method="POST" action="{{ route('admin.preview.user-management.update', $managedUser) }}" class="flex flex-wrap items-center gap-2">
+@csrf
+@method('PATCH')
+<select name="role" class="rounded bg-surface-container-highest px-2 py-1.5 text-xs text-on-surface">
+<option value="admin" @selected($managedUser->role === 'admin')>Admin</option>
+<option value="faculty" @selected($managedUser->role === 'faculty')>Faculty</option>
+<option value="student" @selected($managedUser->role === 'student')>Student</option>
+<option value="viewer" @selected($managedUser->role === 'viewer')>Viewer</option>
+</select>
+<select name="clearance_tier" class="rounded bg-surface-container-highest px-2 py-1.5 text-xs text-on-surface">
+<option value="tier1" @selected($managedUser->clearance_tier === 'tier1')>Tier 1</option>
+<option value="tier2" @selected($managedUser->clearance_tier === 'tier2')>Tier 2</option>
+<option value="tier3" @selected($managedUser->clearance_tier === 'tier3')>Tier 3</option>
+<option value="tier4" @selected($managedUser->clearance_tier === 'tier4')>Tier 4</option>
+</select>
+<select name="account_status" class="rounded bg-surface-container-highest px-2 py-1.5 text-xs text-on-surface">
+<option value="active" @selected($managedUser->account_status === 'active')>Active</option>
+<option value="inactive" @selected($managedUser->account_status === 'inactive')>Inactive</option>
+<option value="suspended" @selected($managedUser->account_status === 'suspended')>Suspended</option>
+</select>
+<button type="submit" class="rounded bg-primary px-3 py-1.5 text-xs font-semibold text-on-primary">Save</button>
+</form>
+</td>
+</tr>
+@empty
+<tr><td colspan="6" class="py-12 text-center text-on-surface-variant">No institutional accounts found.</td></tr>
+@endforelse
 </tbody>
 </table>
 </div>
@@ -390,7 +435,7 @@
 <!-- Pagination Footer -->
 <div class="px-6 py-4 bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-4">
 <span class="font-label-md text-label-md text-on-surface-variant" id="paginationSummary">
-          Showing 6 of 3,420 institutional accounts
+          Showing {{ $users->count() }} of {{ $users->total() }} institutional accounts
         </span>
 <div class="flex items-center gap-2">
 <button class="px-3 py-1.5 rounded bg-surface-container-highest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors cursor-pointer" type="button">Previous</button>

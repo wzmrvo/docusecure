@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountApplicationController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SystemSettingController;
+use App\Http\Controllers\UserManagementController;
 use App\Models\AccessRequest;
 use App\Models\AccountApplication;
 use App\Models\AuditLog;
@@ -29,6 +30,7 @@ Route::post('/', function (Request $request) {
     if (! Auth::attempt([
         'email' => strtolower(trim($validated['email'])),
         'password' => $validated['password'],
+        'account_status' => 'active',
     ])) {
         return back()->withErrors(['email' => 'The institutional credentials are invalid.']);
     }
@@ -104,9 +106,12 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs');
     Route::get('/user-management', function () {
         $users = User::with('department')->orderBy('name')->paginate(25);
+        $roleCounts = User::selectRaw('role, COUNT(*) as total')->groupBy('role')->pluck('total', 'role');
+        $statusCounts = User::selectRaw('account_status, COUNT(*) as total')->groupBy('account_status')->pluck('total', 'account_status');
 
-        return view('admin.user-management', compact('users'));
+        return view('admin.user-management', compact('users', 'roleCounts', 'statusCounts'));
     })->name('user-management');
+    Route::patch('/user-management/{user}', [UserManagementController::class, 'update'])->name('user-management.update');
     Route::get('/system-settings', [SystemSettingController::class, 'index'])->name('system-settings');
     Route::put('/system-settings', [SystemSettingController::class, 'update'])->name('system-settings.update');
     Route::get('/deposit-file', function () {
