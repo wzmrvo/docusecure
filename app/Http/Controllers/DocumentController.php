@@ -26,35 +26,42 @@ class DocumentController extends Controller
         $path = null;
         $document = null;
 
-        DB::transaction(function () use (&$document, &$path, $validated, $uploaded) {
+        try {
             $path = $uploaded->store('documents', 'local');
 
-            $document = Document::create([
-                'title' => $validated['title'],
-                'tracking_number' => $validated['tracking_number'],
-                'category_id' => $validated['category_id'] ?? null,
-                'department_id' => Auth::user()?->department_id,
-                'uploader_id' => Auth::id(),
-                'file_path' => $path,
-                'original_name' => $uploaded->getClientOriginalName(),
-                'mime_type' => $uploaded->getClientMimeType(),
-                'size_bytes' => $uploaded->getSize(),
-                'sha256' => hash_file('sha256', $uploaded->getRealPath()),
-                'access_tier' => $validated['access_tier'],
-                'status' => 'sealed',
-                'sealed_at' => now(),
-            ]);
+            DB::transaction(function () use (&$document, $validated, $uploaded, $path) {
+                $document = Document::create([
+                    'title' => $validated['title'],
+                    'tracking_number' => $validated['tracking_number'],
+                    'category_id' => $validated['category_id'] ?? null,
+                    'department_id' => Auth::user()?->department_id,
+                    'uploader_id' => Auth::id(),
+                    'file_path' => $path,
+                    'original_name' => $uploaded->getClientOriginalName(),
+                    'mime_type' => $uploaded->getClientMimeType(),
+                    'size_bytes' => $uploaded->getSize(),
+                    'sha256' => hash_file('sha256', $uploaded->getRealPath()),
+                    'access_tier' => $validated['access_tier'],
+                    'status' => 'sealed',
+                    'sealed_at' => now(),
+                ]);
 
-            AuditLog::create([
-                'user_id' => Auth::id(),
-                'action' => 'document.sealed',
-                'subject_type' => Document::class,
-                'subject_id' => $document->id,
-                'description' => 'Document sealed and committed to the vault.',
-                'ip_address' => request()->ip(),
-                'metadata' => ['sha256' => $document->sha256],
-            ]);
-        });
+                AuditLog::create([
+                    'user_id' => Auth::id(),
+                    'action' => 'document.sealed',
+                    'subject_type' => Document::class,
+                    'subject_id' => $document->id,
+                    'description' => 'Document sealed and committed to the vault.',
+                    'ip_address' => request()->ip(),
+                    'metadata' => ['sha256' => $document->sha256],
+                ]);
+            });
+        } catch (\Throwable $exception) {
+            if ($path) {
+                Storage::disk('local')->delete($path);
+            }
+            throw $exception;
+        }
 
         return back()->with('document_committed', true)->with('committed_document', $document->only([
             'title',

@@ -385,12 +385,12 @@
                                     name="document_category"
                                     class="w-full px-4 py-2.5 rounded-lg bg-surface-darkest border border-border-subtle text-slate-200 text-xs font-medium focus:border-emerald-500/60 focus:outline-none appearance-none cursor-pointer pr-10"
                                 >
-                                    <option selected>Curriculum &amp; Syllabi Packages</option>
-                                    <option>CHED &amp; PACUCOA Accreditation Evidence</option>
-                                    <option>CEIT Departmental Council Resolutions</option>
-                                    <option>Faculty Evaluation &amp; Peer Reviews (Restricted)</option>
-                                    <option>Laboratory Safety &amp; Asset Inventory Dossiers</option>
-                                    <option>Senior Thesis &amp; Capstone Defense Repository</option>
+                                    <option value="academic-records" selected>Curriculum &amp; Syllabi Packages</option>
+                                    <option value="accreditation">CHED &amp; PACUCOA Accreditation Evidence</option>
+                                    <option value="board-resolutions">CEIT Departmental Council Resolutions</option>
+                                    <option value="department-records">Faculty Evaluation &amp; Peer Reviews (Restricted)</option>
+                                    <option value="department-records">Laboratory Safety &amp; Asset Inventory Dossiers</option>
+                                    <option value="department-records">Senior Thesis &amp; Capstone Defense Repository</option>
                                 </select>
 
                                 <span class="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 text-[18px] pointer-events-none">expand_more</span>
@@ -1086,32 +1086,40 @@
 
         const selectedTier = tierSelect.value;
 
-        window.setTimeout(function () {
+        if (!fileInput.files.length || !document.getElementById('documentTitle').value.trim()) {
             closeConfirm();
-
             executeBtn.disabled = false;
             executeBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">done</span><span>Sign &amp; Commit to Enclave →</span>';
+            showWorkflow('Submission incomplete', 'Select a file and enter the official document title.', 'Close');
+            return;
+        }
 
-            if (selectedTier === '3' || selectedTier === '4') {
-                showWorkflow(
-                    'Sent to the Dean for sign-off',
-                    'Your department file has been staged for review. The Dean must complete the required second sign-off before the file proceeds to MIS review. This is a frontend simulation only; the file has not been uploaded to the server.',
-                    'Return to Department Records',
-                    function () {
-                        window.location.href = departmentRecordsUrl;
-                    }
-                );
+        const tierMap = { '2': 'tier2', '3': 'tier3', '4': 'tier4' };
+        const formData = new FormData(document.getElementById('departmentUploadForm'));
+        formData.set('access_tier', tierMap[selectedTier] || 'tier3');
+        formData.set('tracking_number', 'CEIT-' + Date.now().toString(36).toUpperCase());
+
+        fetch('{{ route("faculty.submit-department-file") }}', {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+        }).then(async function (response) {
+            closeConfirm();
+            executeBtn.disabled = false;
+            executeBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">done</span><span>Sign &amp; Commit to Enclave →</span>';
+            if (response.ok) {
+                showWorkflow('Department file submitted', 'The file and document metadata were saved to the database and private storage.', 'Return to Department Records', function () {
+                    window.location.href = departmentRecordsUrl;
+                });
             } else {
-                showWorkflow(
-                    'Submission prepared',
-                    'Your Tier 2 department file is ready for the next MIS review step. This is a frontend simulation only; the file has not been uploaded to the server.',
-                    'Return to Department Records',
-                    function () {
-                        window.location.href = departmentRecordsUrl;
-                    }
-                );
+                const payload = await response.json().catch(function () { return {}; });
+                showWorkflow('Submission failed', payload.message || 'Check the required fields and file type.', 'Close');
             }
-        }, 500);
+        }).catch(function () {
+            closeConfirm();
+            executeBtn.disabled = false;
+            showWorkflow('Submission failed', 'The file could not be submitted.', 'Close');
+        });
     });
 
 })();

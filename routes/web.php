@@ -118,8 +118,6 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
     Route::post('/deposit-file', [DocumentController::class, 'store'])->name('deposit-file.store');
     Route::patch('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
     Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
-    Route::patch('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
-    Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
     Route::get('/provision-stage-1', fn () => view('admin.provision-stage-1'))->name('provision-stage-1');
     Route::get('/stage-3', fn () => view('admin.stage-3'))->name('stage-3');
     Route::get('/provisioning-receipt', fn () => view('admin.provisioning-receipt'))->name('provisioning-receipt');
@@ -165,8 +163,6 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
 
         return view('faculty.tier-4-access-request', compact('documents'));
     })->name('tier-4-access-request');
-    Route::patch('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
-    Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
     Route::view('/clearance-submitted', 'faculty.clearance-submitted')->name('clearance-submitted');
 
     // Faculty Logout Confirmation
@@ -196,12 +192,19 @@ Route::view(
 // Faculty Form Submission Routes
 Route::post('/faculty/submit-department-file', function (Request $request) {
     $request->files->set('file', $request->file('department_file'));
+    $category = DocumentCategory::query()
+        ->where('slug', (string) $request->input('document_category'))
+        ->orWhere('name', (string) $request->input('document_category'))
+        ->first();
     $request->merge([
         'title' => $request->input('document_title'),
         'tracking_number' => 'CEIT-'.strtoupper(substr(hash('sha256', (string) now()), 0, 12)),
-        'access_tier' => match ((string) $request->input('access_tier', '3')) {
+        'category_id' => $category?->id,
+        'access_tier' => match ((string) $request->input('access_tier', 'tier3')) {
             '2' => 'tier2',
             '4' => 'tier4',
+            'tier2' => 'tier2',
+            'tier4' => 'tier4',
             default => 'tier3',
         },
     ]);
