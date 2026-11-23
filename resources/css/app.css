@@ -2,8 +2,140 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* CvSU Institutional Brand Colors */
+    --color-cvsu-900: #071f16;
+    --color-cvsu-850: #0b291d;
+    --color-cvsu-800: #0e3323;
+    --color-cvsu-700: #14452f;
+    --color-cvsu-600: #1a5c3e;
+    --color-cvsu-500: #237a54;
+    --color-cvsu-gold: #e6b33a;
+    --color-cvsu-gold-light: #f8df8c;
+    --color-cvsu-gold-muted: #c49526;
+}
+
+/* ==========================================================================
+   60 / 30 / 10 CYBERSECURITY TIER COLOR ARCHITECTURE
+   ========================================================================== */
+
+/* Light Mode Defaults */
+:root {
+    color-scheme: light;
+    --bg-app: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-surface-elevated: #f1f5f9;
+    --border-subtle: #e2e8f0;
+    --border-prominent: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+
+    /* Role Accent Tokens */
+    --tier-admin-accent: #d97706;
+    --tier-admin-surface: #fffbeb;
+    --tier-admin-border: #fef3c7;
+
+    --tier-faculty-accent: #059669;
+    --tier-faculty-surface: #f0fdf4;
+    --tier-faculty-border: #dcfce7;
+
+    --tier-student-accent: #0284c7;
+    --tier-student-surface: #f0f9ff;
+    --tier-student-border: #e0f2fe;
+
+    --tier-viewer-accent: #64748b;
+    --tier-viewer-surface: #f8fafc;
+    --tier-viewer-border: #e2e8f0;
+
+    --tier-helpdesk-accent: #7c3aed;
+    --tier-helpdesk-surface: #faf5ff;
+    --tier-helpdesk-border: #ede9fe;
+}
+
+/* Dark Mode (Default Cybersecurity Environment) */
+.dark, html.dark {
+    color-scheme: dark;
+    --bg-app: #0a0f18;
+    --bg-surface: #0f1724;
+    --bg-surface-elevated: #162032;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-prominent: rgba(255, 255, 255, 0.16);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    /* Admin (Tier 4 Vault - 60/30/10 Gold) */
+    --tier-admin-bg: #0a0f18;
+    --tier-admin-surface: #0f1c30;
+    --tier-admin-accent: #e6b33a;
+
+    /* Faculty (Tier 3 Clearance - 60/30/10 Emerald) */
+    --tier-faculty-bg: #111e32;
+    --tier-faculty-surface: #14452f;
+    --tier-faculty-accent: #34d399;
+
+    /* Student (Tier 1-2 Academic - 60/30/10 Sky Blue) */
+    --tier-student-bg: #0d1117;
+    --tier-student-surface: #161b22;
+    --tier-student-accent: #38bdf8;
+
+    /* Viewer (Tier 1 Public / Guest - 60/30/10 Muted Slate) */
+    --tier-viewer-bg: #0d1117;
+    --tier-viewer-surface: #1a1f2e;
+    --tier-viewer-accent: #94a3b8;
+
+    /* Helpdesk (IT Operations - 60/30/10 Violet) */
+    --tier-helpdesk-bg: #0f0f1a;
+    --tier-helpdesk-surface: #1e1b4b;
+    --tier-helpdesk-accent: #a78bfa;
+}
+
+/* ==========================================================================
+   TASTE-SKILL & A11Y MICRO-INTERACTIONS & UTILITIES
+   ========================================================================== */
+
+/* Taste-Skill Rule 5: Card hover lift micro-interaction */
+.interactive-card {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.interactive-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Accessible high-contrast focus rings (Web Design Guidelines) */
+.focus-accessible:focus-visible {
+    outline: 2px solid var(--tier-accent, #38bdf8);
+    outline-offset: 2px;
+}
+
+/* Security grid watermark backdrop */
+.bg-security-grid {
+    background-size: 32px 32px;
+    background-image: 
+        linear-gradient(to right, rgba(230, 179, 58, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(230, 179, 58, 0.04) 1px, transparent 1px);
+}
+
+/* Steganographic ambient glows */
+.glow-gold {
+    box-shadow: 0 0 25px -5px rgba(230, 179, 58, 0.25);
+}
+
+.glow-emerald {
+    box-shadow: 0 0 25px -5px rgba(52, 211, 153, 0.25);
+}
+
+.glow-blue {
+    box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.25);
+}
+
+.glow-violet {
+    box-shadow: 0 0 25px -5px rgba(167, 139, 250, 0.25);
 }

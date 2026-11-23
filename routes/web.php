@@ -135,7 +135,7 @@ Route::prefix('student/preview')->name('student.preview.')->group(function () {
 // Viewer Preview Routes
 Route::prefix('viewer/preview')->name('viewer.preview.')->group(function () {
 
-    Route::view('/', 'student.dashboard')->name('dashboard');
+    Route::view('/', 'viewer.dashboard')->name('dashboard');
     Route::view('/document-library', 'student.document-library')->name('document-library');
     Route::view('/categories', 'student.categories')->name('categories');
     Route::view('/library-research', 'student.library-research')->name('library-research');

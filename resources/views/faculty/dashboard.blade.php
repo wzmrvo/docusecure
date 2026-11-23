@@ -1,9 +1,461 @@
-<!DOCTYPE html><html class="dark" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-container":"#3a4d42","primary-fixed-dim":"#9fd2b4","surface-dim":"#111412","surface-container-low":"#191c1a","background":"#111412","on-tertiary":"#242e54","on-secondary":"#22342a","surface-tint":"#9fd2b4","surface-container-lowest":"#0c0f0d","surface-variant":"#323633","outline":"#8a938c","tertiary":"#bbc5f3","outline-variant":"#414943","tertiary-fixed-dim":"#bbc5f3","on-tertiary-container":"#00031a","on-secondary-fixed":"#0d1f16","surface":"#111412","on-primary-fixed":"#002113","error-container":"#93000a","on-secondary-container":"#a8beaf","error":"#ffb4ab","on-error":"#690005","inverse-on-surface":"#2e312f","secondary-fixed-dim":"#b6ccbd","surface-container-highest":"#323633","surface-container":"#1d201e","on-secondary-fixed-variant":"#384b40","tertiary-container":"#6b759f","primary-fixed":"#baeecf","inverse-primary":"#38684f","secondary":"#b6ccbd","on-background":"#e1e3df","on-primary":"#023823","primary":"#9fd2b4","on-primary-container":"#00311e","surface-container-high":"#272b28","on-error-container":"#ffdad6","on-surface-variant":"#c0c9c1","tertiary-fixed":"#dce1ff","primary-container":"#6a9b80","on-primary-fixed-variant":"#1f4f39","on-surface":"#e1e3df","on-tertiary-fixed":"#0e193d","secondary-fixed":"#d2e8d8","surface-bright":"#373a37","inverse-surface":"#e1e3df","on-tertiary-fixed-variant":"#3b456b"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"margin":"3rem","space-xs":"0.25rem","space-lg":"1.5rem","margin-mobile":"1.25rem","gutter":"1.5rem","gutter-mobile":"1rem","space-md":"1rem","space-xl":"2.5rem","space-sm":"0.5rem"},fontFamily:{"display":["Inter"],"headline-lg":["Inter"],"headline-sm":["Inter"],"label-lg":["JetBrains Mono"],"body-sm":["Inter"],"label-md":["JetBrains Mono"],"display-mobile":["Inter"],"headline-md":["Inter"],"code-snippet":["JetBrains Mono"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"],"label-sm":["JetBrains Mono"]},fontSize:{"display":["3rem",{"lineHeight":"3.5rem","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-lg":["2rem",{"lineHeight":"2.5rem","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-sm":["1.125rem",{"lineHeight":"1.625rem","fontWeight":"600"}],"label-lg":["0.875rem",{"lineHeight":"1.25rem","letterSpacing":"0.04em","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.125rem","fontWeight":"400"}],"label-md":["0.75rem",{"lineHeight":"1rem","letterSpacing":"0.06em","fontWeight":"500"}],"display-mobile":["2.25rem",{"lineHeight":"2.75rem","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["1.375rem",{"lineHeight":"1.875rem","letterSpacing":"-0.01em","fontWeight":"600"}],"code-snippet":["0.8125rem",{"lineHeight":"1.25rem","fontWeight":"400"}],"body-lg":["1rem",{"lineHeight":"1.5rem","fontWeight":"400"}],"headline-lg-mobile":["1.5rem",{"lineHeight":"2rem","letterSpacing":"-0.01em","fontWeight":"600"}],"body-md":["0.875rem",{"lineHeight":"1.375rem","fontWeight":"400"}],"label-sm":["0.6875rem",{"lineHeight":"0.875rem","letterSpacing":"0.08em","fontWeight":"500"}]}}}}</script><title>DocuSecure Faculty — Dashboard</title></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 z-50 flex flex-col justify-between py-space-md" style="background: linear-gradient(rgb(17, 30, 51) 0%, rgb(13, 21, 39) 100%); border-right: 1px solid rgba(255, 255, 255, 0.08);"><div class="flex flex-col"><div class="px-space-md pb-space-md mb-space-sm flex items-center gap-space-sm border-b border-white/10"><img alt="cvsu-logo.png" class="w-9 h-9 object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGw_2aP-WOG0aT6WEY9eL5D31E4pMr6kmxmXW-0sPAIyy_Adwp6BjBqJ5_S1QT_pNiOsdwCiuwi03DrTk0HVQy2OTX4_LlfQXqNOAP98MgNh7eNg2A1w1Q2yAYNBuaLO4TsEKQbJp5IC0xF10vxtoIsqlBOdOZUqkmjLrQjA3Z-DJ8FN8Bxy8j31kz7C8lXXxqJrGIKg1X3GGXtPu6olrNF-RoNMaH2gWD3n6xko9GQo0nmsZXIX1Z"><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="text-[16px] font-bold text-white tracking-tight leading-none">DocuSecure</span><span class="h-2 w-2 rounded-full bg-emerald-400 flex-shrink-0 animate-pulse shadow-[0_0_8px_#34d399]"></span><span class="px-1.5 py-0.2 rounded text-[9px] font-bold uppercase font-code-snippet text-amber-300 ml-auto" style="background: rgba(234, 191, 85, 0.15); border: 1px solid rgba(234, 191, 85, 0.35);">SEMI-ADMIN</span></div><span class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mt-1 truncate">CVSU • CEIT NODE</span></div></div><div class="px-space-md mb-space-xs mt-1 flex items-center justify-between"><span class="text-[11px] font-semibold text-slate-400 tracking-wider uppercase">COLLEGE ENCLAVE WORKSPACE</span></div><nav class="flex flex-col gap-1 px-space-sm"><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-white font-medium transition-all shadow-sm" style="background: #173153; border-left: 4px solid #34d399;" data-path="dashboard-overview" href="{{ route('faculty.preview.dashboard') }}"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px] text-emerald-400">space_dashboard</span><span class="text-body-md font-medium">Dashboard (Overview)</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors" data-path="document-library" href="{{ route('faculty.preview.document-library') }}"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px] text-slate-400">folder_special</span><span class="text-body-md">Document Library</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors" data-path="clearance-requests" href="{{ route('faculty.preview.clearance-requests') }}"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px] text-amber-400">verified_user</span><span class="text-body-md">Clearance Requests</span></div><span class="bg-amber-400 text-slate-950 font-bold text-xs px-2 py-0.5 rounded-full shadow-sm">2 pending</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors" data-path="department-records-ceit" href="{{ route('faculty.preview.department-records') }}"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px] text-slate-400">account_balance</span><span class="text-body-md">Department Records (CEIT)</span></div><span class="h-2 w-2 rounded-full bg-emerald-400 flex-shrink-0 animate-pulse shadow-[0_0_8px_#34d399]"></span></a></nav></div><div class="px-space-md flex flex-col gap-space-sm"><div class="p-space-sm rounded-lg flex flex-col gap-1.5" style="background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(52, 211, 153, 0.3);"><div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="font-label-md text-label-md text-white font-bold truncate">Prof. Juan Dela Cruz</span></div><span class="px-1.5 py-0.2 rounded text-[9px] font-bold uppercase font-code-snippet text-emerald-300" style="background: #14452f; border: 1px solid rgba(52, 211, 153, 0.4);">SEMI-ADMIN • TIER 3</span></div><div class="flex items-center justify-between font-code-snippet text-[11px] pt-1 border-t border-white/10"><span class="text-slate-400">NetID: <span class="text-slate-200 font-semibold">CEIT-FAC-88219</span></span><span class="text-emerald-400 text-[10px] font-semibold uppercase font-code-snippet">CvSU-KEY-OK</span></div></div><a class="flex items-center justify-center gap-space-xs w-full py-2.5 rounded-lg text-slate-200 hover:text-white hover:bg-white/10 transition-colors text-label-md font-medium" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.08);" data-path="logout-confirmation" href="{{ route('faculty.preview.logout-confirmation') }}"><span class="material-symbols-outlined text-[18px]">logout</span><span>Sign Out Session</span></a></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl z-40 flex items-center justify-between px-space-lg border-b border-white/10" style="background: rgba(15, 23, 42, 0.88);"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-2"><div class="flex items-center gap-2 text-slate-400 font-label-sm text-label-sm"><span class="material-symbols-outlined text-[18px] text-emerald-400">security</span><span class="hover:text-slate-200 transition-colors">CvSU CEIT Faculty Enclave</span><span class="text-slate-600">/</span><span class="text-emerald-400 font-semibold tracking-wide">Clearance Command Portal</span></div><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-label-sm font-semibold text-emerald-300" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 211, 153, 0.25);"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>Semi-Admin Node Active</span></div><div class="relative hidden xl:flex items-center"><span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant text-[18px]">search</span><input class="w-96 pl-10 pr-space-md py-1.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-sm text-body-sm focus:outline-none border border-white/10 focus:border-emerald-400/50" placeholder="Search clearance slips, document IDs (e.g. CEIT-2026-904)..." type="text"></div></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low border border-white/10"><span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span><span class="font-label-sm text-label-sm text-slate-300">FIPS 140-3 Hardware Token: <span class="text-emerald-400 font-semibold">Online</span></span></div><div class="relative flex items-center"><button aria-label="Notifications" class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-lg bg-surface-container-low border border-white/10 flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute top-1 right-1 h-2 w-2 bg-amber-400 rounded-full shadow-[0_0_6px_#f59e0b]"></span></div><div class="flex items-center gap-space-sm pl-space-sm border-l border-white/10"><div class="flex flex-col items-end"><div class="flex items-center gap-1.5"><span class="font-label-md text-label-md text-on-surface font-bold">Prof. Juan Dela Cruz</span><span class="px-1.5 py-0.2 rounded text-[10px] font-bold text-amber-300 bg-amber-400/15 border border-amber-400/30 font-code-snippet">DEPT CHAIR</span></div><span class="font-label-sm text-[11px] text-emerald-400 font-medium flex items-center gap-1"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>Tier 3 Clear • Sub-Custodian Authority</span></div><div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs text-white flex-shrink-0" style="background: linear-gradient(135deg, #14452f 0%, #172b47 100%); border: 1.5px solid rgba(52, 211, 153, 0.6);"><span class="material-symbols-outlined text-[18px] text-emerald-300">shield_person</span></div></div></div></header><main class="relative pt-16 bg-surface w-full px-space-lg"><div class="flex flex-col w-full py-space-md"><!-- Hero / Header Section --><div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-lg border-b border-white/10 mb-space-lg"><div class="flex flex-col gap-space-xs"><div class="flex items-center gap-space-xs flex-wrap"><span class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-bold">Clearance Command &amp; Faculty Custody</span><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-emerald-300 font-label-sm text-label-sm font-semibold" style="background: rgba(20, 69, 47, 0.6); border: 1px solid rgba(52, 211, 153, 0.4);"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>CEIT JURISDICTION</span><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-amber-300 font-label-sm text-label-sm font-semibold font-code-snippet" style="background: rgba(234, 191, 85, 0.12); border: 1px solid rgba(234, 191, 85, 0.3);">AUTH: DEPT-FAC-THESIS-CHAIR</span></div><p class="font-body-md text-body-md text-on-surface-variant">Welcome back, <span class="text-white font-semibold">Prof. Juan Dela Cruz</span>. You possess delegated Tier 3 clearance to endorse research manuscripts, approve student/faculty slips, and sign institutional transcripts.</p></div><!-- Semi-Admin Actions Group --><div class="flex items-center gap-space-sm flex-wrap"><button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg text-amber-300 hover:text-white transition-all text-label-lg font-label-lg shadow-sm border border-amber-400/30" style="background: rgba(234, 191, 85, 0.12);"><span class="material-symbols-outlined text-[18px] text-amber-400">fact_check</span><span>Review Dept Slips (5)</span></button><button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface transition-all text-label-lg font-label-lg shadow-sm border border-white/10"><span class="material-symbols-outlined text-[18px] text-primary">assignment_turned_in</span><span>Issue Student Verification</span></button><button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg text-white transition-all font-label-lg text-label-lg shadow-md hover:shadow-lg" style="background: linear-gradient(135deg, #15803d 0%, #166534 100%); border: 1px solid rgba(52, 211, 153, 0.4);"><span class="material-symbols-outlined text-[20px]">cloud_upload</span><span>+ Deposit Sealed Record</span></button></div></div><!-- Upgraded Clearance & Security Matrix Pod --><div class="p-space-md rounded-xl mb-space-lg shadow-md border border-white/10" style="background: linear-gradient(135deg, #172b47 0%, #0f1c30 100%);"><div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm pb-space-sm border-b border-white/10 mb-space-sm"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(20, 69, 47, 0.5); border: 1.5px solid rgba(52, 211, 153, 0.4);"><span class="material-symbols-outlined text-[22px] text-emerald-400">verified_user</span></div><div class="flex flex-col"><div class="flex items-center gap-2 flex-wrap"><span class="font-headline-sm text-[16px] text-white font-bold">Faculty Clearance Matrix &amp; Delegation Authority</span><span class="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider text-emerald-300 font-code-snippet" style="background: #14452f; border: 1px solid rgba(52, 211, 153, 0.4);">TIER 3 SUB-CUSTODIAN ACTIVE</span><span class="px-2 py-0.5 rounded text-[11px] font-bold text-amber-300 font-code-snippet" style="background: rgba(234, 191, 85, 0.15); border: 1px solid rgba(234, 191, 85, 0.3);">DUAL-SIGNATORY ENDORSER</span></div><span class="font-body-sm text-body-sm text-slate-300">Cavite State University Cryptographic Access Node • RA 10173 Zero-Trust Institutional Registry</span></div></div><div class="flex items-center gap-2"><span class="text-[11px] text-slate-300 font-code-snippet bg-black/30 px-2 py-1 rounded border border-white/5">Role: CEIT Department Faculty &amp; Thesis Committee Chair</span></div></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm"><div class="p-space-sm rounded-lg flex flex-col justify-between" style="background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.08);"><div class="flex items-center justify-between mb-1"><span class="font-label-sm text-[11px] font-bold text-slate-300 uppercase tracking-wider">Tier 1 • Public Institutional</span><span class="material-symbols-outlined text-[16px] text-emerald-400">check_circle</span></div><span class="text-[13px] font-semibold text-white">Syllabi, Circulars &amp; Bulletins</span><div class="flex items-center justify-between mt-2 pt-1.5 border-t border-white/5"><span class="text-[11px] text-emerald-400 font-medium">Universal Read / Share</span><span class="text-[10px] font-code-snippet text-slate-400">SHA-256</span></div></div><div class="p-space-sm rounded-lg flex flex-col justify-between" style="background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.08);"><div class="flex items-center justify-between mb-1"><span class="font-label-sm text-[11px] font-bold text-slate-300 uppercase tracking-wider">Tier 2 • Academic Internal</span><span class="material-symbols-outlined text-[16px] text-emerald-400">check_circle</span></div><span class="text-[13px] font-semibold text-white">Curricula, Grade Rosters &amp; QA</span><div class="flex items-center justify-between mt-2 pt-1.5 border-t border-white/5"><span class="text-[11px] text-emerald-400 font-medium">Read, Upload &amp; Endorse</span><span class="text-[10px] font-code-snippet text-slate-400">Full R/W</span></div></div><div class="p-space-sm rounded-lg flex flex-col justify-between" style="background: linear-gradient(135deg, rgba(20, 69, 47, 0.4) 0%, rgba(22, 101, 52, 0.2) 100%); border: 1.5px solid rgba(52, 211, 153, 0.5);"><div class="flex items-center justify-between mb-1"><span class="font-label-sm text-[11px] font-bold text-emerald-300 uppercase tracking-wider">Tier 3 • Dept Confidential</span><span class="px-1.5 py-0.2 rounded text-[10px] font-bold text-slate-950 bg-emerald-400 font-code-snippet">YOUR CLEARANCE</span></div><span class="text-[13px] font-semibold text-white">Thesis Repositories, Faculty Evals</span><div class="flex items-center justify-between mt-2 pt-1.5 border-t border-emerald-500/20"><span class="text-[11px] text-emerald-300 font-semibold">Authorized Read / Write / Signatory</span><span class="material-symbols-outlined text-emerald-400 text-[14px]">verified</span></div></div><div class="p-space-sm rounded-lg flex flex-col justify-between" style="background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(234, 191, 85, 0.35);"><div class="flex items-center justify-between mb-1"><span class="font-label-sm text-[11px] font-bold text-amber-300 uppercase tracking-wider">Tier 4 • Restricted Vault</span><span class="material-symbols-outlined text-[16px] text-amber-400">lock</span></div><span class="text-[13px] font-semibold text-white">Board Resolutions &amp; Legal Seal</span><div class="flex items-center justify-between mt-2 pt-1.5 border-t border-amber-400/20"><span class="text-[11px] text-amber-300 font-medium">Dual-Officer Slip Req.</span><a class="text-[10px] font-bold text-amber-400 underline hover:text-amber-300" href="{{ route('faculty.preview.clearance-requests') }}">Elevate Slip</a></div></div></div></div><!-- Key Metrics Row (4 Pods) --><div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-lg"><div class="flex flex-col justify-between p-space-md bg-surface-container-low rounded-xl shadow-sm border border-white/10 hover:border-emerald-400/30 transition-all"><div class="flex items-center justify-between mb-space-xs"><span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Sealed Documents</span><span class="material-symbols-outlined text-primary text-[20px]">folder_open</span></div><div class="flex flex-col"><span class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">1,248</span><div class="flex items-center gap-1 mt-1 text-primary font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px]">trending_up</span><span>+32 added this month • CEIT Enclave</span></div></div></div><div class="flex flex-col justify-between p-space-md bg-surface-container-low rounded-xl shadow-sm border border-white/10 hover:border-emerald-400/30 transition-all"><div class="flex items-center justify-between mb-space-xs"><span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Active Sealed Archive</span><span class="material-symbols-outlined text-secondary text-[20px]">task_alt</span></div><div class="flex flex-col"><div class="flex items-center gap-2"><span class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">1,186</span><span class="px-1.5 py-0.5 rounded text-[10px] font-bold text-emerald-300 bg-emerald-500/10 font-code-snippet">95.0%</span></div><span class="mt-1 font-body-sm text-body-sm text-on-surface-variant">Cryptographically locked under RA 10173</span></div></div><div class="flex flex-col justify-between p-space-md rounded-xl shadow-sm transition-all" style="background: #172b47; border: 1.5px solid rgba(234, 191, 85, 0.4);"><div class="flex items-center justify-between mb-space-xs"><span class="font-label-md text-label-md text-amber-300 uppercase tracking-wider font-semibold">Pending Clearance Slips</span><span class="material-symbols-outlined text-amber-400 text-[20px]">pending_actions</span></div><div class="flex flex-col"><div class="flex items-center gap-2"><span class="font-headline-lg text-headline-lg text-white font-bold tracking-tight">5</span><span class="px-1.5 py-0.5 rounded text-[10px] font-bold text-slate-950 bg-amber-400 font-code-snippet">ACTION REQ</span></div><span class="mt-1 font-body-sm text-body-sm text-slate-300">3 Thesis Clearances • 2 Tier 4 Requests</span></div></div><div class="flex flex-col justify-between p-space-md bg-surface-container-low rounded-xl shadow-sm border border-white/10 hover:border-emerald-400/30 transition-all"><div class="flex items-center justify-between mb-space-xs"><span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Enrolled Dept Personnel</span><span class="material-symbols-outlined text-primary-fixed-dim text-[20px]">badge</span></div><div class="flex flex-col"><span class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">256</span><span class="mt-1 font-body-sm text-body-sm text-on-surface-variant">48 CEIT Faculty • 208 Thesis Scholars</span></div></div></div><!-- Middle Grid: Document Activity & Security Overview --><div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg mb-space-lg items-stretch"><!-- Chart Pod (8 Columns) --><div class="lg:col-span-8 flex flex-col justify-between p-space-lg bg-surface-container-low rounded-xl shadow-sm border border-white/10"><div class="flex flex-row items-center justify-between mb-space-md"><div class="flex flex-col"><div class="flex items-center gap-2"><span class="font-headline-sm text-headline-sm text-on-surface font-bold">Clearance &amp; Retrieval Telemetry</span><span class="px-2 py-0.5 rounded text-[10px] font-code-snippet text-emerald-400 bg-emerald-400/10 border border-emerald-400/20">NODE: CEIT-01</span></div><span class="font-body-sm text-body-sm text-on-surface-variant">Daily cryptographic handshake volume and document access events</span></div><div class="flex items-center gap-space-sm"><div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant"><span class="w-2.5 h-2.5 rounded-sm bg-tertiary"></span><span>Sealed Upload</span></div><div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant"><span class="w-2.5 h-2.5 rounded-sm bg-primary"></span><span>Clearance Retrieval</span></div><span class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm ml-2 font-code-snippet">7-Day Rolling</span></div></div><div class="w-full flex-1 flex flex-col justify-end pt-space-md"><div class="w-full h-56 flex items-end justify-between gap-2 px-space-sm"><div class="flex-1 flex flex-col items-center gap-space-xs h-full justify-end group cursor-pointer"><div class="w-full flex items-end justify-center gap-1.5 h-44"><div class="w-3.5 bg-tertiary rounded-t transition-all group-hover:brightness-125 h-[45%]"></div><div class="w-3.5 bg-primary rounded-t transition-all group-hover:brightness-125 h-[70%]"></div></div><span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Mon</span></div><div class="flex-1 flex flex-col items-center gap-space-xs h-full justify-end group cursor-pointer"><div class="w-full flex items-end justify-center gap-1.5 h-44"><div class="w-3.5 bg-tertiary rounded-t transition-all group-hover:brightness-125 h-[62%]"></div><div class="w-3.5 bg-primary rounded-t transition-all group-hover:brightness-125 h-[50%]"></div></div><span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Tue</span></div><div class="flex-1 flex flex-col items-center gap-space-xs h-full justify-end group cursor-pointer"><div class="w-full flex items-end justify-center gap-1.5 h-44"><div class="w-3.5 bg-tertiary rounded-t transition-all group-hover:brightness-125 h-[35%]"></div><div class="w-3.5 bg-primary rounded-t transition-all group-hover:brightness-125 h-[80%]"></div></div><span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Wed</span></div><div class="flex-1 flex flex-col items-center gap-space-xs h-full justify-end group cursor-pointer"><div class="w-full flex items-end justify-center gap-1.5 h-44"><div class="w-3.5 bg-tertiary rounded-t transition-all group-hover:brightness-125 h-[78%]"></div><div class="w-3.5 bg-primary rounded-t transition-all group-hover:brightness-125 h-[60%]"></div></div><span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Thu</span></div><div class="flex-1 flex flex-col items-center gap-space-xs h-full justify-end group cursor-pointer"><div class="w-full flex items-end justify-center gap-1.5 h-44"><div class="w-3.5 bg-tertiary rounded-t transition-all group-hover:brightness-125 h-[58%]"></div><div class="w-3.5 bg-primary rounded-t transition-all group-hover:brightness-125 h-[95%]"></div></div><span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Fri</span></div><div class="flex-1 flex flex-col items-center gap-space-xs h-full justify-end group cursor-pointer"><div class="w-full flex items-end justify-center gap-1.5 h-44"><div class="w-3.5 bg-tertiary rounded-t transition-all group-hover:brightness-125 h-[22%]"></div><div class="w-3.5 bg-primary rounded-t transition-all group-hover:brightness-125 h-[35%]"></div></div><span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Sat</span></div><div class="flex-1 flex flex-col items-center gap-space-xs h-full justify-end group cursor-pointer"><div class="w-full flex items-end justify-center gap-1.5 h-44"><div class="w-3.5 bg-tertiary rounded-t transition-all group-hover:brightness-125 h-[28%]"></div><div class="w-3.5 bg-primary rounded-t transition-all group-hover:brightness-125 h-[42%]"></div></div><span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface">Sun</span></div></div></div></div><!-- Security & Integrity Overview (4 Columns) --><div class="lg:col-span-4 flex flex-col justify-between p-space-lg bg-surface-container-low rounded-xl shadow-sm border border-white/10"><div class="flex flex-col gap-space-sm"><div class="flex items-center justify-between"><span class="font-headline-sm text-headline-sm text-on-surface font-bold">Security &amp; Integrity</span><span class="px-space-xs py-0.5 rounded font-label-sm text-label-sm font-semibold tracking-wide text-emerald-300 font-code-snippet" style="background: #14452f; border: 1px solid rgba(52, 211, 153, 0.4);">CEIT HSM VERIFIED</span></div><div class="p-space-md rounded-lg flex flex-col gap-space-xs mt-space-sm" style="background: #172b47; border: 1px solid rgba(255, 255, 255, 0.08);"><div class="flex items-center justify-between"><div class="flex items-center gap-space-xs text-primary"><span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">verified_user</span><span class="font-headline-sm text-headline-sm font-bold text-white">98% Classified</span></div><span class="text-[11px] font-code-snippet text-amber-300 font-bold">62 PENDING HASH</span></div><div class="w-full h-2 rounded bg-surface-container-highest overflow-hidden my-space-xs"><div class="h-full bg-emerald-400 rounded transition-all duration-500" style="width: 98%;"></div></div><p class="font-body-sm text-body-sm text-slate-300 leading-relaxed">1,186 of 1,248 files cryptographically sealed and watermarked under Republic Act 10173 compliance standards.</p></div><div class="flex flex-col gap-space-xs pt-space-xs"><div class="flex items-center justify-between font-code-snippet text-code-snippet text-on-surface-variant"><span>Audit Integrity:</span><span class="text-primary font-bold font-code-snippet">SHA-256 Validated</span></div><div class="flex items-center justify-between font-code-snippet text-code-snippet text-on-surface-variant"><span>Hardware Enclave:</span><span class="text-amber-300 font-semibold font-code-snippet">FIPS 140-3 Active</span></div><div class="flex items-center justify-between font-code-snippet text-code-snippet text-on-surface-variant"><span>Custodian Stamp:</span><span class="text-slate-300 font-code-snippet">SEC-CEIT-0994-OK</span></div></div></div><div class="pt-space-md border-t border-white/5"><a class="inline-flex items-center gap-space-xs text-emerald-400 hover:text-emerald-300 font-label-md text-label-md group transition-colors" href="{{ route('faculty.preview.document-library') }}"><span>View security settings &amp; cryptographic audit</span><span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span></a></div></div></div><!-- Bottom Grid: Recent Documents & Activity Feed --><div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg mb-space-lg"><!-- Recent Documents (8 Columns) --><div class="lg:col-span-8 flex flex-col p-space-lg bg-surface-container-low rounded-xl shadow-sm border border-white/10"><div class="flex items-center justify-between pb-space-md mb-space-xs border-b border-white/10"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[22px]">source</span><span class="font-headline-sm text-headline-sm text-on-surface font-bold">CEIT Clearance &amp; Repository Documents</span></div><div class="flex items-center gap-3"><span class="text-[11px] font-code-snippet text-slate-400">Showing 4 of 1,248</span><a class="inline-flex items-center gap-1 text-primary hover:text-primary-fixed font-label-md text-label-md font-semibold" href="{{ route('faculty.preview.department-records') }}"><span>View all repository</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></div><div class="flex flex-col gap-space-xs"><!-- Item 1 --><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-sm rounded-lg hover:bg-surface-container transition-colors group"><div class="flex items-center gap-space-sm min-w-0"><div class="w-10 h-10 rounded-lg bg-surface-container-high group-hover:bg-primary-container flex items-center justify-center flex-shrink-0 transition-colors"><span class="material-symbols-outlined text-primary group-hover:text-on-primary-container text-[20px]">description</span></div><div class="flex flex-col min-w-0"><span class="font-body-md text-body-md text-on-surface font-semibold truncate group-hover:text-primary transition-colors">CEIT Computer Studies Faculty Merit &amp; Tenure Guidelines 2026.pdf</span><span class="font-body-sm text-body-sm text-on-surface-variant font-code-snippet text-[11px]">Academic • CEIT Dean • 2.4 MB • HASH: 8bf3...a12c</span></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><span class="px-space-xs py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-medium">Tier 3 (Authorized)</span><button aria-label="Download Document" class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">download</span></button></div></div><!-- Item 2 --><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-sm rounded-lg hover:bg-surface-container transition-colors group"><div class="flex items-center gap-space-sm min-w-0"><div class="w-10 h-10 rounded-lg bg-surface-container-high group-hover:bg-primary-container flex items-center justify-center flex-shrink-0 transition-colors"><span class="material-symbols-outlined text-primary group-hover:text-on-primary-container text-[20px]">gavel</span></div><div class="flex flex-col min-w-0"><span class="font-body-md text-body-md text-on-surface font-semibold truncate group-hover:text-primary transition-colors">Board of Regents Resolution No. 2026-094.pdf</span><span class="font-body-sm text-body-sm text-on-surface-variant font-code-snippet text-[11px]">Administrative &amp; Board • Sealed Yesterday • 840 KB • Vault Tier 4</span></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><span class="px-space-xs py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-medium">Tier 4 (Dual Slip Req)</span><button aria-label="Request Access" class="p-1 rounded hover:bg-surface-container-highest text-amber-400 hover:text-amber-300 transition-colors"><span class="material-symbols-outlined text-[18px]">lock_reset</span></button></div></div><!-- Item 3 --><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-sm rounded-lg hover:bg-surface-container transition-colors group"><div class="flex items-center gap-space-sm min-w-0"><div class="w-10 h-10 rounded-lg bg-surface-container-high group-hover:bg-primary-container flex items-center justify-center flex-shrink-0 transition-colors"><span class="material-symbols-outlined text-primary group-hover:text-on-primary-container text-[20px]">verified</span></div><div class="flex flex-col min-w-0"><span class="font-body-md text-body-md text-on-surface font-semibold truncate group-hover:text-primary transition-colors">BS Computer Science CHED Level IV Re-Accreditation.pdf</span><span class="font-body-sm text-body-sm text-on-surface-variant font-code-snippet text-[11px]">Accreditation &amp; QA • 14.8 MB • Endorsed by Juan Dela Cruz</span></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><span class="px-space-xs py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-medium">Tier 3 (Endorsed)</span><button aria-label="Download Document" class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">download</span></button></div></div><!-- Item 4 --><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-sm rounded-lg hover:bg-surface-container transition-colors group"><div class="flex items-center gap-space-sm min-w-0"><div class="w-10 h-10 rounded-lg bg-surface-container-high group-hover:bg-primary-container flex items-center justify-center flex-shrink-0 transition-colors"><span class="material-symbols-outlined text-primary group-hover:text-on-primary-container text-[20px]">table_chart</span></div><div class="flex flex-col min-w-0"><span class="font-body-md text-body-md text-on-surface font-semibold truncate group-hover:text-primary transition-colors">Q4 CEIT Department Budget Allocation.xlsx</span><span class="font-body-sm text-body-sm text-on-surface-variant font-code-snippet text-[11px]">Finance • James Wilson • 1.2 MB • Ready for Sign-Off</span></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><span class="px-space-xs py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-medium">Tier 3 (Signatory)</span><button aria-label="Download Document" class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">download</span></button></div></div></div></div><!-- Recent Activity Timeline (4 Columns) --><div class="lg:col-span-4 flex flex-col p-space-lg bg-surface-container-low rounded-xl shadow-sm border border-white/10"><div class="flex items-center justify-between pb-space-md mb-space-xs border-b border-white/10"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[22px]">history</span><span class="font-headline-sm text-headline-sm text-on-surface font-bold">Audit Telemetry</span></div><span class="font-label-sm text-label-sm text-amber-300 font-code-snippet font-semibold">LIVE STREAM</span></div><div class="flex flex-col gap-space-md relative before:absolute before:top-2 before:bottom-2 before:left-[15px] before:w-[2px] before:bg-surface-container-highest"><div class="flex items-start gap-space-sm relative z-10"><div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0 text-primary"><span class="material-symbols-outlined text-[16px]">check_circle</span></div><div class="flex flex-col min-w-0"><span class="font-body-md text-body-md text-on-surface font-medium leading-snug">Dr. Emily Davis approved your Tier 3 access slip</span><span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5 font-code-snippet">18 min ago • Token #883-CEIT</span></div></div><div class="flex items-start gap-space-sm relative z-10"><div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0 text-amber-400"><span class="material-symbols-outlined text-[16px]">approval_delegation</span></div><div class="flex flex-col min-w-0"><span class="font-body-md text-body-md text-on-surface font-medium leading-snug">Thesis Committee: 3 student clearances submitted to you</span><span class="font-label-sm text-label-sm text-amber-300 mt-0.5 font-code-snippet">42 min ago • Awaiting Dela Cruz Endorsement</span></div></div><div class="flex items-start gap-space-sm relative z-10"><div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0 text-secondary"><span class="material-symbols-outlined text-[16px]">upload_file</span></div><div class="flex flex-col min-w-0"><span class="font-body-md text-body-md text-on-surface font-medium leading-snug">Sarah Chen uploaded Faculty Handbook 2026</span><span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5 font-code-snippet">2 hrs ago • Academic Affairs</span></div></div><div class="flex items-start gap-space-sm relative z-10"><div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0 text-primary-fixed-dim"><span class="material-symbols-outlined text-[16px]">fingerprint</span></div><div class="flex flex-col min-w-0"><span class="font-body-md text-body-md text-on-surface font-medium leading-snug">Automated steganographic audit completed for session</span><span class="font-label-sm text-label-sm text-emerald-400 mt-0.5 font-code-snippet">Yesterday • Zero Tampering Anomalies</span></div></div></div></div></div></div></main><footer class="w-full bg-surface-container-lowest mt-space-xl py-space-lg px-space-lg"><div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex flex-col gap-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant font-bold">Cavite State University Data Privacy Act of 2012 (RA 10173) Directive Notice</span><span class="font-body-sm text-body-sm text-on-surface-variant">All document transactions, SHA-256 cryptographic handshakes, and clearance authorizations are logged in real-time under zero-trust audit protocols.</span></div><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[18px]">fingerprint</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Steganographic Watermark Protected • TLS 1.3 Strict</span></div></div></footer></div>
+@extends('layouts.app', [
+    'role' => 'faculty',
+    'pageTitle' => 'Clearance Command & Faculty Custody',
+    'breadcrumbs' => ['CvSU CEIT Enclave', 'Faculty Node', 'Clearance Command Portal']
+])
 
+@section('title', 'Faculty Clearance Command — CEIT Enclave')
 
+@section('content')
+<!-- Hero / Header Section -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-white/10">
+    <div class="flex flex-col gap-1.5">
+        <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans">
+                Clearance Command & Faculty Custody
+            </h1>
+            <x-badge tier="3" label="CEIT JURISDICTION" />
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500/20">
+                AUTH: DEPT-FAC-THESIS-CHAIR
+            </span>
+        </div>
+        <p class="text-xs text-slate-500 dark:text-slate-400">
+            Welcome back, <strong class="text-slate-800 dark:text-slate-200">Prof. Juan Dela Cruz</strong>. You possess delegated Tier 3 clearance to endorse research manuscripts, approve student slips, and sign institutional transcripts.
+        </p>
+    </div>
 
+    <!-- Semi-Admin Actions Group -->
+    <div class="flex items-center gap-2.5 flex-wrap">
+        <button 
+            type="button" 
+            onclick="openModal('review-dept-slips-modal')"
+            class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-amber-600 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/10 hover:bg-amber-100 dark:hover:bg-amber-500/20 border border-amber-300 dark:border-amber-400/30 text-xs font-semibold transition shadow-sm"
+        >
+            <span class="material-symbols-outlined text-[18px]">fact_check</span>
+            <span>Review Dept Slips (5)</span>
+        </button>
 
+        <button 
+            type="button" 
+            onclick="openModal('upload-sealed-record-modal')"
+            class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-white bg-emerald-600 hover:bg-emerald-500 shadow-md text-xs font-semibold transition active:scale-95"
+        >
+            <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
+            <span>+ Deposit Sealed Record</span>
+        </button>
+    </div>
+</div>
 
-</body></html>
+<!-- Clearance & Security Matrix Pod (Visualizing All 4 Tiers with Faculty's Tier 3 Highlighted) -->
+<div class="p-5 rounded-2xl bg-slate-50 dark:bg-[#111e32] border border-emerald-500/30 shadow-md">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-white/10 mb-4">
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-500">
+                <span class="material-symbols-outlined text-[20px]">verified_user</span>
+            </div>
+            <div>
+                <h2 class="text-sm font-bold text-slate-900 dark:text-white">Faculty Clearance Matrix & Delegation Authority</h2>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">Cavite State University Cryptographic Access Node • RA 10173 Zero-Trust Registry</p>
+            </div>
+        </div>
+        <x-badge tier="3" label="TIER 3 SUB-CUSTODIAN ACTIVE" />
+    </div>
+
+    <!-- 4 Tier Pillars -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <!-- Tier 1 -->
+        <div class="p-3.5 rounded-xl bg-white dark:bg-black/20 border border-slate-200 dark:border-white/10 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase">Tier 1 • Public</span>
+                    <span class="material-symbols-outlined text-[15px] text-emerald-500">check_circle</span>
+                </div>
+                <span class="text-xs font-semibold text-slate-800 dark:text-white">Syllabi, Circulars & Bulletins</span>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-[10px] font-mono">
+                <span class="text-emerald-600 dark:text-emerald-400">Universal Read</span>
+                <span class="text-slate-400">SHA-256</span>
+            </div>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="p-3.5 rounded-xl bg-white dark:bg-black/20 border border-slate-200 dark:border-white/10 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase">Tier 2 • Academic</span>
+                    <span class="material-symbols-outlined text-[15px] text-emerald-500">check_circle</span>
+                </div>
+                <span class="text-xs font-semibold text-slate-800 dark:text-white">Curricula, Grade Rosters & QA</span>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-[10px] font-mono">
+                <span class="text-emerald-600 dark:text-emerald-400">Upload & Endorse</span>
+                <span class="text-slate-400">Full R/W</span>
+            </div>
+        </div>
+
+        <!-- Tier 3 (Faculty Clearance Highlighted) -->
+        <div class="p-3.5 rounded-xl bg-emerald-500/10 dark:bg-emerald-950/40 border-2 border-emerald-500/60 flex flex-col justify-between shadow-sm">
+            <div>
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-300 uppercase">Tier 3 • Confidential</span>
+                    <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500 text-slate-950">YOUR CLEARANCE</span>
+                </div>
+                <span class="text-xs font-semibold text-slate-900 dark:text-white">Thesis Repositories & Evals</span>
+            </div>
+            <div class="mt-3 pt-2 border-t border-emerald-500/20 flex items-center justify-between text-[10px] font-mono">
+                <span class="text-emerald-700 dark:text-emerald-300 font-semibold">Signatory Authority</span>
+                <span class="material-symbols-outlined text-[14px] text-emerald-500">verified</span>
+            </div>
+        </div>
+
+        <!-- Tier 4 -->
+        <div class="p-3.5 rounded-xl bg-white dark:bg-black/20 border border-amber-400/30 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-mono font-bold text-amber-600 dark:text-amber-400 uppercase">Tier 4 • Vault</span>
+                    <span class="material-symbols-outlined text-[15px] text-amber-500">lock</span>
+                </div>
+                <span class="text-xs font-semibold text-slate-800 dark:text-white">Board Resolutions & Legal Seal</span>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-[10px] font-mono">
+                <span class="text-amber-600 dark:text-amber-300">Dual Slip Req.</span>
+                <a href="{{ route('faculty.preview.tier-4-access-request') }}" class="underline hover:text-amber-400">Elevate Slip</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4 Key Metrics Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <x-stat-card 
+        icon="folder_special"
+        label="Total Sealed Records"
+        value="1,248"
+        badge="+32 this month"
+        badgeType="success"
+        subtitle="CEIT Enclave Document Storage"
+    />
+
+    <x-stat-card 
+        icon="task_alt"
+        label="Active Sealed Archive"
+        value="1,186"
+        badge="95.0% Watermarked"
+        badgeType="success"
+        subtitle="RA 10173 Cryptographic Lock"
+    />
+
+    <x-stat-card 
+        icon="pending_actions"
+        label="Pending Clearance Slips"
+        value="5"
+        badge="ACTION REQ"
+        badgeType="warning"
+        subtitle="3 Thesis Clearances • 2 Tier 4 Slips"
+        :borderHighlight="true"
+    />
+
+    <x-stat-card 
+        icon="badge"
+        label="Dept Personnel"
+        value="256"
+        subtitle="48 CEIT Faculty • 208 Thesis Scholars"
+    />
+</div>
+
+<!-- Middle Grid: Telemetry & Security Health -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+    <!-- Chart Telemetry (8 Cols) -->
+    <div class="lg:col-span-8 flex flex-col justify-between p-5 rounded-2xl bg-white dark:bg-[#0f1724] border border-slate-200 dark:border-white/10 shadow-sm">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10 mb-4">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">Clearance & Retrieval Telemetry</h3>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">NODE: CEIT-01</span>
+                </div>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Daily cryptographic verification handshake volume</p>
+            </div>
+            <span class="text-xs font-mono text-slate-400">7-Day Rolling</span>
+        </div>
+
+        <!-- CSS Bar Graph -->
+        <div class="w-full h-44 flex items-end justify-between gap-3 px-4 pt-4">
+            @foreach(['Mon' => 70, 'Tue' => 50, 'Wed' => 85, 'Thu' => 60, 'Fri' => 95, 'Sat' => 35, 'Sun' => 45] as $day => $pct)
+                <div class="flex-1 flex flex-col items-center gap-2 group cursor-pointer">
+                    <div class="w-full flex items-end justify-center h-32">
+                        <div class="w-5 rounded-t bg-emerald-600 dark:bg-emerald-500 group-hover:brightness-125 transition-all" style="height: {{ $pct }}%"></div>
+                    </div>
+                    <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white">{{ $day }}</span>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <!-- Security & Integrity Overview (4 Cols) -->
+    <div class="lg:col-span-4 flex flex-col justify-between p-5 rounded-2xl bg-white dark:bg-[#0f1724] border border-slate-200 dark:border-white/10 shadow-sm">
+        <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10 mb-3">
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Security & Integrity</h3>
+                <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">CEIT HSM</span>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-[#111e32] border border-slate-200 dark:border-white/10 mb-3">
+                <div class="flex items-center justify-between text-xs mb-1.5">
+                    <span class="font-bold text-slate-900 dark:text-white">98% Classified & Sealed</span>
+                    <span class="text-amber-600 dark:text-amber-400 font-mono text-[11px]">62 PENDING</span>
+                </div>
+                <div class="w-full h-2 rounded bg-slate-200 dark:bg-white/10 overflow-hidden">
+                    <div class="h-full bg-emerald-500 rounded" style="width: 98%"></div>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                    1,186 of 1,248 files cryptographically sealed and watermarked under Republic Act 10173 standards.
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400">
+                <div class="flex items-center justify-between">
+                    <span>Audit Integrity:</span>
+                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold">SHA-256 Validated</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span>Hardware Enclave:</span>
+                    <span class="text-amber-600 dark:text-amber-400 font-semibold">FIPS 140-3 Active</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span>Sub-Custodian Stamp:</span>
+                    <span class="text-slate-700 dark:text-slate-300">SEC-CEIT-0994-OK</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-200 dark:border-white/10 mt-4">
+            <a href="{{ route('faculty.preview.document-library') }}" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-mono">
+                <span>View Full Document Library</span>
+                <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Section: Recent Documents & Live Audit Feed -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <!-- Recent Documents (8 Cols) -->
+    <div class="lg:col-span-8 bg-white dark:bg-[#0f1724] border border-slate-200 dark:border-white/10 rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10 mb-4">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-emerald-500 text-[20px]">source</span>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">CEIT Clearance & Repository Documents</h3>
+            </div>
+            <a href="{{ route('faculty.preview.department-records') }}" class="text-xs font-mono text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1">
+                <span>All Records</span>
+                <span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+            </a>
+        </div>
+
+        <!-- Document Item Rows -->
+        <div class="flex flex-col gap-2.5">
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-emerald-500/30 transition">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-[18px]">description</span>
+                    </div>
+                    <div class="flex flex-col min-w-0">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white truncate">CEIT Computer Studies Faculty Merit & Tenure Guidelines 2026.pdf</span>
+                        <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400">Academic • CEIT Dean • 2.4 MB • HASH: 8bf3...a12c</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <x-badge tier="3" label="Tier 3 Authorized" />
+                    <button type="button" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 hover:text-slate-900 dark:hover:text-white" title="Download Record">
+                        <span class="material-symbols-outlined text-[16px]">download</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-amber-400/30 transition">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-[18px]">gavel</span>
+                    </div>
+                    <div class="flex flex-col min-w-0">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Board of Regents Resolution No. 2026-094.pdf</span>
+                        <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400">Administrative • Sealed Yesterday • 840 KB • Vault Tier 4</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <x-badge tier="4" label="Dual Slip Req" />
+                    <a href="{{ route('faculty.preview.tier-4-access-request') }}" class="px-2.5 py-1 rounded bg-amber-500/15 border border-amber-400/30 text-amber-600 dark:text-amber-300 text-[11px] font-mono font-medium hover:bg-amber-500/25 transition">
+                        Request Slip
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-emerald-500/30 transition">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-[18px]">verified</span>
+                    </div>
+                    <div class="flex flex-col min-w-0">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white truncate">BS Computer Science CHED Level IV Re-Accreditation.pdf</span>
+                        <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400">Accreditation & QA • 14.8 MB • Endorsed by Juan Dela Cruz</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <x-badge tier="3" label="Tier 3 Endorsed" />
+                    <button type="button" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 hover:text-slate-900 dark:hover:text-white" title="Download Record">
+                        <span class="material-symbols-outlined text-[16px]">download</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Audit Telemetry (4 Cols) -->
+    <div class="lg:col-span-4 bg-white dark:bg-[#0f1724] border border-slate-200 dark:border-white/10 rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10 mb-3">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="material-symbols-outlined text-emerald-500 text-[18px]">history</span>
+                <span>Audit Telemetry</span>
+            </h3>
+            <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">LIVE STREAM</span>
+        </div>
+
+        <div class="flex flex-col gap-3">
+            <div class="flex items-start gap-2.5 text-xs">
+                <div class="w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0 mt-0.5">
+                    <span class="material-symbols-outlined text-[15px]">check_circle</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="text-slate-800 dark:text-white font-medium">Dr. Davis approved Tier 3 slip</span>
+                    <span class="text-[10px] font-mono text-slate-400">18 min ago • Token #883-CEIT</span>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-2.5 text-xs">
+                <div class="w-7 h-7 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0 mt-0.5">
+                    <span class="material-symbols-outlined text-[15px]">pending_actions</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="text-slate-800 dark:text-white font-medium">3 student clearances submitted to you</span>
+                    <span class="text-[10px] font-mono text-amber-600 dark:text-amber-400">42 min ago • Awaiting Endorsement</span>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-2.5 text-xs">
+                <div class="w-7 h-7 rounded-full bg-sky-500/10 text-sky-500 flex items-center justify-center shrink-0 mt-0.5">
+                    <span class="material-symbols-outlined text-[15px]">upload_file</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="text-slate-800 dark:text-white font-medium">Faculty Handbook 2026 deposited</span>
+                    <span class="text-[10px] font-mono text-slate-400">2 hrs ago • Academic Affairs</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('modals')
+<!-- Deposit Sealed Record Modal -->
+<x-modal 
+    id="upload-sealed-record-modal" 
+    title="Deposit Sealed Institutional Record" 
+    subtitle="CEIT Enclave Cryptographic Document Ingestion"
+    icon="cloud_upload"
+>
+    <form action="{{ route('faculty.submit-department-file') }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
+        @csrf
+        <div>
+            <label class="block text-xs font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
+                Document Title
+            </label>
+            <input type="text" name="title" required placeholder="e.g. BSCS Thesis Defense Clearance Docket 2026" class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div>
+                <label class="block text-xs font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
+                    Clearance Tier
+                </label>
+                <select name="tier" class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
+                    <option value="tier-2">Tier 2 • Academic Internal</option>
+                    <option value="tier-3" selected>Tier 3 • Dept Confidential</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
+                    Department Unit
+                </label>
+                <input type="text" value="CEIT - Dept of Computer Studies" readonly class="w-full text-xs rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-300 dark:border-white/10 p-2.5 text-slate-500 dark:text-slate-400 font-mono">
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-xs font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
+                Attach File (PDF, DOCX up to 25MB)
+            </label>
+            <div class="border-2 border-dashed border-slate-300 dark:border-white/15 rounded-xl p-6 text-center hover:border-emerald-500 transition cursor-pointer">
+                <span class="material-symbols-outlined text-[32px] text-emerald-500">upload_file</span>
+                <p class="text-xs text-slate-700 dark:text-slate-300 font-semibold mt-1">Click to upload or drag and drop</p>
+                <p class="text-[10px] text-slate-400 font-mono">SHA-256 fingerprint will be automatically embedded</p>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-white/10">
+            <button type="button" onclick="closeModal('upload-sealed-record-modal')" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
+                Cancel
+            </button>
+            <button type="button" onclick="closeModal('upload-sealed-record-modal'); alert('Document queued for steganographic hash calculation and sealed.');" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm transition">
+                Sign & Deposit Record
+            </button>
+        </div>
+    </form>
+</x-modal>
+
+<!-- Review Department Slips Modal -->
+<x-modal 
+    id="review-dept-slips-modal" 
+    title="Department Clearance Requests" 
+    subtitle="5 Student Slips Pending Dela Cruz Faculty Endorsement"
+    icon="fact_check"
+    maxWidth="max-w-2xl"
+>
+    <div class="flex flex-col gap-3">
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex items-center justify-between">
+            <div class="flex flex-col">
+                <span class="text-xs font-bold text-slate-900 dark:text-white">Maria Santos (2023-10492-CS)</span>
+                <span class="text-[10px] font-mono text-slate-500">BSCS Thesis Manuscript Final Defense Endorsement</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="alert('Clearance docket endorsed under Tier 3 key signature.'); closeModal('review-dept-slips-modal');" class="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition">
+                    Endorse
+                </button>
+                <button type="button" class="px-2.5 py-1 rounded border border-slate-300 dark:border-white/10 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
+                    Details
+                </button>
+            </div>
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex items-center justify-between">
+            <div class="flex flex-col">
+                <span class="text-xs font-bold text-slate-900 dark:text-white">Alexander Reyes (2022-01923-IT)</span>
+                <span class="text-[10px] font-mono text-slate-500">Capstone Project Source Code Verification Clearance</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="alert('Clearance docket endorsed under Tier 3 key signature.'); closeModal('review-dept-slips-modal');" class="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition">
+                    Endorse
+                </button>
+                <button type="button" class="px-2.5 py-1 rounded border border-slate-300 dark:border-white/10 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
+                    Details
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <x-slot name="footer">
+        <button type="button" onclick="closeModal('review-dept-slips-modal')" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
+            Close Queue
+        </button>
+    </x-slot>
+</x-modal>
+@endpush
