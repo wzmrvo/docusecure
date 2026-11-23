@@ -1,13 +1,48 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 
 // Main Login Page
 Route::get('/', function () {
     return view('auth.login');
 })->name('login');
+
+Route::post('/', function (Request $request) {
+    abort_if(app()->environment('production'), 404);
+
+    $accounts = [
+        'admin@cvsu.edu.ph' => ['role' => 'admin', 'name' => 'Tier 4 Administrator'],
+        'faculty@cvsu.edu.ph' => ['role' => 'faculty', 'name' => 'Tier 3 Faculty'],
+        'student@cvsu.edu.ph' => ['role' => 'student', 'name' => 'Student Scholar'],
+        'viewer@cvsu.edu.ph' => ['role' => 'viewer', 'name' => 'Guest Viewer'],
+    ];
+
+    $email = strtolower(trim((string) $request->input('email')));
+    $password = (string) $request->input('password');
+
+    if (! isset($accounts[$email]) || $password !== 'Demo@123') {
+        return back()->withErrors(['email' => 'Demo sign-in failed.']);
+    }
+
+    $account = $accounts[$email];
+    $user = User::updateOrCreate(
+        ['email' => $email],
+        [
+            'name' => $account['name'],
+            'role' => $account['role'],
+            'password' => Hash::make('Demo@123'),
+        ],
+    );
+
+    Auth::login($user);
+    $request->session()->regenerate();
+
+    return redirect('/preview/two-factor');
+});
 
 // Helpdesk
 Route::view('/helpdesk', 'helpdesk.index')->name('helpdesk');
@@ -47,7 +82,7 @@ Route::prefix('preview')->group(function () {
 });
 
 // Admin Preview Routes
-Route::prefix('admin/preview')->name('admin.preview.')->group(function () {
+Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/', fn () => view('admin.index'))->name('dashboard');
     Route::get('/access-levels', fn () => view('admin.access-levels'))->name('access-levels');
@@ -60,8 +95,7 @@ Route::prefix('admin/preview')->name('admin.preview.')->group(function () {
     Route::get('/stage-3', fn () => view('admin.stage-3'))->name('stage-3');
     Route::get('/provisioning-receipt', fn () => view('admin.provisioning-receipt'))->name('provisioning-receipt');
 
-    Route::get('/provision-stage-2', fn () =>
-        redirect('/admin/preview/provision-stage-1#vault-clearance-tier-delegation')
+    Route::get('/provision-stage-2', fn () => redirect('/admin/preview/provision-stage-1#vault-clearance-tier-delegation')
     )->name('provision-stage-2-embedded');
 
     // Tier 4 Admin Logout Confirmation
@@ -71,7 +105,7 @@ Route::prefix('admin/preview')->name('admin.preview.')->group(function () {
 });
 
 // Faculty Preview Routes
-Route::prefix('faculty/preview')->name('faculty.preview.')->group(function () {
+Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 'role:faculty'])->group(function () {
 
     // Faculty Pages
     Route::view('/', 'faculty.dashboard')->name('dashboard');
@@ -94,12 +128,12 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->group(function () {
 Route::view(
     '/faculty/tier-4-access-request',
     'faculty.tier-4-access-request'
-)->name('faculty.tier-4-access-request');
+)->middleware(['auth', 'role:faculty'])->name('faculty.tier-4-access-request');
 
 Route::view(
     '/faculty/clearance-submitted',
     'faculty.clearance-submitted'
-)->name('faculty.clearance-submitted');
+)->middleware(['auth', 'role:faculty'])->name('faculty.clearance-submitted');
 
 // Faculty Form Submission Routes
 Route::post('/faculty/submit-department-file', function (Request $request) {
@@ -121,7 +155,7 @@ Route::post('/faculty/submit-tier-4-access-request', function (Request $request)
 })->name('faculty.submit-tier-4-access-request');
 
 // Student Preview Routes
-Route::prefix('student/preview')->name('student.preview.')->group(function () {
+Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 'role:student'])->group(function () {
 
     Route::view('/', 'student.dashboard')->name('dashboard');
     Route::view('/document-library', 'student.document-library')->name('document-library');
@@ -133,7 +167,7 @@ Route::prefix('student/preview')->name('student.preview.')->group(function () {
 });
 
 // Viewer Preview Routes
-Route::prefix('viewer/preview')->name('viewer.preview.')->group(function () {
+Route::prefix('viewer/preview')->name('viewer.preview.')->middleware(['auth', 'role:viewer'])->group(function () {
 
     Route::view('/', 'viewer.dashboard')->name('dashboard');
     Route::view('/document-library', 'student.document-library')->name('document-library');

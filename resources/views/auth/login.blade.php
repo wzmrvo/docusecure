@@ -68,7 +68,7 @@
         <!-- Top Identity Header -->
         <div class="relative z-10">
             <header class="flex items-center gap-3.5">
-                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl border border-white/20 bg-white flex items-center justify-center p-1 shadow-lg">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center">
                     <img src="{{ asset('images/cvsu-logo.png') }}" alt="Cavite State University Emblem" class="w-full h-full object-contain">
                 </div>
                 <div>

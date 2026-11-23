@@ -63,16 +63,15 @@
     const passwordInput = document.getElementById('password');
     if (form && emailInput && passwordInput) {
       form.addEventListener('submit', function (event) {
-        event.preventDefault();
         const email = emailInput.value.trim().toLowerCase();
         const password = passwordInput.value;
         if (!ACCOUNTS[email] || password !== DEMO_PASSWORD) {
+          event.preventDefault();
           showLoginError('Demo sign-in failed. Select one of the four demo accounts and use password Demo@123.');
           passwordInput.focus();
           return;
         }
         saveAccount(email);
-        go(PATHS.twoFactor);
       });
     }
     window.fillDemoAccount = function (email) {

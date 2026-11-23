@@ -123,7 +123,7 @@
     <div class="flex min-h-0 flex-1 flex-col">
         <div class="flex h-16 items-center border-b border-slate-200 bg-slate-50/70 px-4 dark:border-white/10 dark:bg-[#080d16]">
             <a href="{{ url('/') }}" class="flex min-w-0 items-center gap-3 rounded-md transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-500 dark:focus-visible:ring-white" aria-label="DocuSecure home">
-                <span class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white p-0.5 dark:border-white/20">
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center">
                     <img src="{{ asset('images/cvsu-logo.png') }}" alt="CvSU Logo" class="h-full w-full object-contain">
                 </span>
                 <span class="flex min-w-0 flex-col">
