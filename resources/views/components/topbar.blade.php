@@ -33,7 +33,11 @@
         <!-- Hardware Security Indicator -->
         <div class="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[11px] font-mono">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            @if ($role === 'helpdesk')
+            <span>Support Desk: <strong class="font-semibold">Open</strong></span>
+            @else
             <span>Zero-Trust Node: <strong class="font-semibold">Online</strong></span>
+            @endif
         </div>
 
         <!-- Light / Dark Mode Toggle Button (Taste-Skill compliant) -->
@@ -49,14 +53,16 @@
         </button>
 
         <!-- Notification Bell -->
-        <button 
-            type="button" 
-            aria-label="Notifications" 
-            class="relative p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors border border-slate-200 dark:border-white/10"
-        >
-            <span class="material-symbols-outlined text-[19px]">notifications</span>
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500"></span>
-        </button>
+        @if ($role !== 'helpdesk')
+            <button
+                type="button"
+                aria-label="Notifications"
+                class="relative p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors border border-slate-200 dark:border-white/10"
+            >
+                <span class="material-symbols-outlined text-[19px]">notifications</span>
+                <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500"></span>
+            </button>
+        @endif
 
         <!-- Role Badge -->
         <span class="px-2 py-1 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">

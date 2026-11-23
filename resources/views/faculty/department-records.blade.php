@@ -195,106 +195,12 @@
 <body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
 
 <!-- SIDEBAR -->
-<aside class="fixed left-0 top-0 h-full w-72 z-50 flex flex-col justify-between py-5 px-4"
-       style="background: linear-gradient(rgb(15, 34, 58) 0%, rgb(17, 30, 51) 60%, rgb(10, 20, 36) 100%); border-right: 1px solid rgba(255, 255, 255, 0.08); box-shadow: rgba(0, 0, 0, 0.45) 4px 0px 24px;">
+@include('components.sidebar', ['currentRole' => 'faculty'])
 
-    <div class="flex flex-col gap-6">
-
-        <div class="flex items-center gap-3 px-2 pt-1 pb-4 border-b border-white/10">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdgnIRCVwBasJM5jVzIsb4pPdmK9Mc5SpIei_O6baFLxXqGNMsjcSVzNE1aQmwg3JV9EXGhFN1Ik17dxIGocDhMj_0pQd_MCdSN6IYYx62spsnLAoNAtwky9hxrVQZNdkGGih1A9m_PV0cc4Bx0qUUS8uxlpt-yI67fQHFu2JWtfTy0gvcYfOWj8roVZ4TxUeb3ZxFdGukFWH0xQ3rWnRdv_z5lbSiso9EMQ_CkTEhNvmrJw4eqWhk"
-                 alt="CvSU Logo"
-                 class="w-10 h-10 object-contain drop-shadow-md flex-shrink-0">
-
-            <div class="flex flex-col min-w-0">
-                <div class="flex items-center gap-1.5">
-                    <span class="font-bold text-white text-[16px] tracking-tight leading-tight">DocuSecure</span>
-                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                </div>
-
-                <div class="flex items-center gap-1.5 mt-0.5">
-                    <span class="text-[10px] text-slate-300 font-mono tracking-wider uppercase truncate">CVSU • CEIT NODE</span>
-                    <span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-mono font-bold tracking-tight uppercase">SEMI-ADMIN</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col gap-1.5">
-            <span class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase px-3 pb-1">COLLEGE ENCLAVE WORKSPACE</span>
-
-            <nav class="flex flex-col gap-1">
-
-                <a href="{{ route('faculty.preview.dashboard') }}"
-                   class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-medium group">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-white">grid_view</span>
-                        <span>Dashboard (Overview)</span>
-                    </div>
-                </a>
-
-                <a href="{{ route('faculty.preview.document-library') }}"
-                   class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-medium group">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-white">folder_special</span>
-                        <span>Document Library</span>
-                    </div>
-                </a>
-
-                <a href="{{ route('faculty.preview.clearance-requests') }}"
-                   class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-medium group">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-white">verified_user</span>
-                        <span>Clearance Requests</span>
-                    </div>
-                    <span class="bg-amber-400 text-slate-900 font-bold text-xs px-2 py-0.5 rounded-full shadow-sm">2 pending</span>
-                </a>
-
-                <a href="{{ route('faculty.preview.department-records') }}"
-                   class="flex items-center justify-between px-3 py-2.5 rounded-lg text-white font-semibold text-sm transition-all shadow-sm"
-                   style="background: rgba(255, 255, 255, 0.12); border-left: 4px solid #34d399;">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-[20px] text-emerald-400">corporate_fare</span>
-                        <span>Department Records (CEIT)</span>
-                    </div>
-                    <span class="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]"></span>
-                </a>
-
-            </nav>
-        </div>
-    </div>
-
-    <div class="flex flex-col gap-3 pt-4 border-t border-white/10 px-2">
-
-        <div class="p-3 rounded-lg flex flex-col gap-1"
-             style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);">
-
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-1.5">
-                    <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="text-[11px] font-bold text-emerald-400 tracking-wider uppercase font-mono">SEMI-ADMIN • TIER 3</span>
-                </div>
-                <span class="material-symbols-outlined text-[16px] text-emerald-400">admin_panel_settings</span>
-            </div>
-
-            <span class="text-[12px] text-slate-300 font-mono font-medium truncate">NetID: CEIT-FAC-88219</span>
-
-            <div class="flex items-center justify-between text-[11px] text-slate-300 font-medium">
-                <span class="truncate">Prof. Juan Dela Cruz</span>
-                <span class="text-emerald-400 text-[10px] font-mono">CvSU-KEY-OK</span>
-            </div>
-        </div>
-
-        <a href="{{ route('faculty.preview.logout-confirmation') }}"
-           class="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium border border-white/10">
-            <span class="material-symbols-outlined text-[16px]">logout</span>
-            <span>Sign Out Session</span>
-        </a>
-    </div>
-</aside>
-
-<div class="pl-72">
+<div class="pl-64">
 
 <!-- HEADER -->
-<header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-space-lg">
+<header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-space-lg">
 
     <div class="flex items-center gap-space-lg">
         <div class="flex items-center gap-2">
