@@ -53,11 +53,18 @@ Route::get('/documents/{document}/download', [DocumentController::class, 'downlo
     ->middleware('auth')
     ->name('documents.download');
 
+Route::get('/viewer/guest', [DocumentController::class, 'guestDashboard'])
+    ->middleware('throttle:60,1')
+    ->name('viewer.guest.dashboard');
+Route::get('/viewer/guest/documents/{document}/download', [DocumentController::class, 'downloadPublic'])
+    ->middleware('throttle:20,1')
+    ->name('viewer.guest.documents.download');
+
 // Frontend Preview Routes
 Route::prefix('preview')->group(function () {
 
     // Two-Factor Authentication
-    Route::view('/two-factor', 'auth.two-factor');
+    Route::view('/two-factor', 'auth.two-factor')->middleware('auth');
     Route::view('/two-factor-invalid', 'auth.two-factor-invalid');
     Route::view('/two-factor-success', 'auth.two-factor-success');
     Route::view('/two-factor-enrollment', 'auth.two-factor-enrollment');
@@ -101,6 +108,8 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
     Route::get('/access-requests', [AccountApplicationController::class, 'index'])->name('access-requests');
     Route::post('/access-requests/{application}/approve', [AccountApplicationController::class, 'approve'])->name('access-requests.approve');
     Route::post('/access-requests/{application}/reject', [AccountApplicationController::class, 'reject'])->name('access-requests.reject');
+    Route::patch('/access-requests/{application}/identification-number', [AccountApplicationController::class, 'updateIdentificationNumber'])->name('access-requests.identification-number.update');
+    Route::post('/access-requests/{application}/reprovision', [AccountApplicationController::class, 'reprovision'])->name('access-requests.reprovision');
     Route::post('/document-access-requests/{accessRequest}/approve', [AccessRequestController::class, 'approve'])->name('document-access-requests.approve');
     Route::post('/document-access-requests/{accessRequest}/reject', [AccessRequestController::class, 'reject'])->name('document-access-requests.reject');
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs');
@@ -300,7 +309,10 @@ Route::prefix('viewer/preview')->name('viewer.preview.')->middleware(['auth', 'r
     Route::get('/', function () {
         $publicDocuments = Document::where('access_tier', 'tier1')->latest()->limit(20)->get();
 
-        return view('viewer.dashboard', compact('publicDocuments'));
+        return view('viewer.dashboard', [
+            'publicDocuments' => $publicDocuments,
+            'guestAccess' => false,
+        ]);
     })->name('dashboard');
     Route::get('/document-library', function () {
         $publicDocuments = Document::where('access_tier', 'tier1')->latest()->get();

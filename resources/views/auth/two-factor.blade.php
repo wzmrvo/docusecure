@@ -63,7 +63,20 @@ tailwind.config = {
 <meta content="web_standard" name="shell-type"/>
 </head>
 
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen selection:bg-amber-400 selection:text-slate-900">
+@php
+    $portalUrl = match (Auth::user()?->role) {
+        'admin' => '/admin/preview',
+        'faculty' => '/faculty/preview',
+        'student' => '/student/preview',
+        'viewer' => '/viewer/preview',
+        default => '/',
+    };
+@endphp
+<body
+    class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen selection:bg-amber-400 selection:text-slate-900"
+    data-account-email="{{ Auth::user()?->email }}"
+    data-portal-url="{{ $portalUrl }}"
+>
 
 <main class="min-h-screen w-full flex flex-col lg:flex-row relative overflow-hidden" data-purpose="authentication-split-layout">
 
@@ -491,7 +504,7 @@ if (countdownEl) {
 }
 </script>
 
-<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
+<script src="{{ asset('js/docusecure-auth-demo.js') }}?v=20261124-2" defer></script>
 
 </body>
 </html>

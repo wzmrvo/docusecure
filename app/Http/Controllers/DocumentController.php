@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
 use App\Models\Document;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +14,59 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DocumentController extends Controller
 {
+    public function guestDashboard(): View|RedirectResponse
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            abort_unless($user->account_status === 'active', 403);
+
+            return redirect(match ($user->role) {
+                'admin' => '/admin/preview',
+                'faculty' => '/faculty/preview',
+                'student' => '/student/preview',
+                'viewer' => '/viewer/preview',
+                default => '/',
+            });
+        }
+
+        $publicDocuments = Document::query()
+            ->where('access_tier', 'tier1')
+            ->latest()
+            ->limit(20)
+            ->get();
+
+        return view('viewer.dashboard', [
+            'publicDocuments' => $publicDocuments,
+            'guestAccess' => true,
+        ]);
+    }
+
+    public function downloadPublic(Document $document): StreamedResponse
+    {
+        if (Auth::check()) {
+            return $this->download($document);
+        }
+
+        abort_unless($document->access_tier === 'tier1', 404);
+
+        if (! Storage::disk('local')->exists($document->file_path)) {
+            abort(404, 'The public document file is unavailable.');
+        }
+
+        AuditLog::create([
+            'user_id' => null,
+            'action' => 'document.public_downloaded',
+            'subject_type' => Document::class,
+            'subject_id' => $document->id,
+            'description' => 'Anonymous visitor downloaded a Tier 1 public document.',
+            'ip_address' => request()->ip(),
+            'metadata' => ['access_tier' => 'tier1'],
+        ]);
+
+        return Storage::disk('local')->download($document->file_path, $document->original_name);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

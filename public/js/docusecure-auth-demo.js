@@ -45,12 +45,6 @@
     return saved;
   }
   function currentPath() { return window.location.pathname.replace(/\/$/, '') || '/'; }
-  function showLoginError(message) {
-    const box = document.getElementById('loginError');
-    if (!box) return;
-    box.textContent = message;
-    box.classList.remove('hidden');
-  }
   function routeForCurrentAccount() {
     const account = getAccount();
     return account && account.destination ? account.destination : PATHS.login;
@@ -64,14 +58,7 @@
     if (form && emailInput && passwordInput) {
       form.addEventListener('submit', function (event) {
         const email = emailInput.value.trim().toLowerCase();
-        const password = passwordInput.value;
-        if (!ACCOUNTS[email] || password !== DEMO_PASSWORD) {
-          event.preventDefault();
-          showLoginError('Demo sign-in failed. Select one of the four demo accounts and use password Demo@123.');
-          passwordInput.focus();
-          return;
-        }
-        saveAccount(email);
+        if (ACCOUNTS[email]) saveAccount(email);
       });
     }
     window.fillDemoAccount = function (email) {
@@ -85,8 +72,12 @@
 
   // TWO-FACTOR: keep the account identity in the same browser tab and verify the demo OTP.
   if (currentPath() === PATHS.twoFactor) {
-    const account = getAccount();
-    if (!account || !ACCOUNTS[account.email]) { go(PATHS.login); return; }
+    const account = {
+      email: document.body.dataset.accountEmail,
+      destination: document.body.dataset.portalUrl
+    };
+    if (!account.email || !account.destination || account.destination === '/') { go(PATHS.login); return; }
+    sessionStorage.setItem(ACCOUNT_KEY, JSON.stringify(account));
     const identity = document.getElementById('twoFactorIdentity');
     if (identity) identity.textContent = account.email;
     const inputs = Array.from(document.querySelectorAll('#otp-container input'));
@@ -142,15 +133,17 @@
   // SUCCESS: redirect to the correct portal using the role saved at login.
   if (currentPath() === PATHS.success) {
     const account = getAccount();
-    if (!account || !account.destination) { go(PATHS.login); return; }
+    const serverDestination = document.body.dataset.portalUrl;
+    const destination = serverDestination || (account && account.destination);
+    if (!destination) { go(PATHS.login); return; }
     const manual = document.getElementById('manualPortalRedirect');
-    if (manual) manual.href = account.destination;
+    if (manual) manual.href = destination;
     const countdown = document.getElementById('redirectCountdown');
     let remaining = 12;
     const timer = window.setInterval(function () {
       remaining -= 1;
       if (countdown) countdown.textContent = (remaining / 10).toFixed(1) + 's';
-      if (remaining <= 0) { window.clearInterval(timer); go(account.destination); }
+      if (remaining <= 0) { window.clearInterval(timer); go(destination); }
     }, 100);
   }
 

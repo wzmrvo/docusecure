@@ -60,7 +60,10 @@
 <body class="{{ ($role ?? 'student') === 'student' ? 'bg-white text-slate-800' : 'bg-slate-50 text-slate-800 dark:bg-[#0a0f18] dark:text-slate-100' }} font-sans antialiased min-h-screen flex selection:bg-amber-400 selection:text-slate-900 transition-colors duration-200">
 
     <!-- Role-Adaptive Dynamic Sidebar -->
-    @include('components.sidebar', ['currentRole' => $role ?? 'student'])
+    @include('components.sidebar', [
+        'currentRole' => $role ?? 'student',
+        'guestAccess' => $guestAccess ?? false,
+    ])
 
     <!-- Main Content Enclave -->
     <div class="pl-64 max-sm:pl-0 flex flex-col flex-1 min-h-screen">

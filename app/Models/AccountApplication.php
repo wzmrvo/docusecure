@@ -19,12 +19,17 @@ class AccountApplication extends Model
         'reviewed_by',
         'reviewed_at',
         'rejection_reason',
+        'password_hash',
     ];
 
     protected function casts(): array
     {
         return ['reviewed_at' => 'datetime'];
     }
+
+    protected $hidden = [
+        'password_hash',
+    ];
 
     public function reviewer()
     {
@@ -34,5 +39,10 @@ class AccountApplication extends Model
     public function provisioningRecord()
     {
         return $this->hasOne(AccountProvisioningRecord::class, 'application_id');
+    }
+
+    public function userAccount()
+    {
+        return $this->hasOne(User::class, 'email', 'institutional_email');
     }
 }

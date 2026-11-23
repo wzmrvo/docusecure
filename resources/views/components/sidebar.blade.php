@@ -1,5 +1,6 @@
 @php
     $role = $currentRole ?? 'student';
+    $guestAccess = $guestAccess ?? false;
     $academicRoutePrefix = $role === 'viewer' ? 'viewer.preview.' : 'student.preview.';
 
     $themes = [
@@ -90,7 +91,17 @@
         ],
     ];
 
-    if ($role === 'student' || $role === 'viewer') {
+    if ($role === 'viewer' && $guestAccess) {
+        $themes['viewer']['logout_route'] = route('login');
+        $themes['viewer']['links'] = [
+            [
+                'route' => 'viewer.guest.dashboard',
+                'href' => route('viewer.guest.dashboard'),
+                'icon' => 'visibility',
+                'label' => 'Public Catalog',
+            ],
+        ];
+    } elseif ($role === 'student' || $role === 'viewer') {
         $themes[$role]['links'] = [
             [
                 'route' => $academicRoutePrefix . 'dashboard',
@@ -209,7 +220,7 @@
 
         <a href="{{ $cfg['logout_route'] }}" class="mt-1 flex min-h-10 items-center justify-center gap-1.5 rounded-lg px-2 text-xs font-medium text-rose-700 transition-colors hover:bg-rose-50 hover:text-rose-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-rose-500 dark:text-rose-400 dark:hover:bg-rose-500/10 dark:hover:text-rose-300 dark:focus-visible:ring-rose-400">
             <span class="material-symbols-outlined text-[16px]" aria-hidden="true">logout</span>
-            <span>Sign Out Session</span>
+            <span>{{ $guestAccess && $role === 'viewer' ? 'Exit Guest View' : 'Sign Out Session' }}</span>
         </a>
         @endif
     </div>

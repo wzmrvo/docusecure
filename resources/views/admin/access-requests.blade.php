@@ -49,6 +49,16 @@
 </div>
 <section class="mx-auto w-full max-w-[1440px] px-6 pb-8">
   <div class="rounded-xl border border-[#1c2a3f] bg-[#101827] p-5">
+    @if (session('success'))
+      <p class="mb-4 rounded border border-emerald-500/30 bg-emerald-950/30 p-3 text-sm text-emerald-300">{{ session('success') }}</p>
+    @endif
+    @if ($errors->any())
+      <div class="mb-4 rounded border border-rose-500/30 bg-rose-950/30 p-3 text-sm text-rose-300">
+        @foreach ($errors->all() as $error)
+          <p>{{ $error }}</p>
+        @endforeach
+      </div>
+    @endif
     <div class="mb-4 flex items-center justify-between">
       <h2 class="text-sm font-bold text-white">Institutional Account Applications</h2>
       <span class="font-mono text-xs text-slate-400">{{ $applications->total() }} records</span>
@@ -68,6 +78,12 @@
               <td class="py-3 text-right">
                 @if ($application->status === 'pending')
                   <div class="inline-flex items-center gap-2">
+                    <form method="POST" action="{{ route('admin.preview.access-requests.identification-number.update', $application) }}" class="inline-flex items-center gap-2">
+                      @csrf
+                      @method('PATCH')
+                      <input name="identification_number" required maxlength="100" value="{{ $application->identification_number }}" aria-label="Correct applicant ID number" class="w-36 rounded border border-white/10 bg-white/5 px-2 py-1.5 text-white">
+                      <button type="submit" class="rounded border border-amber-500/30 px-3 py-1.5 text-amber-300">Save ID</button>
+                    </form>
                     <form method="POST" action="{{ route('admin.preview.access-requests.approve', $application) }}">
                       @csrf
                       <button type="submit" class="rounded bg-emerald-600 px-3 py-1.5 font-semibold text-white">Approve</button>
@@ -78,6 +94,13 @@
                       <button type="submit" class="rounded border border-rose-500/30 px-3 py-1.5 text-rose-300">Reject</button>
                     </form>
                   </div>
+                @elseif ($application->status === 'approved' && !$application->userAccount)
+                  <form method="POST" action="{{ route('admin.preview.access-requests.reprovision', $application) }}" class="inline-flex items-center gap-2">
+                    @csrf
+                    <input type="password" name="password" minlength="8" autocomplete="new-password" required placeholder="Set new password" aria-label="Set new password for {{ $application->institutional_email }}" class="w-36 rounded border border-white/10 bg-white/5 px-2 py-1.5 text-white">
+                    <input type="password" name="password_confirmation" minlength="8" autocomplete="new-password" required placeholder="Confirm password" aria-label="Confirm new password" class="w-36 rounded border border-white/10 bg-white/5 px-2 py-1.5 text-white">
+                    <button type="submit" class="rounded bg-amber-600 px-3 py-1.5 font-semibold text-white">Restore account</button>
+                  </form>
                 @endif
               </td>
             </tr>

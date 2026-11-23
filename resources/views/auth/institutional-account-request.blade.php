@@ -307,6 +307,16 @@ tailwind.config = {
         <!-- Modal Scrollable Body -->
         <section class="overflow-y-auto px-6 py-6 space-y-7 custom-scroll flex-1 bg-white text-slate-800" data-purpose="modal-form-content">
 
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div>
+                    <p class="text-xs font-bold text-slate-900">Only need public documents?</p>
+                    <p class="mt-1 text-[11px] text-slate-600">Browse Tier 1 records as a guest. No account or signup required.</p>
+                </div>
+                <a href="{{ route('viewer.guest.dashboard') }}" class="shrink-0 rounded-lg bg-[#173153] px-4 py-2.5 text-center text-xs font-semibold text-white hover:bg-[#1f3f69] focus:outline-none focus:ring-2 focus:ring-[#173153] focus:ring-offset-1">
+                    Continue as Viewer
+                </a>
+            </div>
+
             <form class="space-y-7" id="clearance-request-form" action="{{ route('institutional-account-request.store') }}" method="POST">
                 @csrf
 
@@ -371,6 +381,27 @@ tailwind.config = {
                             </label>
                             <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="phoneNumber" name="phoneNumber" placeholder="+63 917 000 0000" required type="tel" value="+63 917 849 2039"/>
                             <p class="text-[11px] text-slate-500 mt-1">Used strictly for out-of-band clearance authorization PINs.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Password -->
+                <div class="space-y-3.5" data-purpose="form-section-password">
+                    <div class="pb-1.5 border-b border-slate-200">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
+                            <span class="flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-bold">3</span>
+                            Account Password
+                        </h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="password">Password <span class="text-rose-600">*</span></label>
+                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3" id="password" name="password" type="password" minlength="8" autocomplete="new-password" required>
+                            <p class="text-[11px] text-slate-500 mt-1">Minimum 8 characters.</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="password_confirmation">Confirm Password <span class="text-rose-600">*</span></label>
+                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3" id="password_confirmation" name="password_confirmation" type="password" minlength="8" autocomplete="new-password" required>
                         </div>
                     </div>
                 </div>
@@ -470,7 +501,7 @@ tailwind.config = {
                 <div class="space-y-3.5" data-purpose="form-section-justification">
                     <div class="flex items-center justify-between pb-1.5 border-b border-slate-200">
                         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
-                            <span class="flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-bold">3</span>
+                            <span class="flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-bold">4</span>
                             Purpose &amp; Operational Justification
                         </h3>
 

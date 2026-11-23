@@ -200,7 +200,32 @@
 <th class="px-5 py-3.5 font-label-sm text-label-sm text-on-surface-variant uppercase text-right">Status</th>
 </tr>
 </thead>
-<tbody id="auditTableBody"><!-- Row 1 -->
+<tbody id="auditTableBody">
+@foreach ($logs as $log)
+<tr class="audit-row hover:bg-surface-container-high/60 transition-colors" data-event="{{ $log->action }}" data-severity="Info">
+<td class="px-5 py-4 font-code-snippet text-code-snippet text-on-surface-variant whitespace-nowrap">{{ $log->created_at->format('h:i:s A') }}</td>
+<td class="px-5 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-primary/15 text-primary flex items-center justify-center font-label-sm text-label-sm">{{ strtoupper(substr($log->user?->name ?: 'SY', 0, 2)) }}</div>
+<span class="font-body-md text-body-md text-on-surface font-medium">{{ $log->user?->name ?: 'System' }}</span>
+</div>
+</td>
+<td class="px-5 py-4 font-body-md text-body-md text-on-surface">{{ $log->description ?: $log->action }}</td>
+<td class="px-5 py-4 font-code-snippet text-code-snippet text-on-surface-variant whitespace-nowrap">{{ $log->ip_address ?: '127.0.0.1' }}</td>
+<td class="px-5 py-4 whitespace-nowrap">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low font-code-snippet text-code-snippet text-on-surface-variant" type="button">
+<span>{{ substr(hash('sha256', $log->subject_type.$log->subject_id.$log->created_at), 0, 16) }}</span>
+</button>
+</td>
+<td class="px-5 py-4 text-right whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-primary/15 text-primary font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Recorded</span>
+</td>
+</tr>
+@endforeach
+@if ($logs->isEmpty())
+<tr><td colspan="6" class="px-5 py-10 text-center text-on-surface-variant">No audit events recorded yet.</td></tr>
+@endif
+{{--
 <tr class="audit-row hover:bg-surface-container-high/60 transition-colors" data-event="Authentication" data-severity="Info">
 <td class="px-5 py-4 font-code-snippet text-code-snippet text-on-surface-variant whitespace-nowrap">10:42:18 AM</td>
 <td class="px-5 py-4 whitespace-nowrap">
@@ -324,18 +349,28 @@
                   Watermarked
                 </span>
 </td>
-</tr></tbody>
+</tr>
+--}}
+</tbody>
 </table>
 </div>
 <!-- Pagination Footer -->
 <div class="bg-surface-container-low px-5 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
 <span class="font-body-sm text-body-sm text-on-surface-variant">Showing {{ $logs->count() }} of {{ $logs->total() }} audit events</span>
 <div class="flex items-center gap-1.5">
-<button class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">Previous</button>
-<button class="px-3 py-1.5 rounded bg-primary text-on-primary font-label-sm text-label-sm" type="button">1</button>
-<button class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">2</button>
-<button class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">3</button>
-<button class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">Next</button>
+@if ($logs->onFirstPage())
+<span class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant/50 font-label-sm text-label-sm">Previous</span>
+@else
+<a class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" href="{{ $logs->previousPageUrl() }}">Previous</a>
+@endif
+@foreach ($logs->getUrlRange(1, $logs->lastPage()) as $page => $url)
+<a class="px-3 py-1.5 rounded {{ $page === $logs->currentPage() ? 'bg-primary text-on-primary' : 'bg-surface-container text-on-surface-variant hover:text-on-surface' }} font-label-sm text-label-sm" href="{{ $url }}">{{ $page }}</a>
+@endforeach
+@if ($logs->hasMorePages())
+<a class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" href="{{ $logs->nextPageUrl() }}">Next</a>
+@else
+<span class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant/50 font-label-sm text-label-sm">Next</span>
+@endif
 </div>
 </div>
 </div>

@@ -148,7 +148,7 @@
                             <span class="text-xs font-bold text-slate-900 dark:text-white truncate block">{{ $document->title }}</span>
                             <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400">{{ $document->tracking_number }} • {{ number_format($document->size_bytes / 1048576, 1) }} MB</span>
                         </div>
-                        <a href="{{ route('documents.download', $document) }}" class="shrink-0 px-3 py-1.5 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-semibold">Download</a>
+                        <a href="{{ ($guestAccess ?? false) ? route('viewer.guest.documents.download', $document) : route('documents.download', $document) }}" class="shrink-0 px-3 py-1.5 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-semibold">Download</a>
                     </div>
                 @empty
                     <p class="p-4 text-xs text-slate-500 dark:text-slate-400">No public documents are available yet.</p>

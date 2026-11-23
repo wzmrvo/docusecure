@@ -376,6 +376,6 @@
     };
 </script>
 
-<script src="{{ asset('js/docusecure-auth-demo.js') }}" defer></script>
+<script src="{{ asset('js/docusecure-auth-demo.js') }}?v=20261124" defer></script>
 </body>
 </html>
