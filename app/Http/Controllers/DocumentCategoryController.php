@@ -7,6 +7,7 @@ use App\Models\DocumentCategory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -91,11 +92,18 @@ class DocumentCategoryController extends Controller
         );
 
         $validated = $this->validatedCategory($request, $documentCategory);
-        $documentCategory->update($validated);
+
+        DB::transaction(function () use ($documentCategory, $validated): void {
+            $documentCategory->update($validated);
+            $documentCategory->documents()->update([
+                'access_tier' => $validated['access_tier'],
+                'department_id' => $validated['department_id'],
+            ]);
+        });
 
         return redirect()
             ->route($this->managementRoute($request))
-            ->with('success', 'Category updated. Existing documents keep their current tier and department access; the category settings apply to new uploads.');
+            ->with('success', 'Category updated and existing documents synchronized with its tier and department access.');
     }
 
     /**

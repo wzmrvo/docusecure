@@ -92,6 +92,85 @@ class DocumentCategoryTest extends TestCase
         ]);
     }
 
+    public function test_updating_category_profile_synchronizes_existing_documents_and_restricts_lower_tiers(): void
+    {
+        Storage::fake('local');
+        $admin = User::factory()->create(['role' => 'admin', 'account_status' => 'active']);
+        $department = Department::create(['name' => 'Engineering', 'code' => 'ENG', 'active' => true]);
+        $category = DocumentCategory::create([
+            'name' => 'Academic Records',
+            'slug' => 'academic-records',
+            'access_tier' => 'tier1',
+            'active' => true,
+        ]);
+        $document = $this->createDocument($admin, $category, 'Public transcript', 'tier1', 'documents/transcript.pdf');
+        Storage::disk('local')->put($document->file_path, 'transcript');
+        $student = User::factory()->create([
+            'role' => 'student',
+            'clearance_tier' => 'tier1',
+            'account_status' => 'active',
+        ]);
+        $viewer = User::factory()->create(['role' => 'viewer', 'account_status' => 'active']);
+        $faculty = User::factory()->create([
+            'role' => 'faculty',
+            'clearance_tier' => 'tier3',
+            'department_id' => $department->id,
+            'account_status' => 'active',
+        ]);
+
+        $this->actingAs($student)
+            ->get(route('student.preview.document-library'))
+            ->assertOk()
+            ->assertSeeText('Public transcript');
+        $this->actingAs($viewer)
+            ->get(route('viewer.preview.document-library'))
+            ->assertOk()
+            ->assertSeeText('Public transcript');
+
+        $response = $this->actingAs($admin)
+            ->patch(route('admin.preview.document-categories.update', $category), [
+                'name' => 'Academic Records',
+                'access_tier' => 'tier3',
+                'department_id' => $department->id,
+            ]);
+
+        $response->assertRedirect(route('admin.preview.document-categories'))
+            ->assertSessionHas('success');
+        $this->assertDatabaseHas('documents', [
+            'id' => $document->id,
+            'category_id' => $category->id,
+            'access_tier' => 'tier3',
+            'department_id' => $department->id,
+        ]);
+
+        $this->actingAs($student)
+            ->get(route('student.preview.document-library'))
+            ->assertOk()
+            ->assertDontSeeText('Public transcript')
+            ->assertDontSeeText('Academic Records');
+        $this->get(route('student.preview.categories'))
+            ->assertOk()
+            ->assertDontSeeText('Academic Records');
+        $this->get(route('documents.download', $document))
+            ->assertForbidden();
+
+        $this->actingAs($viewer)
+            ->get(route('viewer.preview.document-library'))
+            ->assertOk()
+            ->assertDontSeeText('Public transcript')
+            ->assertDontSeeText('Academic Records');
+        $this->get(route('viewer.preview.categories'))
+            ->assertOk()
+            ->assertDontSeeText('Academic Records');
+        $this->get(route('documents.download', $document))
+            ->assertForbidden();
+
+        $this->actingAs($faculty)
+            ->get(route('faculty.preview.document-library'))
+            ->assertOk()
+            ->assertSeeText('Public transcript');
+    }
+
     public function test_admin_upload_rejects_a_tier_that_does_not_match_the_selected_category(): void
     {
         Storage::fake('local');
