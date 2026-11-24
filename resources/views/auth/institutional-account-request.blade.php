@@ -336,7 +336,7 @@ tailwind.config = {
                             <label class="block text-xs font-bold text-slate-700 mb-1" for="fullName">
                                 Full Legal Name <span class="text-rose-600 font-bold">*</span>
                             </label>
-                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="fullName" name="fullName" placeholder="e.g. Engr. Maria Santos, M.Sc." required type="text" value="Engr. Maria Santos, M.Sc."/>
+                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="fullName" name="fullName" placeholder="Your full name as registered" required type="text" value="{{ old('fullName') }}"/>
                             <p class="text-[11px] text-slate-500 mt-1">Include academic credentials, title, or post-nominal suffix.</p>
                         </div>
 
@@ -344,7 +344,7 @@ tailwind.config = {
                             <label class="block text-xs font-bold text-slate-700 mb-1" for="idNumber">
                                 Employee / Student ID Number <span class="text-rose-600 font-bold">*</span>
                             </label>
-                            <input class="w-full text-xs font-mono uppercase rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="idNumber" name="idNumber" placeholder="E.G. 2026-CEIT-4491" required type="text" value="2026-CEIT-4491"/>
+                            <input class="w-full text-xs font-mono uppercase rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="idNumber" name="idNumber" placeholder="Your official ID number" required type="text" value="{{ old('idNumber') }}"/>
                             <p class="text-[11px] text-slate-500 mt-1">Official registrar-assigned badge code or faculty serial.</p>
                         </div>
 
@@ -367,7 +367,7 @@ tailwind.config = {
                                         <path d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                     </svg>
                                 </div>
-                                <input class="w-full pl-9 text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="cvsuEmail" name="cvsuEmail" placeholder="name.surname@cvsu.edu.ph" required type="email" value="m.santos@cvsu.edu.ph"/>
+                                <input class="w-full pl-9 text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="cvsuEmail" name="cvsuEmail" placeholder="name.surname@cvsu.edu.ph" required type="email" value="{{ old('cvsuEmail') }}"/>
                             </div>
                             <p class="text-[11px] text-slate-500 mt-1">Must be an active institutional domain account ending in @cvsu.edu.ph.</p>
                         </div>
@@ -376,7 +376,7 @@ tailwind.config = {
                             <label class="block text-xs font-bold text-slate-700 mb-1" for="phoneNumber">
                                 Contact Phone / Mobile Number <span class="text-rose-600 font-bold">*</span>
                             </label>
-                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="phoneNumber" name="phoneNumber" placeholder="+63 917 000 0000" required type="tel" value="+63 917 849 2039"/>
+                            <input class="w-full text-xs rounded-lg border-slate-300 focus:border-[#173153] focus:ring-[#173153] shadow-sm py-2 px-3 placeholder:text-slate-400" id="phoneNumber" name="phoneNumber" placeholder="+63 917 000 0000" required type="tel" value="{{ old('phoneNumber') }}"/>
                             <p class="text-[11px] text-slate-500 mt-1">Used strictly for out-of-band clearance authorization PINs.</p>
                         </div>
                     </div>

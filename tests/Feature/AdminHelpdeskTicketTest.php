@@ -24,6 +24,19 @@ class AdminHelpdeskTicketTest extends TestCase
             ->assertDontSeeText($otherTicket->reference);
     }
 
+    public function test_admin_ticket_form_separates_public_replies_from_internal_notes(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'account_status' => 'active']);
+        $this->createTicket('SUP-2026-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF');
+
+        $this->actingAs($admin)
+            ->get(route('admin.preview.access-requests'))
+            ->assertOk()
+            ->assertSee('name="public_reply"', false)
+            ->assertSeeText('Reply to requester')
+            ->assertSeeText('Internal note (admins only)');
+    }
+
     public function test_admin_updates_ticket_and_records_each_change(): void
     {
         $admin = User::factory()->create(['role' => 'admin', 'account_status' => 'active']);
@@ -35,6 +48,7 @@ class AdminHelpdeskTicketTest extends TestCase
                 'status' => 'in_progress',
                 'priority' => 'urgent',
                 'assigned_to' => $admin->id,
+                'public_reply' => 'Your access reset is complete. Please try again.',
                 'internal_note' => 'Review started.',
             ])
             ->assertRedirect(route('admin.preview.access-requests'))
@@ -71,6 +85,12 @@ class AdminHelpdeskTicketTest extends TestCase
             'actor_id' => $admin->id,
             'type' => 'internal_note',
             'note' => 'Review started.',
+        ]);
+        $this->assertDatabaseHas('helpdesk_ticket_activities', [
+            'helpdesk_ticket_id' => $ticket->id,
+            'actor_id' => $admin->id,
+            'type' => 'public_reply',
+            'note' => 'Your access reset is complete. Please try again.',
         ]);
     }
 

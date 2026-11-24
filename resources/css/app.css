@@ -53,9 +53,9 @@
     --tier-viewer-surface: #f8fafc;
     --tier-viewer-border: #e2e8f0;
 
-    --tier-helpdesk-accent: #7c3aed;
-    --tier-helpdesk-surface: #faf5ff;
-    --tier-helpdesk-border: #ede9fe;
+    --tier-helpdesk-accent: #2563eb;
+    --tier-helpdesk-surface: #eff6ff;
+    --tier-helpdesk-border: #dbeafe;
 }
 
 /* Dark Mode (Default Cybersecurity Environment) */
@@ -91,9 +91,9 @@
     --tier-viewer-accent: #94a3b8;
 
     /* Helpdesk (IT Operations - 60/30/10 Violet) */
-    --tier-helpdesk-bg: #0f0f1a;
-    --tier-helpdesk-surface: #1e1b4b;
-    --tier-helpdesk-accent: #a78bfa;
+    --tier-helpdesk-bg: #0b1524;
+    --tier-helpdesk-surface: #142641;
+    --tier-helpdesk-accent: #60a5fa;
 }
 
 /* ==========================================================================

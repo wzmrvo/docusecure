@@ -83,4 +83,31 @@ class HelpdeskTicketTest extends TestCase
             ->assertDontSeeText('jamie.rivera@cvsu.edu.ph')
             ->assertDontSeeText('I cannot sign in to my institutional account.');
     }
+
+    public function test_public_tracking_shows_public_replies_without_internal_notes(): void
+    {
+        $ticket = HelpdeskTicket::create([
+            'reference' => 'SUP-2026-EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE',
+            'requester_name' => 'Jamie Rivera',
+            'requester_contact' => 'jamie.rivera@cvsu.edu.ph',
+            'category' => 'account_access',
+            'priority' => 'normal',
+            'details' => 'Unable to access the institutional account.',
+            'status' => 'in_progress',
+        ]);
+        $ticket->activities()->create([
+            'type' => 'public_reply',
+            'note' => 'Your access reset is complete. Please try again.',
+        ]);
+        $ticket->activities()->create([
+            'type' => 'internal_note',
+            'note' => 'Staff-only account investigation.',
+        ]);
+
+        $this->get(route('helpdesk.track', ['reference' => $ticket->reference]))
+            ->assertOk()
+            ->assertSeeText('Replies from MIS Support')
+            ->assertSeeText('Your access reset is complete. Please try again.')
+            ->assertDontSeeText('Staff-only account investigation.');
+    }
 }

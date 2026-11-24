@@ -26,6 +26,7 @@ class AdminHelpdeskTicketController extends Controller
                         ->where('account_status', 'active'),
                 ),
             ],
+            'public_reply' => ['nullable', 'string', 'max:2000'],
             'internal_note' => ['nullable', 'string', 'max:2000'],
         ]);
 
@@ -57,6 +58,15 @@ class AdminHelpdeskTicketController extends Controller
             }
 
             $lockedTicket->save();
+
+            $reply = trim($validated['public_reply'] ?? '');
+            if ($reply !== '') {
+                $lockedTicket->activities()->create([
+                    'actor_id' => Auth::id(),
+                    'type' => 'public_reply',
+                    'note' => $reply,
+                ]);
+            }
 
             $note = trim($validated['internal_note'] ?? '');
             if ($note !== '') {

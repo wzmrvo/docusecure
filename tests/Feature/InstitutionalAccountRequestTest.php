@@ -9,6 +9,16 @@ class InstitutionalAccountRequestTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_application_form_keeps_identity_fields_blank_until_entered(): void
+    {
+        $this->get(route('institutional-account-request'))
+            ->assertOk()
+            ->assertSee('name="fullName" placeholder="Your full name as registered" required type="text" value=""', false)
+            ->assertSee('name="idNumber" placeholder="Your official ID number" required type="text" value=""', false)
+            ->assertSee('name="cvsuEmail" placeholder="name.surname@cvsu.edu.ph" required type="email" value=""', false)
+            ->assertSee('name="phoneNumber" placeholder="+63 917 000 0000" required type="tel" value=""', false);
+    }
+
     public function test_successful_application_shows_confirmation_modal_after_redirect(): void
     {
         $response = $this->from(route('institutional-account-request'))

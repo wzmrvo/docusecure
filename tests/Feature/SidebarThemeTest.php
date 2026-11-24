@@ -80,12 +80,19 @@ class SidebarThemeTest extends TestCase
         $this->get(route('helpdesk'))
             ->assertOk()
             ->assertSee('data-sidebar="helpdesk"', false)
-            ->assertSee('Create a Support Request')
+            ->assertSee('Create a support request')
             ->assertDontSee('Mark Villareal')
             ->assertDontSee('HD-MIS-TOKEN-44')
             ->assertDontSee('Sign Out Session')
             ->assertDontSee('Unlock Account')
             ->assertDontSee('Institutional NetID Lookup');
+    }
+
+    public function test_helpdesk_sidebar_omits_the_hours_and_location_link(): void
+    {
+        $this->get(route('helpdesk'))
+            ->assertOk()
+            ->assertDontSee('href="'.url('/helpdesk#support-status').'"', false);
     }
 
     public function test_helpdesk_mobile_shell_has_responsive_sidebar_controls(): void

@@ -67,7 +67,24 @@ class AccountApplicationController extends Controller
             'ticket_status' => ['nullable', Rule::in(HelpdeskTicket::STATUSES)],
             'ticket_category' => ['nullable', Rule::in(HelpdeskTicket::CATEGORIES)],
             'ticket_priority' => ['nullable', Rule::in(HelpdeskTicket::PRIORITIES)],
+            'queue_type' => ['nullable', Rule::in(['all', 'helpdesk', 'clearance', 'onboarding', 'escalations', 'archive'])],
+            'queue_search' => ['nullable', 'string', 'max:100'],
+            'queue_tier' => ['nullable', Rule::in(['tier1', 'tier2', 'tier3', 'tier4'])],
+            'queue_unit' => ['nullable', 'string', 'max:255'],
         ]);
+        $queueType = $filters['queue_type']
+            ?? (filled($filters['ticket_search'] ?? null) ? 'helpdesk' : 'all');
+        $queueSearch = trim($filters['queue_search'] ?? $filters['ticket_search'] ?? '');
+        $queueTier = $filters['queue_tier'] ?? null;
+        $queueUnit = $filters['queue_unit'] ?? null;
+        $openTicketStatuses = ['new', 'in_progress', 'waiting_on_requester'];
+        $ticketCategoryLabels = [
+            'account_access' => 'Account lockout or password reset',
+            'two_factor' => '2FA token or authenticator issue',
+            'document_access' => 'Document access or clearance',
+            'technical_incident' => 'Technical incident',
+            'other' => 'Other support question',
+        ];
 
         $applications = AccountApplication::query()
             ->with(['userAccount', 'provisioningRecord'])
@@ -91,6 +108,194 @@ class AccountApplicationController extends Controller
             ->latest()
             ->paginate(10, ['*'], 'ticket_page')
             ->withQueryString();
+
+        $queueCounts = [
+            'helpdesk' => HelpdeskTicket::whereIn('status', $openTicketStatuses)->count(),
+            'clearance' => AccessRequest::where('status', 'pending')->count(),
+            'onboarding' => AccountApplication::where('status', 'pending')->count(),
+            'escalations' => HelpdeskTicket::whereIn('status', $openTicketStatuses)
+                ->where('priority', 'urgent')
+                ->count(),
+            'archive' => HelpdeskTicket::whereIn('status', ['resolved', 'closed'])->count()
+                + AccessRequest::whereIn('status', ['approved', 'rejected'])->count()
+                + AccountApplication::whereIn('status', ['approved', 'rejected'])->count(),
+        ];
+        $queueCounts['total_active'] = $queueCounts['helpdesk'] + $queueCounts['clearance'] + $queueCounts['onboarding'];
+        $queueUnits = Department::query()->where('active', true)->pluck('name')
+            ->merge(Department::query()->where('active', true)->pluck('code'))
+            ->merge(AccountApplication::query()->where('status', 'pending')->distinct()->pluck('college_unit'))
+            ->merge(AccountApplication::query()->where('status', 'pending')->distinct()->pluck('department_unit'))
+            ->merge(User::query()->whereNotNull('college')->distinct()->pluck('college'))
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values();
+
+        $queueItems = collect();
+        $matchedQueueCount = 0;
+        $isArchive = $queueType === 'archive';
+
+        if (in_array($queueType, ['all', 'helpdesk', 'escalations', 'archive'], true) && ! $queueTier) {
+            $queueTicketStatuses = $isArchive
+                ? ['resolved', 'closed']
+                : ($queueType === 'helpdesk' && isset($filters['ticket_status'])
+                    ? [$filters['ticket_status']]
+                    : $openTicketStatuses);
+            $ticketQuery = HelpdeskTicket::query()
+                ->whereIn('status', $queueTicketStatuses);
+
+            if ($queueType === 'escalations') {
+                $ticketQuery->where('priority', 'urgent');
+            }
+
+            if ($queueType === 'helpdesk') {
+                if (isset($filters['ticket_status'])) {
+                    $ticketQuery->where('status', $filters['ticket_status']);
+                }
+
+                if (isset($filters['ticket_category'])) {
+                    $ticketQuery->where('category', $filters['ticket_category']);
+                }
+
+                if (isset($filters['ticket_priority'])) {
+                    $ticketQuery->where('priority', $filters['ticket_priority']);
+                }
+            }
+
+            if ($queueSearch !== '') {
+                $ticketQuery->where(function (Builder $query) use ($queueSearch): void {
+                    $query->where('reference', 'like', "%{$queueSearch}%")
+                        ->orWhere('requester_name', 'like', "%{$queueSearch}%")
+                        ->orWhere('requester_contact', 'like', "%{$queueSearch}%")
+                        ->orWhere('details', 'like', "%{$queueSearch}%");
+                });
+            }
+
+            if ($queueUnit !== null) {
+                $ticketQuery->whereIn('requester_contact', User::query()
+                    ->select('email')
+                    ->where(function (Builder $query) use ($queueUnit): void {
+                        $query->where('college', $queueUnit)
+                            ->orWhereHas('department', fn (Builder $departmentQuery): Builder => $departmentQuery
+                                ->where('name', $queueUnit)
+                                ->orWhere('code', $queueUnit));
+                    }));
+            }
+
+            $matchedQueueCount += (clone $ticketQuery)->count();
+            $queueItems = $queueItems->merge($ticketQuery->latest()->limit(5)->get()->map(
+                fn (HelpdeskTicket $ticket): array => [
+                    'type' => 'helpdesk',
+                    'id' => $ticket->id,
+                    'reference' => $ticket->reference,
+                    'requester' => $ticket->requester_name,
+                    'contact' => $ticket->requester_contact,
+                    'tier' => null,
+                    'unit' => null,
+                    'label' => $ticketCategoryLabels[$ticket->category] ?? 'Helpdesk ticket',
+                    'status' => $ticket->status,
+                    'priority' => $ticket->priority,
+                    'details' => $ticket->details,
+                    'created_at' => $ticket->created_at,
+                ],
+            ));
+        }
+
+        if (in_array($queueType, ['all', 'clearance', 'archive'], true)) {
+            $accessRequestQuery = AccessRequest::query()
+                ->with(['requester.department', 'document'])
+                ->whereIn('status', $isArchive ? ['approved', 'rejected'] : ['pending']);
+
+            if ($queueSearch !== '') {
+                $accessRequestQuery->where(function (Builder $query) use ($queueSearch): void {
+                    $query->where('justification', 'like', "%{$queueSearch}%")
+                        ->orWhereHas('requester', fn (Builder $requesterQuery): Builder => $requesterQuery
+                            ->where('name', 'like', "%{$queueSearch}%")
+                            ->orWhere('email', 'like', "%{$queueSearch}%"))
+                        ->orWhereHas('document', fn (Builder $documentQuery): Builder => $documentQuery
+                            ->where('title', 'like', "%{$queueSearch}%")
+                            ->orWhere('tracking_number', 'like', "%{$queueSearch}%"));
+                });
+            }
+
+            if ($queueTier !== null) {
+                $accessRequestQuery->where('requested_tier', $queueTier);
+            }
+
+            if ($queueUnit !== null) {
+                $accessRequestQuery->whereHas('requester', fn (Builder $requesterQuery): Builder => $requesterQuery
+                    ->where('college', $queueUnit)
+                    ->orWhereHas('department', fn (Builder $departmentQuery): Builder => $departmentQuery
+                        ->where('name', $queueUnit)
+                        ->orWhere('code', $queueUnit)));
+            }
+
+            $matchedQueueCount += (clone $accessRequestQuery)->count();
+            $queueItems = $queueItems->merge($accessRequestQuery->latest()->limit(5)->get()->map(
+                fn (AccessRequest $accessRequest): array => [
+                    'type' => 'clearance',
+                    'id' => $accessRequest->id,
+                    'reference' => 'Access request #'.$accessRequest->id,
+                    'requester' => $accessRequest->requester->name,
+                    'contact' => $accessRequest->requester->email,
+                    'tier' => $accessRequest->requested_tier,
+                    'unit' => $accessRequest->requester->department?->name ?? $accessRequest->requester->college,
+                    'label' => $accessRequest->document->title,
+                    'status' => $accessRequest->status,
+                    'priority' => null,
+                    'details' => $accessRequest->justification,
+                    'created_at' => $accessRequest->created_at,
+                ],
+            ));
+        }
+
+        if (in_array($queueType, ['all', 'onboarding', 'archive'], true)) {
+            $applicationQuery = AccountApplication::query()
+                ->whereIn('status', $isArchive ? ['approved', 'rejected'] : ['pending']);
+
+            if ($queueSearch !== '') {
+                $applicationQuery->where(function (Builder $query) use ($queueSearch): void {
+                    $query->where('full_name', 'like', "%{$queueSearch}%")
+                        ->orWhere('institutional_email', 'like', "%{$queueSearch}%")
+                        ->orWhere('identification_number', 'like', "%{$queueSearch}%")
+                        ->orWhere('college_unit', 'like', "%{$queueSearch}%")
+                        ->orWhere('department_unit', 'like', "%{$queueSearch}%")
+                        ->orWhere('justification', 'like', "%{$queueSearch}%");
+                });
+            }
+
+            if ($queueTier !== null) {
+                $applicationQuery->where('clearance_tier', $queueTier);
+            }
+
+            if ($queueUnit !== null) {
+                $applicationQuery->where(function (Builder $query) use ($queueUnit): void {
+                    $query->where('college_unit', $queueUnit)
+                        ->orWhere('department_unit', $queueUnit);
+                });
+            }
+
+            $matchedQueueCount += (clone $applicationQuery)->count();
+            $queueItems = $queueItems->merge($applicationQuery->latest()->limit(5)->get()->map(
+                fn (AccountApplication $application): array => [
+                    'type' => 'onboarding',
+                    'id' => $application->id,
+                    'reference' => 'Application #'.$application->id,
+                    'requester' => $application->full_name,
+                    'contact' => $application->institutional_email,
+                    'tier' => $application->clearance_tier,
+                    'unit' => $application->department_unit ?: $application->college_unit,
+                    'label' => 'Institutional account application',
+                    'status' => $application->status,
+                    'priority' => null,
+                    'details' => $application->justification,
+                    'created_at' => $application->created_at,
+                ],
+            ));
+        }
+
+        $queueItems = $queueItems->sortByDesc('created_at')->take(5)->values();
+
         $administrators = User::query()
             ->where('role', 'admin')
             ->where('account_status', 'active')
@@ -98,13 +303,6 @@ class AccountApplicationController extends Controller
             ->get(['id', 'name']);
         $ticketStatuses = HelpdeskTicket::STATUSES;
         $ticketCategories = HelpdeskTicket::CATEGORIES;
-        $ticketCategoryLabels = [
-            'account_access' => 'Account lockout or password reset',
-            'two_factor' => '2FA token or authenticator issue',
-            'document_access' => 'Document access or clearance',
-            'technical_incident' => 'Technical incident',
-            'other' => 'Other support question',
-        ];
         $ticketPriorities = HelpdeskTicket::PRIORITIES;
 
         return view('admin.access-requests', compact(
@@ -116,6 +314,14 @@ class AccountApplicationController extends Controller
             'ticketCategories',
             'ticketCategoryLabels',
             'ticketPriorities',
+            'queueCounts',
+            'queueItems',
+            'matchedQueueCount',
+            'queueUnits',
+            'queueType',
+            'queueSearch',
+            'queueTier',
+            'queueUnit',
         ));
     }
 

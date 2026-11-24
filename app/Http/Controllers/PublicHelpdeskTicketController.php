@@ -70,6 +70,10 @@ class PublicHelpdeskTicketController extends Controller
             'trackedTicket' => [
                 'status' => $ticket->status,
                 'updated_at' => $ticket->updated_at,
+                'replies' => $ticket->activities()
+                    ->where('type', 'public_reply')
+                    ->orderBy('created_at')
+                    ->get(['note', 'created_at']),
             ],
         ]);
     }
