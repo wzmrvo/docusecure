@@ -192,7 +192,7 @@
             <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10 mb-4">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-sky-500 text-[20px]">folder_shared</span>
-                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">Enrollee Academic Repository (Tier 1 & Tier 2)</h3>
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">Accessible Documents (Tier 1{{ (int) substr(Auth::user()->clearance_tier, -1) >= 2 ? ' & Tier 2' : '' }})</h3>
                 </div>
                 <a href="{{ route('student.preview.document-library') }}" class="text-xs font-mono text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1">
                     <span>Browse All</span>
@@ -201,31 +201,22 @@
             </div>
 
             <div class="flex flex-col gap-2.5">
-                <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex items-center justify-between hover:border-sky-500/40 transition">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <span class="material-symbols-outlined text-sky-500 text-[20px]">description</span>
-                        <div class="flex flex-col min-w-0">
-                            <span class="text-xs font-bold text-slate-900 dark:text-white truncate">BSIT Curriculum Checklist Rev. 2026.pdf</span>
-                            <span class="text-[10px] font-mono text-slate-400">Tier 2 Academic • 1.1 MB • Signed by Dean</span>
+                @forelse ($documents as $document)
+                    <div class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 transition hover:border-sky-500/40 dark:border-white/10 dark:bg-white/[0.02]">
+                        <div class="flex min-w-0 items-center gap-3">
+                            <span class="material-symbols-outlined text-sky-500 text-[20px]">description</span>
+                            <div class="flex min-w-0 flex-col">
+                                <span class="truncate text-xs font-bold text-slate-900 dark:text-white">{{ $document->title }}</span>
+                                <span class="text-[10px] text-slate-500 dark:text-slate-400">{{ strtoupper(str_replace('tier', 'Tier ', $document->access_tier)) }} · {{ number_format($document->size_bytes / 1048576, 1) }} MB · {{ $document->tracking_number }}</span>
+                            </div>
                         </div>
+                        <a href="{{ route('documents.download', $document) }}" class="shrink-0 rounded-lg p-2 text-slate-500 hover:bg-slate-200 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white" aria-label="Download {{ $document->title }}">
+                            <span class="material-symbols-outlined text-[16px]">download</span>
+                        </a>
                     </div>
-                    <button type="button" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 hover:text-slate-900 dark:hover:text-white" title="Download">
-                        <span class="material-symbols-outlined text-[16px]">download</span>
-                    </button>
-                </div>
-
-                <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex items-center justify-between hover:border-sky-500/40 transition">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <span class="material-symbols-outlined text-emerald-500 text-[20px]">public</span>
-                        <div class="flex flex-col min-w-0">
-                            <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Cavite State University Student Norms & Conduct Manual.pdf</span>
-                            <span class="text-[10px] font-mono text-slate-400">Tier 1 Public • 3.4 MB • Office of Student Affairs</span>
-                        </div>
-                    </div>
-                    <button type="button" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 hover:text-slate-900 dark:hover:text-white" title="Download">
-                        <span class="material-symbols-outlined text-[16px]">download</span>
-                    </button>
-                </div>
+                @empty
+                    <p class="py-4 text-xs text-slate-500 dark:text-slate-400">No accessible documents are available yet.</p>
+                @endforelse
             </div>
         </div>
     </div>

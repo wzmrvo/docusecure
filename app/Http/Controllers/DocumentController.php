@@ -21,9 +21,12 @@ class DocumentController extends Controller
     {
         $publicDocuments = Document::query()
             ->where('access_tier', 'tier1')
+            ->where('status', 'sealed')
             ->latest()
-            ->limit(20)
-            ->get();
+            ->get()
+            ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
+            ->take(20)
+            ->values();
 
         return view('viewer.dashboard', [
             'publicDocuments' => $publicDocuments,
@@ -37,7 +40,7 @@ class DocumentController extends Controller
             return $this->download($document);
         }
 
-        abort_unless($document->access_tier === 'tier1', 404);
+        abort_unless($document->access_tier === 'tier1' && $document->status === 'sealed', 404);
 
         if (! Storage::disk('local')->exists($document->file_path)) {
             abort(404, 'The public document file is unavailable.');
@@ -275,7 +278,7 @@ class DocumentController extends Controller
         $clearanceLevel = (int) substr($user->clearance_tier, -1);
 
         return array_values(array_filter(
-            ['tier2', 'tier3'],
+            ['tier1', 'tier2', 'tier3'],
             fn (string $tier) => (int) substr($tier, -1) <= $clearanceLevel,
         ));
     }

@@ -16,7 +16,7 @@
         <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Upload a department document</h1>
         <p class="max-w-3xl text-sm text-slate-600 dark:text-slate-400">
             Uploads are stored on the private disk. The server validates the file, records its metadata, and calculates its SHA-256 digest.
-            Faculty can classify files only up to their own clearance; Tier 4 files are Admin-uploaded.
+            Tier 1 files are public to Students and Viewers. Tier 2 is available to eligible Students, while Tier 3 remains department-restricted. Tier 4 files are Admin-uploaded.
         </p>
     </header>
 
@@ -44,7 +44,7 @@
         </div>
     @endif
 
-    @if ($clearanceLevel >= 2)
+    @if ($clearanceLevel >= 1)
         <form action="{{ route('faculty.submit-department-file') }}" method="POST" enctype="multipart/form-data" class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
             @csrf
             <section class="flex flex-col gap-5 rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-[#0f1724]">
@@ -68,11 +68,12 @@
                 <div class="flex flex-col gap-1.5">
                     <label for="access_tier" class="text-xs font-semibold text-slate-700 dark:text-slate-300">Access tier</label>
                     <select id="access_tier" name="access_tier" required class="min-h-11 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-white/10 dark:bg-[#111e32] dark:text-white">
+                        <option value="1" @selected(old('access_tier', '1') === '1')>Tier 1 · Public</option>
                         @if ($clearanceLevel >= 2)
-                            <option value="2" @selected(old('access_tier', $clearanceLevel >= 3 ? '3' : '2') === '2')>Tier 2 · Academic</option>
+                            <option value="2" @selected(old('access_tier') === '2')>Tier 2 · Academic</option>
                         @endif
                         @if ($clearanceLevel >= 3)
-                            <option value="3" @selected(old('access_tier', '3') === '3')>Tier 3 · Confidential</option>
+                            <option value="3" @selected(old('access_tier') === '3')>Tier 3 · Confidential</option>
                         @endif
                     </select>
                     <p class="text-xs leading-5 text-slate-500 dark:text-slate-400">

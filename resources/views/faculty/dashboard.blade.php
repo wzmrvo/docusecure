@@ -349,11 +349,12 @@
                     Clearance Tier
                 </label>
                 <select name="access_tier" required class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
+                    <option value="1" selected>Tier 1 • Public</option>
                     @if ((int) substr(auth()->user()->clearance_tier, -1) >= 2)
-                        <option value="2" @selected((int) substr(auth()->user()->clearance_tier, -1) < 3)>Tier 2 • Academic Internal</option>
+                        <option value="2">Tier 2 • Academic Internal</option>
                     @endif
                     @if ((int) substr(auth()->user()->clearance_tier, -1) >= 3)
-                        <option value="3" @selected((int) substr(auth()->user()->clearance_tier, -1) >= 3)>Tier 3 • Dept Confidential</option>
+                        <option value="3">Tier 3 • Dept Confidential</option>
                     @endif
                 </select>
             </div>

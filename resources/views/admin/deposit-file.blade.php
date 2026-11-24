@@ -233,7 +233,7 @@
 <select id="depositDepartment" class="w-full bg-surface-container text-on-surface font-body-md text-body-md pl-10 pr-9 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary appearance-none shadow-inner">
 <option value="">Select department for Tier 2/3 access</option>
 @foreach ($departments as $department)
-<option value="{{ $department->id }}" @selected((int) auth()->user()->department_id === $department->id)>{{ $department->name }}</option>
+<option value="{{ $department->id }}" @selected((int) auth()->user()->department_id === $department->id)>{{ $department->name }} · Unit {{ $department->id }}</option>
 @endforeach
 </select>
 <span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">expand_more</span>
@@ -541,7 +541,7 @@ File summaries are not stored yet. The document title and searchable metadata ab
           <p class="mt-1 truncate text-xs text-on-surface-variant">{{ $document->original_name }} · {{ $document->tracking_number }}</p>
           <p class="mt-1 break-all font-mono text-[10px] text-on-surface-variant">SHA-256: {{ $document->sha256 ?: 'Not recorded' }}</p>
           <p class="mt-1 text-xs text-on-surface-variant">
-            Department: {{ $document->department?->name ?? (in_array($document->access_tier, ['tier2', 'tier3'], true) ? 'Needs assignment' : 'Not required for this tier') }}
+            Department: {{ $document->department ? $document->department->name.' · Unit '.$document->department_id : (in_array($document->access_tier, ['tier2', 'tier3'], true) ? 'Needs assignment' : 'Not required for this tier') }}
           </p>
           @if (in_array($document->access_tier, ['tier2', 'tier3'], true))
             <form method="POST" action="{{ route('admin.preview.documents.update', $document) }}" class="mt-2 flex flex-wrap items-center gap-2">
@@ -551,7 +551,7 @@ File summaries are not stored yet. The document title and searchable metadata ab
               <select id="department-{{ $document->id }}" name="department_id" required class="min-h-9 rounded-lg border border-[#22334d] bg-surface-container px-3 py-1.5 text-xs text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                 <option value="" disabled @selected($document->department_id === null)>Assign department</option>
                 @foreach ($departments as $department)
-                  <option value="{{ $department->id }}" @selected((int) $document->department_id === $department->id)>{{ $department->name }}</option>
+                  <option value="{{ $department->id }}" @selected((int) $document->department_id === $department->id)>{{ $department->name }} · Unit {{ $department->id }}</option>
                 @endforeach
               </select>
               <button type="submit" class="min-h-9 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-200 hover:bg-emerald-500/20">

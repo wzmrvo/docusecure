@@ -13,6 +13,7 @@ use App\Models\Department;
 use App\Models\Document;
 use App\Models\DocumentCategory;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -307,7 +308,7 @@ Route::get('/faculty/clearance-submitted', fn () => redirect()->route('faculty.p
 
 // Faculty Form Submission Routes
 Route::post('/faculty/submit-department-file', function (Request $request) {
-    $request->files->set('file', $request->file('department_file'));
+    $request->files->set('file', $request->files->get('department_file'));
     $category = DocumentCategory::query()
         ->where('slug', (string) $request->input('document_category'))
         ->orWhere('name', (string) $request->input('document_category'))
@@ -317,6 +318,7 @@ Route::post('/faculty/submit-department-file', function (Request $request) {
         'tracking_number' => 'CEIT-'.Str::upper(Str::uuid()->toString()),
         'category_id' => $category?->id,
         'access_tier' => match ((string) $request->input('access_tier')) {
+            '1', 'tier1' => 'tier1',
             '2', 'tier2' => 'tier2',
             '3', 'tier3' => 'tier3',
             '4', 'tier4' => 'tier4',
@@ -334,26 +336,30 @@ Route::post('/faculty/submit-tier-4-access-request', [AccessRequestController::c
 
 // Student Preview Routes
 Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 'role:student'])->group(function () {
+    $getAccessibleDocuments = static function (): Collection {
+        $clearanceLevel = (int) substr(Auth::user()->clearance_tier, -1);
+        $tiers = $clearanceLevel >= 2 ? ['tier1', 'tier2'] : ['tier1'];
 
-    Route::get('/', function () {
-        $documentCount = Document::whereIn('access_tier', ['tier1', 'tier2'])->count();
-        $accessRequestCount = AccessRequest::where('requester_id', Auth::id())->count();
-        $accessibleDocuments = Document::whereIn('access_tier', ['tier1', 'tier2'])
-            ->latest()
-            ->get();
-        $documents = Document::whereIn('access_tier', ['tier1', 'tier2'])
+        return Document::query()
             ->with(['category', 'department'])
+            ->where('status', 'sealed')
+            ->whereIn('access_tier', $tiers)
             ->latest()
-            ->limit(5)
-            ->get();
+            ->get()
+            ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
+            ->values();
+    };
+
+    Route::get('/', function () use ($getAccessibleDocuments) {
+        $accessibleDocuments = $getAccessibleDocuments();
+        $documentCount = $accessibleDocuments->count();
+        $accessRequestCount = AccessRequest::where('requester_id', Auth::id())->count();
+        $documents = $accessibleDocuments->take(5);
 
         return view('student.dashboard', compact('documentCount', 'accessRequestCount', 'documents', 'accessibleDocuments'));
     })->name('dashboard');
-    Route::get('/document-library', function () {
-        $documents = Document::whereIn('access_tier', ['tier1', 'tier2'])
-            ->with(['category', 'department'])
-            ->latest()
-            ->get();
+    Route::get('/document-library', function () use ($getAccessibleDocuments) {
+        $documents = $getAccessibleDocuments();
         $documentCount = $documents->count();
 
         return view('student.document-library', compact('documents', 'documentCount'));
@@ -367,17 +373,26 @@ Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 
 
 // Viewer Preview Routes
 Route::prefix('viewer/preview')->name('viewer.preview.')->middleware(['auth', 'role:viewer'])->group(function () {
+    $getPublicDocuments = static function (): Collection {
+        return Document::query()
+            ->where('access_tier', 'tier1')
+            ->where('status', 'sealed')
+            ->latest()
+            ->get()
+            ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
+            ->values();
+    };
 
-    Route::get('/', function () {
-        $publicDocuments = Document::where('access_tier', 'tier1')->latest()->limit(20)->get();
+    Route::get('/', function () use ($getPublicDocuments) {
+        $publicDocuments = $getPublicDocuments()->take(20)->values();
 
         return view('viewer.dashboard', [
             'publicDocuments' => $publicDocuments,
             'guestAccess' => false,
         ]);
     })->name('dashboard');
-    Route::get('/document-library', function () {
-        $publicDocuments = Document::where('access_tier', 'tier1')->latest()->get();
+    Route::get('/document-library', function () use ($getPublicDocuments) {
+        $publicDocuments = $getPublicDocuments();
         $documents = $publicDocuments;
 
         return view('student.document-library', compact('publicDocuments', 'documents'));
