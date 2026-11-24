@@ -130,6 +130,7 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
     Route::get('/deposit-file', function () {
         $categories = DocumentCategory::where('active', true)->orderBy('name')->get();
         $departments = Department::where('active', true)->orderBy('name')->get();
+        $documentCount = Document::count();
         $recentDocuments = Document::with(['uploader', 'category', 'department'])
             ->where('status', 'sealed')
             ->latest()
@@ -139,8 +140,33 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
             ->take(5)
             ->values();
 
-        return view('admin.deposit-file', compact('categories', 'departments', 'recentDocuments'));
+        return view('admin.deposit-file', compact('categories', 'departments', 'documentCount', 'recentDocuments'));
     })->name('deposit-file');
+    Route::get('/document-library', function (Request $request) {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:120'],
+        ]);
+        $search = trim($validated['search'] ?? '');
+        $query = Document::query()
+            ->with(['uploader', 'category', 'department'])
+            ->latest();
+
+        if ($search !== '') {
+            $query->where(function ($documentQuery) use ($search) {
+                $documentQuery->where('title', 'like', "%{$search}%")
+                    ->orWhere('original_name', 'like', "%{$search}%")
+                    ->orWhere('tracking_number', 'like', "%{$search}%");
+            });
+        }
+
+        $documents = $query->paginate(25)->withQueryString();
+        $documents->getCollection()->each(function (Document $document): void {
+            $document->setAttribute('file_available', Storage::disk('local')->exists($document->file_path));
+        });
+        $departments = Department::where('active', true)->orderBy('name')->get();
+
+        return view('admin.document-library', compact('departments', 'documents', 'search'));
+    })->name('document-library');
     Route::post('/deposit-file', [DocumentController::class, 'store'])->name('deposit-file.store');
     Route::patch('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
     Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');

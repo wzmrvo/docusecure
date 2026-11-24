@@ -85,9 +85,9 @@
 </div>
 </div>
 <div class="flex items-center gap-3 shrink-0">
-<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="#recent-uploads">
-<span class="material-symbols-outlined text-[18px]">history</span>
-<span>Recent uploads ({{ $recentDocuments->count() }})</span>
+<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.document-library') }}">
+<span class="material-symbols-outlined text-[18px]">folder_open</span>
+<span>All documents ({{ $documentCount }})</span>
 </a>
 </div>
 </div>
@@ -181,9 +181,9 @@
 
 <!-- Secondary Appendices Accordion / Add -->
 <div class="flex items-center justify-between pt-1 flex-wrap gap-2">
-  <a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.access-levels') }}">
-<span class="material-symbols-outlined text-[18px]">history</span>
-<span>Recent uploads ({{ $recentDocuments->count() }})</span>
+  <a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.document-library') }}">
+<span class="material-symbols-outlined text-[18px]">folder_open</span>
+<span>All documents ({{ $documentCount }})</span>
 </a>
   <span class="font-label-sm text-label-sm text-outline font-mono flex items-center gap-1">
     <span class="material-symbols-outlined text-[14px]">link</span>
@@ -512,9 +512,9 @@ File summaries are not stored yet. The document title and searchable metadata ab
 <span>Seal Document &amp; Commit to Enclave</span>
 </button>
 <!-- Secondary Staging Action -->
-<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.access-levels') }}">
-<span class="material-symbols-outlined text-[18px]">history</span>
-<span>Recent uploads ({{ $recentDocuments->count() }})</span>
+<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.document-library') }}">
+<span class="material-symbols-outlined text-[18px]">folder_open</span>
+<span>All documents ({{ $documentCount }})</span>
 </a>
 <!-- Cancel Link -->
 <div class="text-center pt-1"><a class="font-label-md text-label-md text-slate-400 hover:text-primary transition-colors inline-flex items-center gap-1.5 font-medium" href="{{ route('admin.preview.access-levels') }}">

@@ -17,6 +17,7 @@
             'logout_route' => route('admin.preview.logout-confirmation'),
             'links' => [
                 ['route' => 'admin.preview.dashboard', 'href' => route('admin.preview.dashboard'), 'icon' => 'dashboard', 'label' => 'Admin Console'],
+                ['route' => 'admin.preview.document-library', 'href' => route('admin.preview.document-library'), 'icon' => 'folder_open', 'label' => 'Document Library'],
                 ['route' => 'admin.preview.user-management', 'href' => route('admin.preview.user-management'), 'icon' => 'group', 'label' => 'User Management'],
                 ['route' => 'admin.preview.access-requests', 'href' => route('admin.preview.access-requests'), 'icon' => 'fact_check', 'label' => 'Access Requests', 'badge' => '14'],
                 ['route' => 'admin.preview.access-levels', 'href' => route('admin.preview.access-levels'), 'icon' => 'shield', 'label' => 'Document Access Levels'],
