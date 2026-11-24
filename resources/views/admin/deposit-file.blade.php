@@ -106,9 +106,9 @@
   </div>
 @endif
 <div id="depositFeedback" class="mb-5 hidden rounded-lg border px-4 py-3 text-sm" role="alert" aria-live="polite"></div>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
 <!-- LEFT COLUMN: Form & Ingestion (65% / 8 Cols) -->
-<div class="lg:col-span-8 space-y-6">
+<div class="xl:col-span-8 min-w-0 space-y-6">
 <!-- 1. Document Upload & Staging Zone -->
 <div class="bg-surface-container-low p-6 rounded-xl space-y-5 shadow-sm"><div class="flex items-center justify-between flex-wrap gap-2">
   <div class="flex items-center gap-2.5">
@@ -190,115 +190,28 @@
     ARCHIVAL REPOSITORY LINKED
   </span>
 </div></div>
-<!-- 2. Institutional Metadata Form -->
-<div class="bg-surface-container-low p-6 rounded-xl space-y-6 shadow-sm">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-2.5">
-<span class="w-2 h-2 rounded-full bg-primary"></span>
-<h2 class="font-headline-sm text-headline-sm text-on-surface">2. Institutional Record Metadata</h2>
-</div>
-<span class="font-label-sm text-label-sm text-outline uppercase font-mono">RECORD SCHEMA v2.4</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-<!-- Full Title (Span 2) -->
-<div class="md:col-span-2 space-y-1.5">
-<div class="flex justify-between items-center">
-<label class="font-label-md text-label-md text-on-surface font-medium">
-                  Document Title / Official Record Name <span class="text-error">*</span>
-</label>
-<span class="font-label-sm text-label-sm text-primary font-mono">ENCRYPTED INDEX</span>
-</div>
-<input id="depositDocumentTitle" name="title" required maxlength="255" placeholder="Enter the official document title" class="w-full bg-surface-container text-on-surface font-body-md text-body-md px-3.5 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text">
-</div>
-<!-- Reference / Tracking Number -->
-<div class="space-y-1.5">
-<div class="flex justify-between items-center">
-<label class="font-label-md text-label-md text-on-surface font-medium">
-                  Institutional Tracking / Ledger No. <span class="text-error">*</span>
-</label>
-<span class="font-label-sm text-label-sm text-outline font-mono">BARCODE SYNCED</span>
-</div>
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">tag</span>
-<input id="depositTrackingNumber" name="tracking_number" required maxlength="100" placeholder="Enter a unique institutional tracking number" class="w-full bg-surface-container text-on-surface font-code-snippet text-code-snippet pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text">
-</div>
-</div>
-<!-- Department for restricted file access -->
-<div class="space-y-1.5">
-<label class="font-label-md text-label-md text-on-surface font-medium">
-                Faculty Access Department
-</label>
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">account_balance</span>
-<select id="depositDepartment" class="w-full bg-surface-container text-on-surface font-body-md text-body-md pl-10 pr-9 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary appearance-none shadow-inner">
-<option value="">Select department for Tier 2/3 access</option>
-@foreach ($departments as $department)
-<option value="{{ $department->id }}" @selected((int) auth()->user()->department_id === $department->id)>{{ $department->name }} · Unit {{ $department->id }}</option>
-@endforeach
-</select>
-<span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">expand_more</span>
-</div>
-<p class="text-xs text-on-surface-variant">Required for Tier 2 and Tier 3 so eligible Faculty in that department can find the file.</p>
-</div>
-<!-- Document Sub-Format / Legal Nature -->
-<div class="space-y-1.5">
-<label class="font-label-md text-label-md text-on-surface font-medium">
-                Document Classification Type <span class="text-error">*</span>
-</label>
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">category</span>
-<select id="depositCategory" name="category_id" class="w-full bg-surface-container text-on-surface font-body-md text-body-md pl-10 pr-9 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary appearance-none shadow-inner">
-<option value="">No category</option>
-@foreach ($categories as $category)
-<option value="{{ $category->id }}">{{ $category->name }}</option>
-@endforeach
-</select>
-<span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">expand_more</span>
-</div>
-</div>
-<!-- Category storage note -->
-<div class="space-y-1.5">
-<label class="font-label-md text-label-md text-on-surface font-medium">
-                Document Metadata
-</label>
-<p class="rounded-lg border border-[#22334d] bg-surface-container px-3.5 py-3 text-sm text-on-surface-variant">
-The selected category, access tier, department, tracking number, original filename, and server-generated SHA-256 digest are saved with the private file.
-</p>
-</div>
-<!-- Brief Description / Legal Mandate Summary (Span 2) -->
-<div class="md:col-span-2 space-y-1.5">
-<div class="flex justify-between items-center">
-<label class="font-label-md text-label-md text-on-surface font-medium">
-                  Document Summary, Context &amp; Statutory Authority
-                </label>
-<span class="font-label-sm text-label-sm text-outline font-mono">VISIBLE IN AUDIT TRAIL</span>
-</div>
-<p class="w-full rounded-lg border border-[#22334d] bg-surface-container p-3 text-sm text-on-surface-variant">
-File summaries are not stored yet. The document title and searchable metadata above are the records saved with this upload.
-</p>
-</div>
-</div>
-</div>
-<!-- 3. Security Clearance Tier Selection (Interactive 4-Tier Grid) -->
+<!-- 2. Security Clearance Tier Selection (Interactive 4-Tier Grid) -->
 <div class="bg-surface-container-low p-6 rounded-xl space-y-5 shadow-sm">
 <div class="flex flex-wrap items-center justify-between gap-2">
 <div class="flex items-center gap-2.5">
 <span class="w-2 h-2 rounded-full bg-primary"></span>
-<h2 class="font-headline-sm text-headline-sm text-on-surface">3. Access Clearance Tier Allocation</h2>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">2. Access Clearance Tier Allocation</h2>
 </div>
 <span class="font-label-sm text-label-sm px-2.5 py-1 rounded bg-surface-container-highest text-primary font-mono">
               SELECT THE DOCUMENT ACCESS TIER
             </span>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
 <!-- Tier 1 -->
-<label class="relative flex flex-col p-4 rounded-xl bg-surface-container cursor-pointer hover:bg-surface-container-high transition-colors">
-<input class="sr-only" name="clearance_tier" type="radio" value="tier1" required>
+<label class="relative flex flex-col p-4 rounded-xl bg-surface-container-high cursor-pointer shadow-md hover:bg-surface-container-high transition-colors">
+<input class="sr-only" name="clearance_tier" type="radio" value="tier1" required checked>
 <div class="flex items-center justify-between mb-2">
 <div class="flex items-center gap-2">
-<span class="font-label-md text-label-md font-bold text-on-surface uppercase tracking-wider">Tier 1 • Public Release</span>
+<span class="font-label-md text-label-md font-bold text-primary uppercase tracking-wider">Tier 1 • Public Release</span>
 </div>
-<span class="w-4 h-4 rounded-full bg-surface-container-highest flex items-center justify-center"></span>
+<span class="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[14px] font-bold">check</span>
+</span>
 </div>
 <p class="font-body-sm text-body-sm text-on-surface-variant">
                 Unsealed general university circulars, press statements, and public catalogs. Requires no authorization handshake.
@@ -342,23 +255,21 @@ File summaries are not stored yet. The document title and searchable metadata ab
 <span class="font-label-sm text-label-sm text-on-surface-variant">Audit Level: High</span>
 </div>
 </label>
-<!-- Tier 4 [SELECTED] -->
-<label class="relative flex flex-col p-4 rounded-xl bg-surface-container-high cursor-pointer shadow-md">
+<!-- Tier 4 -->
+<label class="relative flex flex-col p-4 rounded-xl bg-surface-container cursor-pointer hover:bg-surface-container-high transition-colors">
 <input class="sr-only" name="clearance_tier" type="radio" value="tier4">
 <div class="flex items-center justify-between mb-2">
 <div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-[18px]">lock</span>
-<span class="font-label-md text-label-md font-bold text-primary uppercase tracking-wider">Tier 4 • Restricted Vault</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">lock</span>
+<span class="font-label-md text-label-md font-bold text-on-surface uppercase tracking-wider">Tier 4 • Restricted Vault</span>
 </div>
-<div class="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined text-[14px] font-bold">check</span>
-</div>
+<div class="w-4 h-4 rounded-full bg-surface-container-highest flex items-center justify-center"></div>
 </div>
 <p class="font-body-sm text-body-sm text-on-surface">
                 Restricted institutional files. Faculty access requires an Admin approval request.
               </p>
 <div class="mt-3 pt-3 flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-primary font-mono font-semibold">HARDWARE HSM PINNED</span>
+<span class="font-label-sm text-label-sm text-outline font-mono">HARDWARE HSM PINNED</span>
 <span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-error-container text-error font-mono font-semibold">
                   MAX SECURITY
                 </span>
@@ -366,9 +277,85 @@ File summaries are not stored yet. The document title and searchable metadata ab
 </label>
 </div>
 </div>
+<!-- 3. Institutional Metadata Form -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-6 shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">3. Institutional Record Metadata</h2>
+</div>
+<span class="font-label-sm text-label-sm text-outline uppercase font-mono">RECORD SCHEMA v2.4</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+<!-- Full Title (Span 2) -->
+<div class="lg:col-span-2 space-y-1.5">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface font-medium">
+                  Document Title / Official Record Name <span class="text-error">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-primary font-mono">ENCRYPTED INDEX</span>
+</div>
+<input id="depositDocumentTitle" name="title" required maxlength="255" placeholder="Enter the official document title" class="w-full bg-surface-container text-on-surface font-body-md text-body-md px-3.5 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text">
+</div>
+<!-- Reference / Tracking Number -->
+<div class="space-y-1.5">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface font-medium">
+                  Institutional Tracking / Ledger No. <span class="text-error">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-outline font-mono">BARCODE SYNCED</span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">tag</span>
+<input id="depositTrackingNumber" name="tracking_number" required maxlength="100" placeholder="Enter a unique institutional tracking number" class="w-full bg-surface-container text-on-surface font-code-snippet text-code-snippet pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text">
+</div>
+</div>
+<!-- Document Sub-Format / Legal Nature -->
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface font-medium">
+                Document Category &amp; Access <span class="text-error">*</span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">category</span>
+<select id="depositCategory" name="category_id" required class="w-full bg-surface-container text-on-surface font-body-md text-body-md pl-10 pr-9 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary appearance-none shadow-inner">
+<option value="">Select a category</option>
+@foreach ($categories as $category)
+<option value="{{ $category->id }}" data-tier="{{ $category->access_tier }}" @disabled(! $category->access_tier)>
+  {{ $category->name }} · {{ $category->access_tier ? strtoupper($category->access_tier) : 'Set tier in category manager' }}{{ $category->department ? ' · '.$category->department->name : '' }}
+</option>
+@endforeach
+</select>
+<span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">expand_more</span>
+</div>
+<p id="depositCategoryHint" class="text-xs text-on-surface-variant" aria-live="polite"></p>
+<a href="{{ route('admin.preview.document-categories') }}" class="text-xs font-semibold text-emerald-700 underline underline-offset-4 hover:text-emerald-600 dark:text-emerald-300">Create or manage categories</a>
+</div>
+<!-- Category storage note -->
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface font-medium">
+                Document Metadata
+</label>
+<p class="rounded-lg border border-[#22334d] bg-surface-container px-3.5 py-3 text-sm text-on-surface-variant">
+The selected category sets the access tier and department restrictions. Tracking number, original filename, and server-generated SHA-256 digest are saved with the private file.
+</p>
+</div>
+<!-- Brief Description / Legal Mandate Summary (Span 2) -->
+<div class="lg:col-span-2 space-y-1.5">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface font-medium">
+                  Document Summary, Context &amp; Statutory Authority
+                </label>
+<span class="font-label-sm text-label-sm text-outline font-mono">VISIBLE IN AUDIT TRAIL</span>
+</div>
+<p class="w-full rounded-lg border border-[#22334d] bg-surface-container p-3 text-sm text-on-surface-variant">
+File summaries are not stored yet. The document title and searchable metadata above are the records saved with this upload.
+</p>
+</div>
+</div>
+</div>
 </div>
 <!-- RIGHT COLUMN: Security Enforcement, Cryptography & Sealing Actions (35% / 4 Cols) -->
-<div class="lg:col-span-4 space-y-6">
+<div class="xl:col-span-4 min-w-0 space-y-6">
 <!-- 1. Security & Statutory Compliance Enforcement -->
 <div class="bg-surface-container-low p-6 rounded-xl space-y-5 shadow-sm">
 <div class="flex items-center justify-between">
@@ -541,24 +528,27 @@ File summaries are not stored yet. The document title and searchable metadata ab
           <p class="mt-1 truncate text-xs text-on-surface-variant">{{ $document->original_name }} · {{ $document->tracking_number }}</p>
           <p class="mt-1 break-all font-mono text-[10px] text-on-surface-variant">SHA-256: {{ $document->sha256 ?: 'Not recorded' }}</p>
           <p class="mt-1 text-xs text-on-surface-variant">
-            Department: {{ $document->department ? $document->department->name.' · Unit '.$document->department_id : (in_array($document->access_tier, ['tier2', 'tier3'], true) ? 'Needs assignment' : 'Not required for this tier') }}
+            Category: {{ $document->category?->name ?? 'Unassigned' }} · {{ strtoupper($document->access_tier) }}
+            @if ($document->department)
+              · Department: {{ $document->department->name }}
+            @endif
           </p>
-          @if (in_array($document->access_tier, ['tier2', 'tier3'], true))
-            <form method="POST" action="{{ route('admin.preview.documents.update', $document) }}" class="mt-2 flex flex-wrap items-center gap-2">
-              @csrf
-              @method('PATCH')
-              <label class="sr-only" for="department-{{ $document->id }}">Faculty access department</label>
-              <select id="department-{{ $document->id }}" name="department_id" required class="min-h-9 rounded-lg border border-[#22334d] bg-surface-container px-3 py-1.5 text-xs text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
-                <option value="" disabled @selected($document->department_id === null)>Assign department</option>
-                @foreach ($departments as $department)
-                  <option value="{{ $department->id }}" @selected((int) $document->department_id === $department->id)>{{ $department->name }} · Unit {{ $department->id }}</option>
-                @endforeach
-              </select>
-              <button type="submit" class="min-h-9 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-200 hover:bg-emerald-500/20">
-                Save department
+          <form method="POST" action="{{ route('admin.preview.documents.update', $document) }}" class="mt-2 flex flex-wrap items-center gap-2" data-category-update data-document-title="{{ $document->title }}" data-current-category="{{ $document->category?->name ?? 'Unassigned' }}" data-current-tier="{{ $document->access_tier }}">
+            @csrf
+            @method('PATCH')
+            <label class="sr-only" for="category-{{ $document->id }}">Document category</label>
+            <select id="category-{{ $document->id }}" name="category_id" required class="min-h-9 rounded-lg border border-[#22334d] bg-surface-container px-3 py-1.5 text-xs text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+              <option value="" disabled @selected(! $categories->contains('id', $document->category_id))>Choose category</option>
+              @foreach ($categories as $category)
+                <option value="{{ $category->id }}" data-tier="{{ $category->access_tier }}" data-category-name="{{ $category->name }}" @selected((int) $document->category_id === $category->id)>
+                  {{ $category->name }} · {{ strtoupper($category->access_tier) }}{{ $category->department ? ' · '.$category->department->name : '' }}
+                </option>
+              @endforeach
+            </select>
+            <button type="submit" class="min-h-9 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-200 hover:bg-emerald-500/20">
+                Save category
               </button>
-            </form>
-          @endif
+          </form>
         </div>
         <div class="flex shrink-0 items-center gap-3">
           <span class="rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-300">{{ strtoupper($document->access_tier) }}</span>
@@ -594,6 +584,41 @@ File summaries are not stored yet. The document title and searchable metadata ab
 </div>
 </div>
 </div>
+</div>
+<div id="category-downgrade-modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="category-downgrade-title" aria-describedby="category-downgrade-description">
+  <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeCategoryDowngradeModal()"></div>
+  <div class="relative w-full max-w-lg overflow-hidden rounded-xl border border-amber-400/30 bg-[#101827] text-slate-100 shadow-2xl">
+    <div class="h-1.5 bg-amber-400"></div>
+    <div class="space-y-5 p-6">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wider text-amber-300">Access level change</p>
+        <h2 id="category-downgrade-title" class="mt-1 text-lg font-bold text-white">Confirm access downgrade</h2>
+        <p id="category-downgrade-description" class="mt-2 text-sm leading-6 text-slate-300">
+          This change lowers the document's access tier and may broaden who can view it. Continue only if this change is intentional.
+        </p>
+      </div>
+      <dl class="space-y-3 rounded-lg border border-white/10 bg-white/[0.03] p-4 text-sm">
+        <div>
+          <dt class="text-xs font-mono text-slate-400">DOCUMENT</dt>
+          <dd id="category-downgrade-document" class="mt-1 break-words font-semibold text-white"></dd>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <div>
+            <dt class="text-xs font-mono text-slate-400">CURRENT CATEGORY / TIER</dt>
+            <dd id="category-downgrade-current" class="mt-1 break-words text-slate-200"></dd>
+          </div>
+          <div>
+            <dt class="text-xs font-mono text-amber-300">NEW CATEGORY / TIER</dt>
+            <dd id="category-downgrade-target" class="mt-1 break-words font-semibold text-amber-100"></dd>
+          </div>
+        </div>
+      </dl>
+      <div class="flex flex-col-reverse gap-3 sm:flex-row">
+        <button type="button" data-downgrade-cancel onclick="closeCategoryDowngradeModal()" class="min-h-11 flex-1 rounded-lg border border-white/10 px-4 text-sm font-semibold text-slate-300 hover:bg-white/5">Cancel — keep current access</button>
+        <button type="button" data-downgrade-confirm onclick="confirmCategoryDowngrade()" class="min-h-11 flex-1 rounded-lg bg-amber-500 px-4 text-sm font-bold text-slate-950 hover:bg-amber-400">Confirm downgrade</button>
+      </div>
+    </div>
+  </div>
 </div>
 <div id="seal-review-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="seal-review-title">
   <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeSealReviewModal()"></div>
@@ -644,16 +669,16 @@ File summaries are not stored yet. The document title and searchable metadata ab
     const fileInput = document.getElementById('primaryDocInput');
     const title = document.getElementById('depositDocumentTitle').value.trim();
     const trackingNumber = document.getElementById('depositTrackingNumber').value.trim();
+    const categoryId = document.getElementById('depositCategory').value;
     const selectedTier = document.querySelector('input[name="clearance_tier"]:checked');
-    const departmentId = document.getElementById('depositDepartment').value;
 
-    if (!fileInput.files.length || !title || !trackingNumber || !selectedTier) {
-      showDepositFeedback('Select a file, enter its title and tracking number, and choose an access tier.');
+    if (!fileInput.files.length || !title || !trackingNumber || !categoryId || !selectedTier) {
+      showDepositFeedback('Select a file, access tier, and matching category, then enter its title and tracking number.');
       return;
     }
 
-    if (['tier2', 'tier3'].includes(selectedTier.value) && !departmentId) {
-      showDepositFeedback('Select a department for Tier 2 or Tier 3 access.');
+    if (document.querySelector('#depositCategory option:checked').dataset.tier !== selectedTier.value) {
+      showDepositFeedback('Choose a category configured for the selected access tier.');
       return;
     }
 
@@ -675,19 +700,19 @@ File summaries are not stored yet. The document title and searchable metadata ab
       return;
     }
 
-    const selectedTier = document.querySelector('input[name="clearance_tier"]:checked');
     const title = document.getElementById('depositDocumentTitle').value.trim();
     const trackingNumber = document.getElementById('depositTrackingNumber').value.trim();
-    const departmentId = document.getElementById('depositDepartment').value;
-    if (!selectedTier || !title || !trackingNumber) {
+    const categoryId = document.getElementById('depositCategory').value;
+    const selectedTier = document.querySelector('input[name="clearance_tier"]:checked');
+    if (!categoryId || !title || !trackingNumber || !selectedTier) {
       closeSealReviewModal();
-      showDepositFeedback('Enter the document title and tracking number, then choose an access tier.');
+      showDepositFeedback('Choose an access tier and matching category, then enter the document title and tracking number.');
       return;
     }
 
-    if (['tier2', 'tier3'].includes(selectedTier.value) && !departmentId) {
+    if (document.querySelector('#depositCategory option:checked').dataset.tier !== selectedTier.value) {
       closeSealReviewModal();
-      showDepositFeedback('Select a department for Tier 2 or Tier 3 access.');
+      showDepositFeedback('Choose a category configured for the selected access tier.');
       return;
     }
 
@@ -698,14 +723,8 @@ File summaries are not stored yet. The document title and searchable metadata ab
     formData.append('file', fileInput.files[0]);
     formData.append('title', title);
     formData.append('tracking_number', trackingNumber);
+    formData.append('category_id', categoryId);
     formData.append('access_tier', selectedTier.value);
-    if (departmentId) {
-      formData.append('department_id', departmentId);
-    }
-    const categoryId = document.getElementById('depositCategory').value;
-    if (categoryId) {
-      formData.append('category_id', categoryId);
-    }
     formData.append('_token', '{{ csrf_token() }}');
 
     try {
@@ -742,6 +761,120 @@ File summaries are not stored yet. The document title and searchable metadata ab
     modal.classList.add('hidden');
     modal.classList.remove('flex');
   }
+  const categoryTierRanks = { tier1: 1, tier2: 2, tier3: 3, tier4: 4 };
+  const categoryDowngradeModal = document.getElementById('category-downgrade-modal');
+  let pendingCategoryUpdateForm = null;
+  let categoryDowngradeFocusTarget = null;
+
+  function openCategoryDowngradeModal(form, targetOption) {
+    pendingCategoryUpdateForm = form;
+    categoryDowngradeFocusTarget = document.activeElement;
+    document.getElementById('category-downgrade-document').textContent = form.dataset.documentTitle;
+    document.getElementById('category-downgrade-current').textContent =
+      `${form.dataset.currentCategory} · ${form.dataset.currentTier.toUpperCase()}`;
+    document.getElementById('category-downgrade-target').textContent =
+      `${targetOption.dataset.categoryName} · ${targetOption.dataset.tier.toUpperCase()}`;
+    categoryDowngradeModal.classList.remove('hidden');
+    categoryDowngradeModal.classList.add('flex');
+    categoryDowngradeModal.querySelector('[data-downgrade-cancel]').focus();
+  }
+
+  function closeCategoryDowngradeModal() {
+    categoryDowngradeModal.classList.add('hidden');
+    categoryDowngradeModal.classList.remove('flex');
+    pendingCategoryUpdateForm = null;
+
+    const focusTarget = categoryDowngradeFocusTarget;
+    categoryDowngradeFocusTarget = null;
+    if (focusTarget instanceof HTMLElement) {
+      focusTarget.focus();
+    }
+  }
+
+  function confirmCategoryDowngrade() {
+    if (!pendingCategoryUpdateForm) {
+      return;
+    }
+
+    const form = pendingCategoryUpdateForm;
+    pendingCategoryUpdateForm = null;
+    categoryDowngradeFocusTarget = null;
+    categoryDowngradeModal.classList.add('hidden');
+    categoryDowngradeModal.classList.remove('flex');
+    form.dataset.accessDowngradeConfirmed = 'true';
+    form.requestSubmit();
+    delete form.dataset.accessDowngradeConfirmed;
+  }
+
+  document.querySelectorAll('form[data-category-update]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      if (form.dataset.accessDowngradeConfirmed === 'true') {
+        delete form.dataset.accessDowngradeConfirmed;
+        return;
+      }
+
+      const currentTierRank = categoryTierRanks[form.dataset.currentTier];
+      const selectedOption = form.querySelector('select[name="category_id"]').selectedOptions[0];
+      const targetTierRank = categoryTierRanks[selectedOption?.dataset.tier];
+
+      if (currentTierRank && targetTierRank && targetTierRank < currentTierRank) {
+        event.preventDefault();
+        openCategoryDowngradeModal(form, selectedOption);
+      }
+    });
+  });
+
+  categoryDowngradeModal.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeCategoryDowngradeModal();
+      return;
+    }
+
+    if (event.key === 'Tab') {
+      const focusableButtons = Array.from(categoryDowngradeModal.querySelectorAll('button:not([disabled])'));
+      const firstButton = focusableButtons[0];
+      const lastButton = focusableButtons[focusableButtons.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstButton) {
+        event.preventDefault();
+        lastButton.focus();
+      } else if (!event.shiftKey && document.activeElement === lastButton) {
+        event.preventDefault();
+        firstButton.focus();
+      }
+    }
+  });
+
+  const depositCategorySelect = document.getElementById('depositCategory');
+  const depositCategoryHint = document.getElementById('depositCategoryHint');
+
+  function syncCategoriesByTier() {
+    const selectedTier = document.querySelector('input[name="clearance_tier"]:checked')?.value;
+    let matchingCategories = 0;
+
+    Array.from(depositCategorySelect.options).forEach((option) => {
+      if (!option.value) {
+        return;
+      }
+
+      const matchesTier = Boolean(selectedTier) && option.dataset.tier === selectedTier;
+      option.hidden = !matchesTier;
+      option.disabled = !matchesTier;
+      if (matchesTier) {
+        matchingCategories += 1;
+      }
+    });
+
+    const selectedOption = depositCategorySelect.selectedOptions[0];
+    if (selectedOption?.value && selectedOption.disabled) {
+      depositCategorySelect.value = '';
+    }
+
+    depositCategoryHint.textContent = matchingCategories
+      ? `Showing ${matchingCategories} categories for ${selectedTier.toUpperCase()}.`
+      : `No configured categories for ${selectedTier.toUpperCase()}. Create one for this tier first.`;
+  }
+
   // Dynamic radio card selection interaction
   document.querySelectorAll('input[name="clearance_tier"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
@@ -777,8 +910,10 @@ File summaries are not stored yet. The document title and searchable metadata ab
           circle.innerHTML = '<span class="material-symbols-outlined text-[14px] font-bold">check</span>';
         }
       }
+      syncCategoriesByTier();
     });
   });
+  document.querySelector('input[name="clearance_tier"]:checked')?.dispatchEvent(new Event('change'));
 
   const primaryDocInput = document.getElementById('primaryDocInput');
   const stagedDocumentName = document.getElementById('stagedDocumentName');

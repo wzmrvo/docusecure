@@ -19,6 +19,10 @@
             <span class="material-symbols-outlined text-[18px]">upload_file</span>
             Deposit a file
         </a>
+        <a href="{{ route('admin.preview.document-categories') }}" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5">
+            <span class="material-symbols-outlined text-[18px]">category</span>
+            Manage categories
+        </a>
     </header>
 
     @if (session('success'))
@@ -30,12 +34,19 @@
     <form method="GET" action="{{ route('admin.preview.document-library') }}" class="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0f1724] sm:flex-row">
         <label for="document-search" class="sr-only">Search documents</label>
         <input id="document-search" name="search" type="search" value="{{ $search }}" maxlength="120" placeholder="Search title, filename, or tracking number" class="min-h-11 min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 placeholder:text-slate-500 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/30 dark:border-white/10 dark:bg-[#111e32] dark:text-white dark:placeholder:text-slate-400">
+        <label for="document-category" class="sr-only">Filter by category</label>
+        <select id="document-category" name="category" class="min-h-11 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/30 dark:border-white/10 dark:bg-[#111e32] dark:text-white">
+            <option value="">All categories</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" @selected((string) $selectedCategoryId === (string) $category->id)>{{ $category->name }}</option>
+            @endforeach
+        </select>
         <div class="flex gap-2">
             <button type="submit" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 text-sm font-semibold text-white transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
                 <span class="material-symbols-outlined text-[18px]">search</span>
                 Search
             </button>
-            @if ($search !== '')
+            @if ($search !== '' || $selectedCategoryId)
                 <a href="{{ route('admin.preview.document-library') }}" class="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-300 px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5">
                     Clear
                 </a>

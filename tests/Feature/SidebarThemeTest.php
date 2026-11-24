@@ -26,10 +26,10 @@ class SidebarThemeTest extends TestCase
             $this->get("/{$role}/preview")->assertRedirect(route('login'));
         }
 
-        $student = User::factory()->create(['role' => 'student']);
+        $student = User::factory()->create(['role' => 'student', 'account_status' => 'active']);
         $this->actingAs($student)->get('/admin/preview')->assertForbidden();
 
-        $admin = User::factory()->create(['role' => 'admin']);
+        $admin = User::factory()->create(['role' => 'admin', 'account_status' => 'active']);
         $this->actingAs($admin)->get('/admin/preview')->assertOk();
     }
 
@@ -46,12 +46,33 @@ class SidebarThemeTest extends TestCase
         foreach ($roleRoutes as $role => $url) {
             $response = $role === 'helpdesk'
                 ? $this->get($url)
-                : $this->actingAs(User::factory()->create(['role' => $role]))->get($url);
+                : $this->actingAs(User::factory()->create(['role' => $role, 'account_status' => 'active']))->get($url);
 
             $response->assertOk()
                 ->assertSee("data-sidebar=\"{$role}\"", false)
                 ->assertSee('aria-current="page"', false);
         }
+    }
+
+    public function test_signed_in_sidebar_uses_the_authenticated_profile(): void
+    {
+        $student = User::factory()->create([
+            'name' => 'Current Student',
+            'email' => 'current.student@example.test',
+            'identification_number' => 'STU-1001',
+            'role' => 'student',
+            'clearance_tier' => 'tier2',
+            'account_status' => 'active',
+        ]);
+
+        $this->actingAs($student)
+            ->get(route('student.preview.categories'))
+            ->assertOk()
+            ->assertSeeText('Current Student')
+            ->assertSeeText('current.student@example.test')
+            ->assertSeeText('STU-1001')
+            ->assertSeeText('TIER2 • STUDENT')
+            ->assertDontSeeText('Maria Santos');
     }
 
     public function test_helpdesk_route_is_a_public_request_dashboard(): void
@@ -88,7 +109,7 @@ class SidebarThemeTest extends TestCase
         ];
 
         foreach ($studentRoutes as $route) {
-            $student = User::factory()->create(['role' => 'student']);
+            $student = User::factory()->create(['role' => 'student', 'account_status' => 'active']);
             $this->actingAs($student)->get(route($route))
                 ->assertOk()
                 ->assertDontSee('docusecure-nav-current', false);

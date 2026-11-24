@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccessRequestController;
 use App\Http\Controllers\AccountApplicationController;
 use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\DocumentCategoryController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SystemSettingController;
 use App\Http\Controllers\UserManagementController;
@@ -109,6 +110,9 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
         return view('admin.index', compact('dashboard', 'recentAuditLogs', 'recentUsers'));
     })->name('dashboard');
     Route::get('/access-levels', fn () => view('admin.access-levels'))->name('access-levels');
+    Route::get('/document-categories', [DocumentCategoryController::class, 'index'])->name('document-categories');
+    Route::post('/document-categories', [DocumentCategoryController::class, 'store'])->name('document-categories.store');
+    Route::patch('/document-categories/{documentCategory}', [DocumentCategoryController::class, 'update'])->name('document-categories.update');
     Route::get('/access-requests', [AccountApplicationController::class, 'index'])->name('access-requests');
     Route::post('/access-requests/{application}/approve', [AccountApplicationController::class, 'approve'])->name('access-requests.approve');
     Route::post('/access-requests/{application}/reject', [AccountApplicationController::class, 'reject'])->name('access-requests.reject');
@@ -128,7 +132,11 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
     Route::get('/system-settings', [SystemSettingController::class, 'index'])->name('system-settings');
     Route::put('/system-settings', [SystemSettingController::class, 'update'])->name('system-settings.update');
     Route::get('/deposit-file', function () {
-        $categories = DocumentCategory::where('active', true)->orderBy('name')->get();
+        $categories = DocumentCategory::query()
+            ->with('department')
+            ->where('active', true)
+            ->orderBy('name')
+            ->get();
         $departments = Department::where('active', true)->orderBy('name')->get();
         $documentCount = Document::count();
         $recentDocuments = Document::with(['uploader', 'category', 'department'])
@@ -145,6 +153,7 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
     Route::get('/document-library', function (Request $request) {
         $validated = $request->validate([
             'search' => ['nullable', 'string', 'max:120'],
+            'category' => ['nullable', 'integer', 'exists:document_categories,id'],
         ]);
         $search = trim($validated['search'] ?? '');
         $query = Document::query()
@@ -159,13 +168,19 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
             });
         }
 
+        if (isset($validated['category'])) {
+            $query->where('category_id', $validated['category']);
+        }
+
         $documents = $query->paginate(25)->withQueryString();
         $documents->getCollection()->each(function (Document $document): void {
             $document->setAttribute('file_available', Storage::disk('local')->exists($document->file_path));
         });
         $departments = Department::where('active', true)->orderBy('name')->get();
+        $categories = DocumentCategory::where('active', true)->orderBy('name')->get();
+        $selectedCategoryId = $validated['category'] ?? null;
 
-        return view('admin.document-library', compact('departments', 'documents', 'search'));
+        return view('admin.document-library', compact('categories', 'departments', 'documents', 'search', 'selectedCategoryId'));
     })->name('document-library');
     Route::post('/deposit-file', [DocumentController::class, 'store'])->name('deposit-file.store');
     Route::patch('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
@@ -233,13 +248,17 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
             'personnelCount',
         ));
     })->name('dashboard');
-    Route::get('/document-library', function () {
+    Route::get('/document-library', function (Request $request) {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:120'],
+            'category' => ['nullable', 'integer', 'exists:document_categories,id'],
+        ]);
         $user = Auth::user();
         $clearanceLevel = (int) substr($user->clearance_tier, -1);
         $directTiers = collect(['tier2', 'tier3'])
             ->filter(fn (string $tier) => (int) substr($tier, -1) <= $clearanceLevel)
             ->all();
-        $documents = Document::query()
+        $query = Document::query()
             ->with(['category', 'department', 'uploader'])
             ->where('status', 'sealed')
             ->where(function ($query) use ($user, $directTiers) {
@@ -260,19 +279,64 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
                                     });
                             });
                     });
-            })
-            ->latest()
+            });
+
+        $categoryIds = (clone $query)
+            ->whereNotNull('category_id')
+            ->distinct()
+            ->pluck('category_id');
+        $search = trim($validated['search'] ?? '');
+        if ($search !== '') {
+            $query->where(function ($searchQuery) use ($search) {
+                $searchQuery->where('title', 'like', "%{$search}%")
+                    ->orWhere('original_name', 'like', "%{$search}%")
+                    ->orWhere('tracking_number', 'like', "%{$search}%");
+            });
+        }
+
+        if (isset($validated['category'])) {
+            $query->where('category_id', $validated['category']);
+        }
+
+        $documents = $query->latest()
             ->get()
             ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
             ->values();
+        $categories = DocumentCategory::query()
+            ->where('active', true)
+            ->whereIn('id', $categoryIds)
+            ->orderBy('name')
+            ->get();
+        $selectedCategoryId = $validated['category'] ?? null;
 
-        return view('faculty.document-library', compact('documents'));
+        return view('faculty.document-library', compact('categories', 'documents', 'search', 'selectedCategoryId'));
     })->name('document-library');
+    Route::get('/document-categories', [DocumentCategoryController::class, 'index'])->name('document-categories');
+    Route::post('/document-categories', [DocumentCategoryController::class, 'store'])->name('document-categories.store');
+    Route::patch('/document-categories/{documentCategory}', [DocumentCategoryController::class, 'update'])->name('document-categories.update');
     Route::view('/clearance-requests', 'faculty.clearance-requests')->name('clearance-requests');
     Route::get('/department-records', fn () => redirect()->route('faculty.preview.document-library'))
         ->name('department-records');
     Route::get('/submit-department-file', function () {
-        $categories = DocumentCategory::where('active', true)->orderBy('name')->get();
+        $user = Auth::user();
+        $clearanceLevel = (int) substr($user->clearance_tier, -1);
+        $allowedTiers = collect(['tier1', 'tier2', 'tier3'])
+            ->filter(fn (string $tier) => (int) substr($tier, -1) <= $clearanceLevel)
+            ->all();
+        $categories = DocumentCategory::query()
+            ->with('department')
+            ->where('active', true)
+            ->whereIn('access_tier', $allowedTiers)
+            ->where(function ($query) use ($user) {
+                $query->where('access_tier', 'tier1')
+                    ->orWhere(function ($restrictedQuery) use ($user) {
+                        $restrictedQuery
+                            ->whereIn('access_tier', ['tier2', 'tier3'])
+                            ->where('department_id', $user->department_id);
+                    });
+            })
+            ->orderBy('name')
+            ->get();
         $recentDocuments = Auth::user()->documents()
             ->with(['category', 'uploader'])
             ->where('status', 'sealed')
@@ -335,21 +399,9 @@ Route::get('/faculty/clearance-submitted', fn () => redirect()->route('faculty.p
 // Faculty Form Submission Routes
 Route::post('/faculty/submit-department-file', function (Request $request) {
     $request->files->set('file', $request->files->get('department_file'));
-    $category = DocumentCategory::query()
-        ->where('slug', (string) $request->input('document_category'))
-        ->orWhere('name', (string) $request->input('document_category'))
-        ->first();
     $request->merge([
         'title' => $request->input('document_title'),
         'tracking_number' => 'CEIT-'.Str::upper(Str::uuid()->toString()),
-        'category_id' => $category?->id,
-        'access_tier' => match ((string) $request->input('access_tier')) {
-            '1', 'tier1' => 'tier1',
-            '2', 'tier2' => 'tier2',
-            '3', 'tier3' => 'tier3',
-            '4', 'tier4' => 'tier4',
-            default => $request->input('access_tier'),
-        },
     ]);
 
     return app(DocumentController::class)->store($request);
@@ -362,16 +414,28 @@ Route::post('/faculty/submit-tier-4-access-request', [AccessRequestController::c
 
 // Student Preview Routes
 Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 'role:student'])->group(function () {
-    $getAccessibleDocuments = static function (): Collection {
+    $getAccessibleDocuments = static function (?string $search = null, ?int $categoryId = null): Collection {
         $clearanceLevel = (int) substr(Auth::user()->clearance_tier, -1);
         $tiers = $clearanceLevel >= 2 ? ['tier1', 'tier2'] : ['tier1'];
 
-        return Document::query()
+        $query = Document::query()
             ->with(['category', 'department'])
             ->where('status', 'sealed')
-            ->whereIn('access_tier', $tiers)
-            ->latest()
-            ->get()
+            ->whereIn('access_tier', $tiers);
+
+        if ($search !== null && $search !== '') {
+            $query->where(function ($searchQuery) use ($search) {
+                $searchQuery->where('title', 'like', "%{$search}%")
+                    ->orWhere('original_name', 'like', "%{$search}%")
+                    ->orWhere('tracking_number', 'like', "%{$search}%");
+            });
+        }
+
+        if ($categoryId !== null) {
+            $query->where('category_id', $categoryId);
+        }
+
+        return $query->latest()->get()
             ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
             ->values();
     };
@@ -384,13 +448,45 @@ Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 
 
         return view('student.dashboard', compact('documentCount', 'accessRequestCount', 'documents', 'accessibleDocuments'));
     })->name('dashboard');
-    Route::get('/document-library', function () use ($getAccessibleDocuments) {
-        $documents = $getAccessibleDocuments();
+    Route::get('/document-library', function (Request $request) use ($getAccessibleDocuments) {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:120'],
+            'category' => ['nullable', 'integer', 'exists:document_categories,id'],
+        ]);
+        $search = trim($validated['search'] ?? '');
+        $categoryId = isset($validated['category']) ? (int) $validated['category'] : null;
+        $documents = $getAccessibleDocuments($search, $categoryId);
         $documentCount = $documents->count();
+        $categoryCounts = $getAccessibleDocuments()
+            ->whereNotNull('category_id')
+            ->countBy('category_id');
+        $categories = DocumentCategory::query()
+            ->where('active', true)
+            ->whereIn('id', $categoryCounts->keys())
+            ->orderBy('name')
+            ->get();
+        $categories->each(function (DocumentCategory $category) use ($categoryCounts): void {
+            $category->setAttribute('documents_count', $categoryCounts->get($category->id));
+        });
+        $selectedCategoryId = $categoryId;
 
-        return view('student.document-library', compact('documents', 'documentCount'));
+        return view('student.document-library', compact('categories', 'documents', 'documentCount', 'search', 'selectedCategoryId'));
     })->name('document-library');
-    Route::view('/categories', 'student.categories')->name('categories');
+    Route::get('/categories', function () use ($getAccessibleDocuments) {
+        $categoryCounts = $getAccessibleDocuments()
+            ->whereNotNull('category_id')
+            ->countBy('category_id');
+        $categories = DocumentCategory::query()
+            ->where('active', true)
+            ->whereIn('id', $categoryCounts->keys())
+            ->orderBy('name')
+            ->get();
+        $categories->each(function (DocumentCategory $category) use ($categoryCounts): void {
+            $category->setAttribute('documents_count', $categoryCounts->get($category->id));
+        });
+
+        return view('student.categories', compact('categories'));
+    })->name('categories');
     Route::view('/library-research', 'student.library-research')->name('library-research');
     Route::view('/account-settings', 'student.account-settings')->name('account-settings');
     Route::view('/system-settings', 'student.system-settings')->name('system-settings');
@@ -399,12 +495,25 @@ Route::prefix('student/preview')->name('student.preview.')->middleware(['auth', 
 
 // Viewer Preview Routes
 Route::prefix('viewer/preview')->name('viewer.preview.')->middleware(['auth', 'role:viewer'])->group(function () {
-    $getPublicDocuments = static function (): Collection {
-        return Document::query()
+    $getPublicDocuments = static function (?string $search = null, ?int $categoryId = null): Collection {
+        $query = Document::query()
+            ->with(['category', 'department'])
             ->where('access_tier', 'tier1')
-            ->where('status', 'sealed')
-            ->latest()
-            ->get()
+            ->where('status', 'sealed');
+
+        if ($search !== null && $search !== '') {
+            $query->where(function ($searchQuery) use ($search) {
+                $searchQuery->where('title', 'like', "%{$search}%")
+                    ->orWhere('original_name', 'like', "%{$search}%")
+                    ->orWhere('tracking_number', 'like', "%{$search}%");
+            });
+        }
+
+        if ($categoryId !== null) {
+            $query->where('category_id', $categoryId);
+        }
+
+        return $query->latest()->get()
             ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
             ->values();
     };
@@ -417,13 +526,46 @@ Route::prefix('viewer/preview')->name('viewer.preview.')->middleware(['auth', 'r
             'guestAccess' => false,
         ]);
     })->name('dashboard');
-    Route::get('/document-library', function () use ($getPublicDocuments) {
-        $publicDocuments = $getPublicDocuments();
+    Route::get('/document-library', function (Request $request) use ($getPublicDocuments) {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:120'],
+            'category' => ['nullable', 'integer', 'exists:document_categories,id'],
+        ]);
+        $search = trim($validated['search'] ?? '');
+        $categoryId = isset($validated['category']) ? (int) $validated['category'] : null;
+        $publicDocuments = $getPublicDocuments($search, $categoryId);
         $documents = $publicDocuments;
+        $documentCount = $documents->count();
+        $categoryCounts = $getPublicDocuments()
+            ->whereNotNull('category_id')
+            ->countBy('category_id');
+        $categories = DocumentCategory::query()
+            ->where('active', true)
+            ->whereIn('id', $categoryCounts->keys())
+            ->orderBy('name')
+            ->get();
+        $categories->each(function (DocumentCategory $category) use ($categoryCounts): void {
+            $category->setAttribute('documents_count', $categoryCounts->get($category->id));
+        });
+        $selectedCategoryId = $categoryId;
 
-        return view('student.document-library', compact('publicDocuments', 'documents'));
+        return view('student.document-library', compact('categories', 'documentCount', 'documents', 'publicDocuments', 'search', 'selectedCategoryId'));
     })->name('document-library');
-    Route::view('/categories', 'student.categories')->name('categories');
+    Route::get('/categories', function () use ($getPublicDocuments) {
+        $categoryCounts = $getPublicDocuments()
+            ->whereNotNull('category_id')
+            ->countBy('category_id');
+        $categories = DocumentCategory::query()
+            ->where('active', true)
+            ->whereIn('id', $categoryCounts->keys())
+            ->orderBy('name')
+            ->get();
+        $categories->each(function (DocumentCategory $category) use ($categoryCounts): void {
+            $category->setAttribute('documents_count', $categoryCounts->get($category->id));
+        });
+
+        return view('student.categories', compact('categories'));
+    })->name('categories');
     Route::view('/library-research', 'student.library-research')->name('library-research');
     Route::view('/account-settings', 'student.account-settings')->name('account-settings');
     Route::view('/system-settings', 'student.system-settings')->name('system-settings');

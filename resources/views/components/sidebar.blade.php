@@ -5,19 +5,20 @@
 
     $themes = [
         'admin' => [
-            'tier_label' => 'TIER 4 • SUPERADMIN',
+            'tier_label' => 'ADMIN ACCOUNT',
             'badge_bg' => 'bg-amber-400/15 border-amber-400/40 text-amber-300',
             'active_link' => 'bg-amber-50 text-amber-800 ring-amber-500/25 dark:bg-amber-500/15 dark:text-amber-200',
             'sidebar_border' => 'border-amber-500/20',
             'section_label' => 'Vault Administration',
-            'user_title' => 'Engr. R. Bautista',
-            'user_initials' => 'RB',
-            'user_subtitle' => 'MIS Superadministrator',
-            'node_id' => 'CVSU-MIS-ROOT-01',
+            'user_title' => 'Admin account',
+            'user_initials' => 'A',
+            'user_subtitle' => '',
+            'node_id' => '',
             'logout_route' => route('admin.preview.logout-confirmation'),
             'links' => [
                 ['route' => 'admin.preview.dashboard', 'href' => route('admin.preview.dashboard'), 'icon' => 'dashboard', 'label' => 'Admin Console'],
                 ['route' => 'admin.preview.document-library', 'href' => route('admin.preview.document-library'), 'icon' => 'folder_open', 'label' => 'Document Library'],
+                ['route' => 'admin.preview.document-categories', 'href' => route('admin.preview.document-categories'), 'icon' => 'category', 'label' => 'Document Categories'],
                 ['route' => 'admin.preview.user-management', 'href' => route('admin.preview.user-management'), 'icon' => 'group', 'label' => 'User Management'],
                 ['route' => 'admin.preview.access-requests', 'href' => route('admin.preview.access-requests'), 'icon' => 'fact_check', 'label' => 'Access Requests', 'badge' => '14'],
                 ['route' => 'admin.preview.access-levels', 'href' => route('admin.preview.access-levels'), 'icon' => 'shield', 'label' => 'Document Access Levels'],
@@ -27,19 +28,20 @@
             ],
         ],
         'faculty' => [
-            'tier_label' => 'TIER 3 • SUB-CUSTODIAN',
+            'tier_label' => 'FACULTY ACCOUNT',
             'badge_bg' => 'bg-emerald-500/15 border-emerald-400/40 text-emerald-300',
             'active_link' => 'bg-emerald-50 text-emerald-800 ring-emerald-500/25 dark:bg-emerald-500/15 dark:text-emerald-200',
             'sidebar_border' => 'border-emerald-500/20',
             'section_label' => 'Department Authority',
-            'user_title' => 'Prof. Juan Dela Cruz',
-            'user_initials' => 'JD',
-            'user_subtitle' => 'CEIT Thesis Committee Chair',
-            'node_id' => 'CEIT-FAC-88219',
+            'user_title' => 'Faculty account',
+            'user_initials' => 'F',
+            'user_subtitle' => '',
+            'node_id' => '',
             'logout_route' => route('faculty.preview.logout-confirmation'),
             'links' => [
                 ['route' => 'faculty.preview.dashboard', 'href' => route('faculty.preview.dashboard'), 'icon' => 'space_dashboard', 'label' => 'Clearance Command'],
                 ['route' => 'faculty.preview.document-library', 'href' => route('faculty.preview.document-library'), 'icon' => 'folder_special', 'label' => 'Document Library'],
+                ['route' => 'faculty.preview.document-categories', 'href' => route('faculty.preview.document-categories'), 'icon' => 'category', 'label' => 'Document Categories'],
                 ['route' => 'faculty.preview.clearance-requests', 'href' => route('faculty.preview.clearance-requests'), 'icon' => 'verified_user', 'label' => 'Clearance Requests', 'badge' => '2'],
                 ['route' => 'faculty.preview.department-records', 'href' => route('faculty.preview.department-records'), 'icon' => 'account_balance', 'label' => 'Department Records'],
                 ['route' => 'faculty.preview.submit-department-file', 'href' => route('faculty.preview.submit-department-file'), 'icon' => 'upload_file', 'label' => 'Submit Department File'],
@@ -47,28 +49,28 @@
             ],
         ],
         'student' => [
-            'tier_label' => 'TIER 1-2 • ENROLLED SCHOLAR',
+            'tier_label' => 'STUDENT ACCOUNT',
             'badge_bg' => 'bg-sky-500/15 border-sky-400/40 text-sky-300',
             'active_link' => 'bg-sky-50 text-sky-800 ring-sky-500/25 dark:bg-sky-500/15 dark:text-sky-200',
             'sidebar_border' => 'border-sky-500/20',
             'section_label' => 'Academic Workspace',
-            'user_title' => 'Maria Santos',
-            'user_initials' => 'MS',
-            'user_subtitle' => 'BS Computer Science • 4th Year',
-            'node_id' => '2023-10492-CS',
+            'user_title' => 'Student account',
+            'user_initials' => 'S',
+            'user_subtitle' => '',
+            'node_id' => '',
             'logout_route' => route('student.preview.logout-confirmation'),
             'links' => [],
         ],
         'viewer' => [
-            'tier_label' => 'TIER 1 • GUEST ACCESS',
+            'tier_label' => 'PUBLIC ACCESS',
             'badge_bg' => 'bg-slate-500/20 border-slate-400/30 text-slate-300',
             'active_link' => 'bg-slate-100 text-slate-900 ring-slate-500/25 dark:bg-slate-500/15 dark:text-slate-100',
             'sidebar_border' => 'border-slate-500/20',
             'section_label' => 'Public Access',
-            'user_title' => 'Guest Observer',
+            'user_title' => 'Guest session',
             'user_initials' => 'GO',
-            'user_subtitle' => 'Public Read-Only Session',
-            'node_id' => 'GUEST-OBSERVER-001',
+            'user_subtitle' => 'Public read-only access',
+            'node_id' => 'PUBLIC-GUEST',
             'logout_route' => route('viewer.preview.logout-confirmation'),
             'links' => [],
         ],
@@ -124,6 +126,20 @@
     }
 
     $cfg = $themes[$role] ?? $themes['student'];
+    $account = auth()->user();
+
+    if ($account !== null && $role !== 'helpdesk') {
+        $cfg['tier_label'] = strtoupper($account->clearance_tier).' • '.strtoupper($account->role);
+        $cfg['user_title'] = $account->name;
+        $cfg['user_initials'] = \Illuminate\Support\Str::of($account->name)
+            ->explode(' ')
+            ->filter()
+            ->take(2)
+            ->map(fn (string $part) => mb_strtoupper(mb_substr($part, 0, 1)))
+            ->implode('');
+        $cfg['user_subtitle'] = $account->email;
+        $cfg['node_id'] = $account->identification_number ?: 'ACCOUNT-'.$account->id;
+    }
 @endphp
 
 <aside
@@ -205,7 +221,7 @@
         </a>
         @else
         <div class="flex items-center justify-between gap-2 text-[10px] font-mono text-slate-500 dark:text-slate-400">
-            <span>NODE ID</span>
+            <span>ACCOUNT ID</span>
             <span class="truncate font-bold text-slate-700 dark:text-slate-300">{{ $cfg['node_id'] }}</span>
         </div>
 
@@ -216,6 +232,9 @@
             <span class="flex min-w-0 flex-col">
                 <span class="truncate text-xs font-semibold text-slate-900 dark:text-white">{{ $cfg['user_title'] }}</span>
                 <span class="truncate text-[10px] text-slate-500 dark:text-slate-400">{{ $cfg['user_subtitle'] }}</span>
+                @if ($account !== null && $role !== 'helpdesk')
+                    <span class="truncate text-[10px] text-slate-500 dark:text-slate-400">{{ $account->department?->name ?? ucfirst($account->role) }}</span>
+                @endif
             </span>
         </div>
 

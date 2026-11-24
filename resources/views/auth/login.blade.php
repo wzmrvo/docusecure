@@ -14,23 +14,6 @@
     <!-- Tailwind CSS with Forms -->
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <script>
-        function openLoginConfirmation() {
-            const email = document.getElementById('email')?.value.trim();
-            const password = document.getElementById('password')?.value;
-            if (!email || !password) return;
-            document.getElementById('login-confirmation-account').textContent = email;
-            const modal = document.getElementById('login-confirmation-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-        function closeLoginConfirmation() {
-            const modal = document.getElementById('login-confirmation-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-        function confirmLogin() {
-            document.getElementById('loginForm').requestSubmit();
-        }
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -257,9 +240,8 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button 
-                    type="button"
-                    onclick="openLoginConfirmation()"
+                <button
+                    type="submit"
                     class="w-full mt-3 flex items-center justify-center gap-2 py-3 px-4 rounded-xl shadow-md text-sm font-bold text-white bg-emerald-700 hover:bg-emerald-600 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200"
                 >
                     <span class="material-symbols-outlined text-[18px]">login</span>
@@ -311,27 +293,6 @@
     </section>
 
 </main>
-<div id="login-confirmation-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="login-confirmation-title">
-    <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
-    <div class="relative w-full max-w-md overflow-hidden rounded-2xl border border-emerald-500/25 bg-[#101827] text-slate-100 shadow-2xl">
-        <div class="h-1.5 bg-gradient-to-r from-[#173153] via-[#eabf55] to-emerald-500"></div>
-        <div class="p-6">
-            <div class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-[28px] text-[#eabf55]">verified_user</span>
-                <div>
-                    <h2 id="login-confirmation-title" class="text-lg font-bold text-white">Confirm Workspace Sign-In</h2>
-                    <p id="login-confirmation-account" class="mt-1 text-xs text-slate-400">Institutional account</p>
-                </div>
-            </div>
-            <p class="mt-4 text-sm leading-6 text-slate-300">Continue to the two-factor verification step. The demo OTP is <strong class="font-mono text-[#eabf55]">482901</strong>.</p>
-            <div class="mt-5 flex gap-3">
-                <button type="button" onclick="closeLoginConfirmation()" class="min-h-11 flex-1 rounded-lg border border-white/10 text-sm font-semibold text-slate-300 hover:bg-white/5">Cancel</button>
-                <button type="button" onclick="confirmLogin()" class="min-h-11 flex-1 rounded-lg bg-emerald-700 px-4 text-sm font-bold text-white hover:bg-emerald-600">Continue</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     // Password visibility toggle
     const togglePasswordBtn = document.getElementById('togglePassword');

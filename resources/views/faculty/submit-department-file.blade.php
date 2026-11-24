@@ -15,8 +15,8 @@
     <header class="flex flex-col gap-2 border-b border-slate-200 pb-5 dark:border-white/10">
         <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Upload a department document</h1>
         <p class="max-w-3xl text-sm text-slate-600 dark:text-slate-400">
-            Uploads are stored on the private disk. The server validates the file, records its metadata, and calculates its SHA-256 digest.
-            Tier 1 files are public to Students and Viewers. Tier 2 is available to eligible Students, while Tier 3 remains department-restricted. Tier 4 files are Admin-uploaded.
+            Uploads are stored privately. Choose a category to apply its access tier and department restrictions; the server records the metadata and calculates its SHA-256 digest.
+            Tier 4 files are Admin-uploaded.
         </p>
     </header>
 
@@ -56,30 +56,22 @@
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                    <label for="document_category" class="text-xs font-semibold text-slate-700 dark:text-slate-300">Category</label>
-                    <select id="document_category" name="document_category" class="min-h-11 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-white/10 dark:bg-[#111e32] dark:text-white">
-                        <option value="">No category</option>
+                    <label for="document_category" class="text-xs font-semibold text-slate-700 dark:text-slate-300">Category and access profile</label>
+                    <select id="document_category" name="category_id" required class="min-h-11 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-white/10 dark:bg-[#111e32] dark:text-white">
+                        <option value="">Choose a category</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->slug }}" @selected(old('document_category') === $category->slug)>{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" @selected((string) old('category_id') === (string) $category->id)>
+                                {{ $category->name }} · {{ strtoupper($category->access_tier) }}{{ $category->department ? ' · '.$category->department->name : '' }}
+                            </option>
                         @endforeach
                     </select>
+                    <a href="{{ route('faculty.preview.document-categories') }}" class="text-xs font-semibold text-emerald-700 underline underline-offset-4 hover:text-emerald-600 dark:text-emerald-300">Create or manage categories</a>
                 </div>
 
-                <div class="flex flex-col gap-1.5">
-                    <label for="access_tier" class="text-xs font-semibold text-slate-700 dark:text-slate-300">Access tier</label>
-                    <select id="access_tier" name="access_tier" required class="min-h-11 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-white/10 dark:bg-[#111e32] dark:text-white">
-                        <option value="1" @selected(old('access_tier', '1') === '1')>Tier 1 · Public</option>
-                        @if ($clearanceLevel >= 2)
-                            <option value="2" @selected(old('access_tier') === '2')>Tier 2 · Academic</option>
-                        @endif
-                        @if ($clearanceLevel >= 3)
-                            <option value="3" @selected(old('access_tier') === '3')>Tier 3 · Confidential</option>
-                        @endif
-                    </select>
-                    <p class="text-xs leading-5 text-slate-500 dark:text-slate-400">
-                        Tier 4 is reserved for Admin uploads. To access an existing Tier 4 file, submit a request for Admin approval.
-                    </p>
-                </div>
+                <p class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-3 text-xs leading-5 text-slate-600 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400">
+                    The selected category controls access. Restricted categories are available only for your assigned department and clearance.
+                    To access an existing Tier 4 file, submit a request for Admin approval.
+                </p>
 
                 <div class="flex flex-col gap-1.5">
                     <label for="department_file" class="text-xs font-semibold text-slate-700 dark:text-slate-300">Choose a file</label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
 use App\Models\Document;
+use App\Models\DocumentCategory;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DocumentController extends Controller
@@ -70,22 +72,51 @@ class DocumentController extends Controller
             'file' => ['required', 'file', 'max:102400', 'mimes:pdf,doc,docx,xls,xlsx,zip', 'extensions:pdf,doc,docx,xls,xlsx,zip'],
             'title' => ['required', 'string', 'max:255'],
             'tracking_number' => ['required', 'string', 'max:100', 'unique:documents,tracking_number'],
-            'access_tier' => ['required', Rule::in($allowedTiers)],
-            'category_id' => ['nullable', 'exists:document_categories,id'],
+            'access_tier' => $user?->role === 'admin'
+                ? ['required', Rule::in($allowedTiers)]
+                : ['sometimes', Rule::in($allowedTiers)],
+            'category_id' => [
+                'required',
+                'integer',
+                Rule::exists('document_categories', 'id')->where(
+                    fn ($query) => $query->where('active', true)->whereIn('access_tier', $allowedTiers),
+                ),
+            ],
         ];
 
-        if ($user instanceof User && $user->role === 'admin') {
-            $validationRules['department_id'] = in_array($request->input('access_tier'), ['tier2', 'tier3'], true)
-                ? ['required', 'exists:departments,id']
-                : ['nullable', 'exists:departments,id'];
+        $validated = $request->validate($validationRules);
+        $category = DocumentCategory::findOrFail($validated['category_id']);
+
+        if (! $category->active || ! in_array($category->access_tier, $allowedTiers, true)) {
+            throw ValidationException::withMessages([
+                'category_id' => 'Choose an active category available at your clearance level.',
+            ]);
         }
 
-        $validated = $request->validate($validationRules);
+        if (isset($validated['access_tier']) && $category->access_tier !== $validated['access_tier']) {
+            throw ValidationException::withMessages([
+                'category_id' => 'The selected category must match the chosen access tier.',
+            ]);
+        }
+
+        $restrictedTier = in_array($category->access_tier, ['tier2', 'tier3'], true);
+
+        if ($restrictedTier && $category->department_id === null) {
+            throw ValidationException::withMessages([
+                'category_id' => 'This restricted category needs a department assignment before it can be used.',
+            ]);
+        }
+
+        if ($user instanceof User && $user->role === 'faculty'
+            && $restrictedTier
+            && (int) $category->department_id !== (int) $user->department_id) {
+            throw ValidationException::withMessages([
+                'category_id' => 'Choose a restricted category assigned to your department.',
+            ]);
+        }
 
         $uploaded = $request->file('file');
-        $departmentId = $user instanceof User && $user->role === 'admin'
-            ? ($validated['department_id'] ?? $user->department_id)
-            : $user->department_id;
+        $departmentId = $category->department_id;
         $path = null;
         $document = null;
 
@@ -100,11 +131,11 @@ class DocumentController extends Controller
                 throw new \RuntimeException('The uploaded file digest could not be generated.');
             }
 
-            DB::transaction(function () use (&$document, $validated, $uploaded, $path, $sha256, $departmentId) {
+            DB::transaction(function () use (&$document, $validated, $uploaded, $path, $sha256, $departmentId, $category) {
                 $document = Document::create([
                     'title' => $validated['title'],
                     'tracking_number' => $validated['tracking_number'],
-                    'category_id' => $validated['category_id'] ?? null,
+                    'category_id' => $category->id,
                     'department_id' => $departmentId,
                     'uploader_id' => Auth::id(),
                     'file_path' => $path,
@@ -112,7 +143,7 @@ class DocumentController extends Controller
                     'mime_type' => $uploaded->getMimeType(),
                     'size_bytes' => $uploaded->getSize(),
                     'sha256' => $sha256,
-                    'access_tier' => $validated['access_tier'],
+                    'access_tier' => $category->access_tier,
                     'status' => 'sealed',
                     'sealed_at' => now(),
                 ]);
@@ -207,18 +238,49 @@ class DocumentController extends Controller
 
         $validationRules = [
             'title' => ['sometimes', 'required', 'string', 'max:255'],
-            'access_tier' => ['sometimes', 'required', Rule::in($allowedTiers)],
-            'category_id' => ['sometimes', 'nullable', 'exists:document_categories,id'],
+            'category_id' => [
+                'sometimes',
+                'required',
+                'integer',
+                Rule::exists('document_categories', 'id')->where(
+                    fn ($query) => $query->where('active', true)->whereNotNull('access_tier'),
+                ),
+            ],
         ];
 
-        if ($user->role === 'admin') {
-            $accessTier = $request->input('access_tier', $document->access_tier);
-            $validationRules['department_id'] = in_array($accessTier, ['tier2', 'tier3'], true)
-                ? ['required', 'exists:departments,id']
-                : ['nullable', 'exists:departments,id'];
+        if (! $request->exists('category_id')) {
+            $validationRules['access_tier'] = ['sometimes', 'required', Rule::in($allowedTiers)];
+
+            if ($user->role === 'admin') {
+                $accessTier = $request->input('access_tier', $document->access_tier);
+                $validationRules['department_id'] = in_array($accessTier, ['tier2', 'tier3'], true)
+                    ? ['required', 'exists:departments,id']
+                    : ['nullable', 'exists:departments,id'];
+            }
         }
 
         $validated = $request->validate($validationRules);
+
+        if (array_key_exists('category_id', $validated)) {
+            $category = DocumentCategory::query()
+                ->where('active', true)
+                ->whereNotNull('access_tier')
+                ->findOrFail($validated['category_id']);
+            $restrictedTier = in_array($category->access_tier, ['tier2', 'tier3'], true);
+
+            if (! in_array($category->access_tier, $allowedTiers, true)
+                || ($restrictedTier && $category->department_id === null)
+                || ($user->role === 'faculty'
+                    && $restrictedTier
+                    && (int) $category->department_id !== (int) $user->department_id)) {
+                throw ValidationException::withMessages([
+                    'category_id' => 'Choose an active category available at your clearance level and department.',
+                ]);
+            }
+
+            $validated['access_tier'] = $category->access_tier;
+            $validated['department_id'] = $restrictedTier ? $category->department_id : null;
+        }
 
         $document->update($validated);
 
@@ -230,6 +292,7 @@ class DocumentController extends Controller
             'description' => 'Document metadata updated.',
             'ip_address' => $request->ip(),
             'metadata' => [
+                'category_id' => $document->category_id,
                 'access_tier' => $document->access_tier,
                 'department_id' => $document->department_id,
             ],
