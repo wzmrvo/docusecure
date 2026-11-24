@@ -85,13 +85,27 @@
 </div>
 </div>
 <div class="flex items-center gap-3 shrink-0">
-<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.access-levels') }}">
+<a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="#recent-uploads">
 <span class="material-symbols-outlined text-[18px]">history</span>
-<span>View Staged Batch (3)</span>
+<span>Recent uploads ({{ $recentDocuments->count() }})</span>
 </a>
 </div>
 </div>
 <!-- Main Two-Column Layout -->
+@if (session('success'))
+  <div role="status" class="mb-5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">{{ session('success') }}</div>
+@endif
+@if ($errors->any())
+  <div role="alert" class="mb-5 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
+    <p class="font-semibold">The document update could not be saved.</p>
+    <ul class="mt-2 list-inside list-disc">
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
+<div id="depositFeedback" class="mb-5 hidden rounded-lg border px-4 py-3 text-sm" role="alert" aria-live="polite"></div>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 <!-- LEFT COLUMN: Form & Ingestion (65% / 8 Cols) -->
 <div class="lg:col-span-8 space-y-6">
@@ -111,7 +125,7 @@
 
 <!-- Drag and Drop Active Card with refined border glow -->
 <div class="relative bg-surface-container p-6 rounded-xl text-center cursor-pointer transition-all border border-dashed border-emerald-500/40 hover:border-emerald-500 hover:bg-[#131d2e] group">
-  <input class="absolute inset-0 opacity-0 cursor-pointer" id="primaryDocInput" name="file" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip">
+  <input class="absolute inset-0 opacity-0 cursor-pointer" id="primaryDocInput" name="file" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip" required>
   <div class="flex flex-col items-center justify-center gap-3">
     <div class="w-12 h-12 rounded-xl bg-surface-container-high group-hover:bg-primary group-hover:text-on-primary text-primary flex items-center justify-center transition-all shadow-inner border border-emerald-500/30">
       <span class="material-symbols-outlined text-[28px]">cloud_upload</span>
@@ -122,7 +136,7 @@
       </p>
       <p class="font-body-sm text-body-sm text-slate-400 font-mono flex items-center justify-center gap-1.5">
         <span class="material-symbols-outlined text-[14px] text-primary">lock</span>
-        Client-side SHA-256 zero-knowledge digest pre-computed prior to enclave staging
+        Files are checked and their SHA-256 digest is generated on the server after upload
       </p>
     </div>
   </div>
@@ -136,38 +150,30 @@
     </div>
     <div class="min-w-0 flex flex-col space-y-1">
       <div class="flex items-center gap-2 flex-wrap">
-        <span class="font-label-lg text-label-lg text-white font-semibold truncate">
-          BOR_Resolution_No_2026_094_Establishment_Cybersecurity_Enclave.pdf
+        <span id="stagedDocumentName" class="font-label-lg text-label-lg text-white font-semibold truncate">
+          No file selected
         </span>
-        <span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-mono shrink-0 border border-emerald-500/30 font-semibold">
-          14.2 MB
+        <span id="stagedDocumentSize" class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-mono shrink-0 border border-emerald-500/30 font-semibold">
+          Choose a file
         </span>
         <span class="px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-[10px] font-mono font-medium">
-          STAGED
+          NOT UPLOADED
         </span>
       </div>
       <div class="flex items-center gap-2 text-xs flex-wrap">
         <span class="material-symbols-outlined text-primary text-[15px]">verified</span>
         <span class="font-label-sm text-label-sm text-emerald-400 font-mono font-medium">
-          Integrity Validated (SHA-256)
+          SHA-256 digest is generated on upload
         </span>
         <span class="text-outline text-body-sm">•</span>
         <span class="font-code-snippet text-code-snippet text-slate-400 truncate bg-surface-container-lowest px-1.5 py-0.5 rounded font-mono">
-          7f3a0942e...88b209d
+          Generated after the server stores the file
         </span>
       </div>
     </div>
   </div>
   <div class="flex items-center gap-2 shrink-0 self-end md:self-auto">
-    <button class="px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-highest text-slate-300 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-medium border border-[#22334d]" title="Inspect Hash" type="button">
-      <span class="material-symbols-outlined text-[17px] text-primary">fingerprint</span>
-      <span>Hash</span>
-    </button>
-    <button class="px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-highest text-slate-300 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-medium border border-[#22334d]" title="Preview PDF" type="button">
-      <span class="material-symbols-outlined text-[17px] text-slate-300">visibility</span>
-      <span>Preview</span>
-    </button>
-    <button class="p-1.5 rounded-lg bg-error-container/30 hover:bg-error-container text-error transition-colors border border-rose-500/30" title="Remove File" type="button">
+    <button id="removeStagedFile" class="p-1.5 rounded-lg bg-error-container/30 hover:bg-error-container text-error transition-colors border border-rose-500/30 disabled:cursor-not-allowed disabled:opacity-50" title="Remove File" type="button" disabled>
       <span class="material-symbols-outlined text-[18px]">delete</span>
     </button>
   </div>
@@ -177,7 +183,7 @@
 <div class="flex items-center justify-between pt-1 flex-wrap gap-2">
   <a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.access-levels') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
-<span>View Staged Batch (3)</span>
+<span>Recent uploads ({{ $recentDocuments->count() }})</span>
 </a>
   <span class="font-label-sm text-label-sm text-outline font-mono flex items-center gap-1">
     <span class="material-symbols-outlined text-[14px]">link</span>
@@ -202,7 +208,7 @@
 </label>
 <span class="font-label-sm text-label-sm text-primary font-mono">ENCRYPTED INDEX</span>
 </div>
-<input id="depositDocumentTitle" name="title" class="w-full bg-surface-container text-on-surface font-body-md text-body-md px-3.5 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text" value="Board of Regents Resolution No. 2026-094: University Cybersecurity &amp; Cryptographic Infrastructure Charter">
+<input id="depositDocumentTitle" name="title" required maxlength="255" placeholder="Enter the official document title" class="w-full bg-surface-container text-on-surface font-body-md text-body-md px-3.5 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text">
 </div>
 <!-- Reference / Tracking Number -->
 <div class="space-y-1.5">
@@ -214,26 +220,25 @@
 </div>
 <div class="relative flex items-center">
 <span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">tag</span>
-<input id="depositTrackingNumber" name="tracking_number" class="w-full bg-surface-container text-on-surface font-code-snippet text-code-snippet pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text" value="CVSU-BOR-2026-0094-SEC">
+<input id="depositTrackingNumber" name="tracking_number" required maxlength="100" placeholder="Enter a unique institutional tracking number" class="w-full bg-surface-container text-on-surface font-code-snippet text-code-snippet pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="text">
 </div>
 </div>
-<!-- Originating Office / College -->
+<!-- Department for restricted file access -->
 <div class="space-y-1.5">
 <label class="font-label-md text-label-md text-on-surface font-medium">
-                Originating Office / College Unit <span class="text-error">*</span>
+                Faculty Access Department
 </label>
 <div class="relative flex items-center">
 <span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">account_balance</span>
-<select class="w-full bg-surface-container text-on-surface font-body-md text-body-md pl-10 pr-9 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary appearance-none shadow-inner">
-<option selected="">Office of the University President / Board of Regents Secretariat</option>
-<option>Office of the University Registrar (OUR)</option>
-<option>Management Information System Office (CvSU MIS)</option>
-<option>Office of the Vice President for Academic Affairs (OVPAA)</option>
-<option>Legal Counsel &amp; Data Protection Compliance Office</option>
-<option>College of Engineering and Information Technology (CEIT)</option>
+<select id="depositDepartment" class="w-full bg-surface-container text-on-surface font-body-md text-body-md pl-10 pr-9 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary appearance-none shadow-inner">
+<option value="">Select department for Tier 2/3 access</option>
+@foreach ($departments as $department)
+<option value="{{ $department->id }}" @selected((int) auth()->user()->department_id === $department->id)>{{ $department->name }}</option>
+@endforeach
 </select>
 <span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">expand_more</span>
 </div>
+<p class="text-xs text-on-surface-variant">Required for Tier 2 and Tier 3 so eligible Faculty in that department can find the file.</p>
 </div>
 <!-- Document Sub-Format / Legal Nature -->
 <div class="space-y-1.5">
@@ -242,33 +247,23 @@
 </label>
 <div class="relative flex items-center">
 <span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">category</span>
-<select class="w-full bg-surface-container text-on-surface font-body-md text-body-md pl-10 pr-9 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary appearance-none shadow-inner">
-<option selected="">Official Board Resolution &amp; Charter</option>
-<option>Executive Memorandum Circular</option>
-<option>Confidential Personnel Dossier</option>
-<option>Financial Audit &amp; Asset Clearance</option>
-<option>Curricular Accreditation Transcript Dossier</option>
-<option>Intellectual Property &amp; Patent Deed</option>
+<select id="depositCategory" name="category_id" class="w-full bg-surface-container text-on-surface font-body-md text-body-md pl-10 pr-9 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary appearance-none shadow-inner">
+<option value="">No category</option>
+@foreach ($categories as $category)
+<option value="{{ $category->id }}">{{ $category->name }}</option>
+@endforeach
 </select>
 <span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">expand_more</span>
 </div>
 </div>
-<!-- Enclave Category Mapping -->
+<!-- Category storage note -->
 <div class="space-y-1.5">
 <label class="font-label-md text-label-md text-on-surface font-medium">
-                Vault Cluster Mapping <span class="text-error">*</span>
+                Document Metadata
 </label>
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">folder_special</span>
-<select class="w-full bg-surface-container text-on-surface font-body-md text-body-md pl-10 pr-9 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary appearance-none shadow-inner">
-<option selected="">Administrative &amp; Board Resolutions (CAT-ADM-01)</option>
-<option>Academic &amp; Curriculum Governance (CAT-ACA-02)</option>
-<option>Financial &amp; Budget Operations (CAT-FIN-03)</option>
-<option>Personnel &amp; Faculty Dossiers (CAT-HR-04)</option>
-<option>Research Ethics &amp; Patents (CAT-RES-05)</option>
-</select>
-<span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">expand_more</span>
-</div>
+<p class="rounded-lg border border-[#22334d] bg-surface-container px-3.5 py-3 text-sm text-on-surface-variant">
+The selected category, access tier, department, tracking number, original filename, and server-generated SHA-256 digest are saved with the private file.
+</p>
 </div>
 <!-- Brief Description / Legal Mandate Summary (Span 2) -->
 <div class="md:col-span-2 space-y-1.5">
@@ -278,7 +273,9 @@
                 </label>
 <span class="font-label-sm text-label-sm text-outline font-mono">VISIBLE IN AUDIT TRAIL</span>
 </div>
-<textarea class="w-full bg-surface-container text-on-surface font-body-md text-body-md p-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" rows="3">Approving the establishment of the Cavite State University Cryptographic Ingestion Node, Zero-Trust Architecture, and Tier-4 secure vault storage for sensitive governance documents, faculty clearances, and registrar master credentials in full compliance with the Republic Act No. 10173 (Data Privacy Act of 2012).</textarea>
+<p class="w-full rounded-lg border border-[#22334d] bg-surface-container p-3 text-sm text-on-surface-variant">
+File summaries are not stored yet. The document title and searchable metadata above are the records saved with this upload.
+</p>
 </div>
 </div>
 </div>
@@ -290,13 +287,13 @@
 <h2 class="font-headline-sm text-headline-sm text-on-surface">3. Access Clearance Tier Allocation</h2>
 </div>
 <span class="font-label-sm text-label-sm px-2.5 py-1 rounded bg-surface-container-highest text-primary font-mono">
-              ACTIVE SELECTION: TIER 4 (RESTRICTED)
+              SELECT THE DOCUMENT ACCESS TIER
             </span>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <!-- Tier 1 -->
 <label class="relative flex flex-col p-4 rounded-xl bg-surface-container cursor-pointer hover:bg-surface-container-high transition-colors">
-<input class="sr-only" name="clearance_tier" type="radio" value="tier1">
+<input class="sr-only" name="clearance_tier" type="radio" value="tier1" required>
 <div class="flex items-center justify-between mb-2">
 <div class="flex items-center gap-2">
 <span class="font-label-md text-label-md font-bold text-on-surface uppercase tracking-wider">Tier 1 • Public Release</span>
@@ -347,7 +344,7 @@
 </label>
 <!-- Tier 4 [SELECTED] -->
 <label class="relative flex flex-col p-4 rounded-xl bg-surface-container-high cursor-pointer shadow-md">
-<input checked="" class="sr-only" name="clearance_tier" type="radio" value="tier4">
+<input class="sr-only" name="clearance_tier" type="radio" value="tier4">
 <div class="flex items-center justify-between mb-2">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary text-[18px]">lock</span>
@@ -358,7 +355,7 @@
 </div>
 </div>
 <p class="font-body-sm text-body-sm text-on-surface">
-                Superadmin, University President &amp; Head Registrar exclusive enclave. HSM hardware FIDO2 token &amp; dual-seal required.
+                Restricted institutional files. Faculty access requires an Admin approval request.
               </p>
 <div class="mt-3 pt-3 flex items-center justify-between">
 <span class="font-label-sm text-label-sm text-primary font-mono font-semibold">HARDWARE HSM PINNED</span>
@@ -476,14 +473,10 @@
 <!-- Calculated File Hash Display -->
 <div class="p-3 rounded-lg bg-surface-container space-y-1.5">
 <div class="flex justify-between items-center">
-<span class="font-label-sm text-label-sm text-outline uppercase font-mono">Calculated Digest Hash</span>
-<button class="text-primary hover:text-primary-fixed flex items-center gap-1 font-label-sm text-label-sm" title="Copy Hash" type="button">
-<span class="material-symbols-outlined text-[14px]">content_copy</span>
-<span>Copy</span>
-</button>
+<span class="font-label-sm text-label-sm text-outline uppercase font-mono">Server-generated digest</span>
 </div>
 <div class="p-2 rounded bg-surface-container-lowest font-code-snippet text-code-snippet text-on-surface break-all select-all">
-              7f3a0942eb105a8f89e4c194bb827361a6873bc7019d3fbc9103e8788b209d
+              Available after a successful upload.
             </div>
 </div>
 <!-- Archival Retention Schedule -->
@@ -521,7 +514,7 @@
 <!-- Secondary Staging Action -->
 <a class="px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2" href="{{ route('admin.preview.access-levels') }}">
 <span class="material-symbols-outlined text-[18px]">history</span>
-<span>View Staged Batch (3)</span>
+<span>Recent uploads ({{ $recentDocuments->count() }})</span>
 </a>
 <!-- Cancel Link -->
 <div class="text-center pt-1"><a class="font-label-md text-label-md text-slate-400 hover:text-primary transition-colors inline-flex items-center gap-1.5 font-medium" href="{{ route('admin.preview.access-levels') }}">
@@ -532,6 +525,52 @@
 </div>
 </div>
 </div>
+<section id="recent-uploads" class="mb-6 rounded-xl border border-[#1c2a3f] bg-surface-container-low p-5 shadow-sm">
+  <div class="mb-3 flex items-center justify-between gap-3">
+    <div>
+      <h2 class="text-base font-semibold text-on-surface">Recently stored files</h2>
+      <p class="mt-1 text-xs text-on-surface-variant">Actual files in private storage, newest first.</p>
+    </div>
+    <span class="rounded-full bg-surface-container-highest px-3 py-1 text-xs font-semibold text-on-surface">{{ $recentDocuments->count() }} files</span>
+  </div>
+  <div class="divide-y divide-white/10">
+    @forelse ($recentDocuments as $document)
+      <div class="flex flex-col justify-between gap-3 py-3 sm:flex-row sm:items-center">
+        <div class="min-w-0">
+          <p class="truncate text-sm font-semibold text-on-surface">{{ $document->title }}</p>
+          <p class="mt-1 truncate text-xs text-on-surface-variant">{{ $document->original_name }} · {{ $document->tracking_number }}</p>
+          <p class="mt-1 break-all font-mono text-[10px] text-on-surface-variant">SHA-256: {{ $document->sha256 ?: 'Not recorded' }}</p>
+          <p class="mt-1 text-xs text-on-surface-variant">
+            Department: {{ $document->department?->name ?? (in_array($document->access_tier, ['tier2', 'tier3'], true) ? 'Needs assignment' : 'Not required for this tier') }}
+          </p>
+          @if (in_array($document->access_tier, ['tier2', 'tier3'], true))
+            <form method="POST" action="{{ route('admin.preview.documents.update', $document) }}" class="mt-2 flex flex-wrap items-center gap-2">
+              @csrf
+              @method('PATCH')
+              <label class="sr-only" for="department-{{ $document->id }}">Faculty access department</label>
+              <select id="department-{{ $document->id }}" name="department_id" required class="min-h-9 rounded-lg border border-[#22334d] bg-surface-container px-3 py-1.5 text-xs text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                <option value="" disabled @selected($document->department_id === null)>Assign department</option>
+                @foreach ($departments as $department)
+                  <option value="{{ $department->id }}" @selected((int) $document->department_id === $department->id)>{{ $department->name }}</option>
+                @endforeach
+              </select>
+              <button type="submit" class="min-h-9 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-200 hover:bg-emerald-500/20">
+                Save department
+              </button>
+            </form>
+          @endif
+        </div>
+        <div class="flex shrink-0 items-center gap-3">
+          <span class="rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-300">{{ strtoupper($document->access_tier) }}</span>
+          <a class="rounded-lg border border-[#22334d] px-3 py-2 text-xs font-semibold text-on-surface hover:bg-surface-container-high" href="{{ route('documents.download', $document) }}">Download</a>
+        </div>
+      </div>
+    @empty
+      <p class="py-6 text-center text-sm text-on-surface-variant">No uploaded files are available yet.</p>
+    @endforelse
+  </div>
+</section>
+
 <!-- Institutional Cryptographic Seal / Verification Assurance Footer Bar -->
 <div class="bg-surface-container-low p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4 text-outline font-label-sm text-label-sm">
 <div class="flex items-center gap-3">
@@ -565,8 +604,8 @@
       <p class="mt-2 text-sm leading-6 text-slate-300">Confirm the staged file before cryptographic commitment.</p>
       <div class="mt-4 rounded-lg border border-white/10 bg-white/[0.03] p-4">
         <p class="text-xs font-mono text-slate-400">DOCUMENT</p>
-        <p class="mt-1 text-sm font-semibold text-white">BOR_Resolution_No_2026_094_Establishment_Cybersecurity_Enclave.pdf</p>
-        <p class="mt-3 text-xs font-mono text-emerald-300">SHA-256: 7f3a0942e...88b209d</p>
+        <p id="sealReviewDocumentName" class="mt-1 break-all text-sm font-semibold text-white">No file selected</p>
+        <p class="mt-3 text-xs font-mono text-emerald-300">SHA-256 will be generated after upload.</p>
       </div>
       <div class="mt-5 flex gap-3">
         <button type="button" onclick="closeSealReviewModal()" class="min-h-11 flex-1 rounded-lg border border-white/10 px-4 text-sm font-semibold text-slate-300 hover:bg-white/5">Cancel</button>
@@ -584,13 +623,41 @@
         <span class="material-symbols-outlined text-[26px]">verified</span>
       </div>
       <h2 id="seal-success-title" class="mt-4 text-lg font-bold text-white">Document Committed</h2>
-      <p class="mt-2 text-sm leading-6 text-slate-300">The staged document was sealed and recorded in the demo enclave receipt.</p>
-      <button type="button" onclick="closeSealSuccessModal()" class="mt-5 min-h-11 w-full rounded-lg bg-emerald-700 px-4 text-sm font-bold text-white hover:bg-emerald-600">Done</button>
+      <p class="mt-2 text-sm leading-6 text-slate-300">The file is stored privately and its metadata was saved to the document library.</p>
+      <div id="sealedDocumentResult" class="mt-3 break-all rounded-lg border border-white/10 bg-white/[0.03] p-3 text-left font-mono text-xs text-emerald-200"></div>
+      <button type="button" onclick="window.location.reload()" class="mt-5 min-h-11 w-full rounded-lg bg-emerald-700 px-4 text-sm font-bold text-white hover:bg-emerald-600">Done</button>
     </div>
   </div>
 </div>
 <script>
+  function showDepositFeedback(message, isError = true) {
+    const feedback = document.getElementById('depositFeedback');
+    feedback.textContent = message;
+    feedback.classList.remove('hidden', 'border-rose-500/30', 'bg-rose-500/10', 'text-rose-200', 'border-emerald-500/30', 'bg-emerald-500/10', 'text-emerald-200');
+    feedback.classList.add(...(isError
+      ? ['border-rose-500/30', 'bg-rose-500/10', 'text-rose-200']
+      : ['border-emerald-500/30', 'bg-emerald-500/10', 'text-emerald-200']));
+    feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
   function openSealReviewModal() {
+    const fileInput = document.getElementById('primaryDocInput');
+    const title = document.getElementById('depositDocumentTitle').value.trim();
+    const trackingNumber = document.getElementById('depositTrackingNumber').value.trim();
+    const selectedTier = document.querySelector('input[name="clearance_tier"]:checked');
+    const departmentId = document.getElementById('depositDepartment').value;
+
+    if (!fileInput.files.length || !title || !trackingNumber || !selectedTier) {
+      showDepositFeedback('Select a file, enter its title and tracking number, and choose an access tier.');
+      return;
+    }
+
+    if (['tier2', 'tier3'].includes(selectedTier.value) && !departmentId) {
+      showDepositFeedback('Select a department for Tier 2 or Tier 3 access.');
+      return;
+    }
+
+    document.getElementById('sealReviewDocumentName').textContent = fileInput.files[0].name;
     const modal = document.getElementById('seal-review-modal');
     modal.classList.remove('hidden');
     modal.classList.add('flex');
@@ -601,18 +668,44 @@
     modal.classList.remove('flex');
   }
   async function confirmDocumentSeal() {
-    closeSealReviewModal();
     const fileInput = document.getElementById('primaryDocInput');
     if (!fileInput || !fileInput.files.length) {
+      closeSealReviewModal();
+      showDepositFeedback('Select a file before uploading.');
       return;
     }
 
     const selectedTier = document.querySelector('input[name="clearance_tier"]:checked');
+    const title = document.getElementById('depositDocumentTitle').value.trim();
+    const trackingNumber = document.getElementById('depositTrackingNumber').value.trim();
+    const departmentId = document.getElementById('depositDepartment').value;
+    if (!selectedTier || !title || !trackingNumber) {
+      closeSealReviewModal();
+      showDepositFeedback('Enter the document title and tracking number, then choose an access tier.');
+      return;
+    }
+
+    if (['tier2', 'tier3'].includes(selectedTier.value) && !departmentId) {
+      closeSealReviewModal();
+      showDepositFeedback('Select a department for Tier 2 or Tier 3 access.');
+      return;
+    }
+
+    const submitButton = document.querySelector('#seal-review-modal button[onclick="confirmDocumentSeal()"]');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Uploading…';
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
-    formData.append('title', document.getElementById('depositDocumentTitle')?.value || 'Institutional Document');
-    formData.append('tracking_number', document.getElementById('depositTrackingNumber')?.value || `CVSU-${Date.now()}`);
-    formData.append('access_tier', selectedTier?.value || 'tier4');
+    formData.append('title', title);
+    formData.append('tracking_number', trackingNumber);
+    formData.append('access_tier', selectedTier.value);
+    if (departmentId) {
+      formData.append('department_id', departmentId);
+    }
+    const categoryId = document.getElementById('depositCategory').value;
+    if (categoryId) {
+      formData.append('category_id', categoryId);
+    }
     formData.append('_token', '{{ csrf_token() }}');
 
     try {
@@ -621,16 +714,28 @@
         body: formData,
         headers: { 'Accept': 'application/json' }
       });
+      const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
+        const validationErrors = Object.values(payload.errors || {}).flat().join(' ');
+        closeSealReviewModal();
+        showDepositFeedback(validationErrors || payload.message || 'The document could not be uploaded. Check the form and try again.');
         return;
       }
+      document.getElementById('sealedDocumentResult').textContent =
+        `${payload.document.original_name} · ${payload.document.tracking_number} · SHA-256 ${payload.document.sha256}`;
+      closeSealReviewModal();
+      document.getElementById('depositFeedback').classList.add('hidden');
+      const modal = document.getElementById('seal-success-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     } catch (_) {
+      closeSealReviewModal();
+      showDepositFeedback('The upload request could not reach the server. Check your connection and try again.');
       return;
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Seal & Commit';
     }
-
-    const modal = document.getElementById('seal-success-modal');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
   }
   function closeSealSuccessModal() {
     const modal = document.getElementById('seal-success-modal');
@@ -673,6 +778,28 @@
         }
       }
     });
+  });
+
+  const primaryDocInput = document.getElementById('primaryDocInput');
+  const stagedDocumentName = document.getElementById('stagedDocumentName');
+  const stagedDocumentSize = document.getElementById('stagedDocumentSize');
+  const removeStagedFile = document.getElementById('removeStagedFile');
+  primaryDocInput.addEventListener('change', () => {
+    const file = primaryDocInput.files[0];
+    if (!file) {
+      return;
+    }
+
+    stagedDocumentName.textContent = file.name;
+    stagedDocumentSize.textContent = `${(file.size / 1048576).toFixed(1)} MB`;
+    removeStagedFile.disabled = false;
+    document.getElementById('sealReviewDocumentName').textContent = file.name;
+  });
+  removeStagedFile.addEventListener('click', () => {
+    primaryDocInput.value = '';
+    stagedDocumentName.textContent = 'No file selected';
+    stagedDocumentSize.textContent = 'Choose a file';
+    removeStagedFile.disabled = true;
   });
 
   // Toggle buttons micro-interactions

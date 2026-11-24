@@ -9,12 +9,15 @@ use App\Http\Controllers\UserManagementController;
 use App\Models\AccessRequest;
 use App\Models\AccountApplication;
 use App\Models\AuditLog;
+use App\Models\Department;
 use App\Models\Document;
 use App\Models\DocumentCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 // Main Login Page
 Route::get('/', function () {
@@ -125,9 +128,17 @@ Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'rol
     Route::put('/system-settings', [SystemSettingController::class, 'update'])->name('system-settings.update');
     Route::get('/deposit-file', function () {
         $categories = DocumentCategory::where('active', true)->orderBy('name')->get();
-        $recentDocuments = Document::with(['uploader', 'category'])->latest()->limit(5)->get();
+        $departments = Department::where('active', true)->orderBy('name')->get();
+        $recentDocuments = Document::with(['uploader', 'category', 'department'])
+            ->where('status', 'sealed')
+            ->latest()
+            ->limit(20)
+            ->get()
+            ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
+            ->take(5)
+            ->values();
 
-        return view('admin.deposit-file', compact('categories', 'recentDocuments'));
+        return view('admin.deposit-file', compact('categories', 'departments', 'recentDocuments'));
     })->name('deposit-file');
     Route::post('/deposit-file', [DocumentController::class, 'store'])->name('deposit-file.store');
     Route::patch('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
@@ -150,10 +161,41 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
 
     // Faculty Pages
     Route::get('/', function () {
-        $documents = Document::with(['category', 'department'])->latest()->limit(20)->get();
-        $pendingAccessRequests = AccessRequest::where('status', 'pending')->count();
-        $documentCount = Document::count();
-        $sealedDocumentCount = Document::where('status', 'sealed')->count();
+        $user = Auth::user();
+        $clearanceLevel = (int) substr($user->clearance_tier, -1);
+        $directTiers = collect(['tier2', 'tier3'])
+            ->filter(fn (string $tier) => (int) substr($tier, -1) <= $clearanceLevel)
+            ->all();
+        $accessibleDocuments = Document::query()
+            ->with(['category', 'department'])
+            ->where('status', 'sealed')
+            ->where(function ($query) use ($user, $directTiers) {
+                $query->where('access_tier', 'tier1')
+                    ->orWhere(function ($restrictedQuery) use ($user, $directTiers) {
+                        $restrictedQuery
+                            ->whereIn('access_tier', $directTiers)
+                            ->where('department_id', $user->department_id);
+                    })
+                    ->orWhere(function ($tier4Query) use ($user) {
+                        $tier4Query->where('access_tier', 'tier4')
+                            ->whereHas('accessRequests', function ($accessQuery) use ($user) {
+                                $accessQuery->where('requester_id', $user->id)
+                                    ->where('status', 'approved')
+                                    ->where(function ($expiryQuery) {
+                                        $expiryQuery->whereNull('expires_at')
+                                            ->orWhere('expires_at', '>', now());
+                                    });
+                            });
+                    });
+            })
+            ->latest()
+            ->get()
+            ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
+            ->values();
+        $documents = $accessibleDocuments->take(5);
+        $pendingAccessRequests = $user->accessRequests()->where('status', 'pending')->count();
+        $documentCount = $accessibleDocuments->count();
+        $sealedDocumentCount = $documentCount;
         $personnelCount = User::whereIn('role', ['faculty', 'student', 'admin'])->count();
 
         return view('faculty.dashboard', compact(
@@ -166,13 +208,19 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
     })->name('dashboard');
     Route::get('/document-library', function () {
         $user = Auth::user();
+        $clearanceLevel = (int) substr($user->clearance_tier, -1);
+        $directTiers = collect(['tier2', 'tier3'])
+            ->filter(fn (string $tier) => (int) substr($tier, -1) <= $clearanceLevel)
+            ->all();
         $documents = Document::query()
             ->with(['category', 'department', 'uploader'])
-            ->where(function ($query) use ($user) {
-                $query->whereIn('access_tier', ['tier1', 'tier2', 'tier3'])
-                    ->where(function ($departmentQuery) use ($user) {
-                        $departmentQuery->whereNull('department_id')
-                            ->orWhere('department_id', $user->department_id);
+            ->where('status', 'sealed')
+            ->where(function ($query) use ($user, $directTiers) {
+                $query->where('access_tier', 'tier1')
+                    ->orWhere(function ($restrictedQuery) use ($user, $directTiers) {
+                        $restrictedQuery
+                            ->whereIn('access_tier', $directTiers)
+                            ->where('department_id', $user->department_id);
                     })
                     ->orWhere(function ($tier4Query) use ($user) {
                         $tier4Query->where('access_tier', 'tier4')
@@ -180,22 +228,46 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
                                 $accessQuery->where('requester_id', $user->id)
                                     ->where('status', 'approved')
                                     ->where(function ($expiryQuery) {
-                                        $expiryQuery->whereNull('expires_at')->orWhere('expires_at', '>', now());
+                                        $expiryQuery->whereNull('expires_at')
+                                            ->orWhere('expires_at', '>', now());
                                     });
                             });
                     });
             })
             ->latest()
-            ->get();
+            ->get()
+            ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
+            ->values();
 
         return view('faculty.document-library', compact('documents'));
     })->name('document-library');
     Route::view('/clearance-requests', 'faculty.clearance-requests')->name('clearance-requests');
-    Route::view('/department-records', 'faculty.department-records')->name('department-records');
-    Route::view('/submit-department-file', 'faculty.submit-department-file')->name('submit-department-file');
+    Route::get('/department-records', fn () => redirect()->route('faculty.preview.document-library'))
+        ->name('department-records');
+    Route::get('/submit-department-file', function () {
+        $categories = DocumentCategory::where('active', true)->orderBy('name')->get();
+        $recentDocuments = Auth::user()->documents()
+            ->with(['category', 'uploader'])
+            ->where('status', 'sealed')
+            ->latest()
+            ->limit(20)
+            ->get()
+            ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
+            ->take(5)
+            ->values();
+
+        return view('faculty.submit-department-file', compact('categories', 'recentDocuments'));
+    })->name('submit-department-file');
     Route::get('/tier-4-access-request', function () {
-        $documents = Document::where('access_tier', 'tier4')->latest()->get();
-        $pendingAccessRequests = AccessRequest::where('requester_id', Auth::id())
+        $documents = Document::query()
+            ->where('access_tier', 'tier4')
+            ->where('status', 'sealed')
+            ->latest()
+            ->get()
+            ->filter(fn (Document $document) => Storage::disk('local')->exists($document->file_path))
+            ->values();
+        $pendingAccessRequests = AccessRequest::with('document')
+            ->where('requester_id', Auth::id())
             ->whereHas('document', function ($query) {
                 $query->where('access_tier', 'tier4');
             })
@@ -205,7 +277,8 @@ Route::prefix('faculty/preview')->name('faculty.preview.')->middleware(['auth', 
 
         return view('faculty.tier-4-access-request', compact('documents', 'pendingAccessRequests'));
     })->name('tier-4-access-request');
-    Route::view('/clearance-submitted', 'faculty.clearance-submitted')->name('clearance-submitted');
+    Route::get('/clearance-submitted', fn () => redirect()->route('faculty.preview.tier-4-access-request'))
+        ->name('clearance-submitted');
 
     // Faculty Logout Confirmation
     Route::get('/logout-confirmation', function () {
@@ -224,23 +297,13 @@ Route::post('/student/access-requests', [AccessRequestController::class, 'store'
 // Faculty Direct URL Routes
 // These allow pages to be opened without /preview in the URL.
 
-Route::get('/faculty/tier-4-access-request', function () {
-    $documents = Document::where('access_tier', 'tier4')->latest()->get();
-    $pendingAccessRequests = AccessRequest::where('requester_id', Auth::id())
-        ->whereHas('document', function ($query) {
-            $query->where('access_tier', 'tier4');
-        })
-        ->whereIn('status', ['pending', 'approved'])
-        ->latest()
-        ->get();
+Route::get('/faculty/tier-4-access-request', fn () => redirect()->route('faculty.preview.tier-4-access-request'))
+    ->middleware(['auth', 'role:faculty'])
+    ->name('faculty.tier-4-access-request');
 
-    return view('faculty.tier-4-access-request', compact('documents', 'pendingAccessRequests'));
-})->middleware(['auth', 'role:faculty'])->name('faculty.tier-4-access-request');
-
-Route::view(
-    '/faculty/clearance-submitted',
-    'faculty.clearance-submitted'
-)->middleware(['auth', 'role:faculty'])->name('faculty.clearance-submitted');
+Route::get('/faculty/clearance-submitted', fn () => redirect()->route('faculty.preview.tier-4-access-request'))
+    ->middleware(['auth', 'role:faculty'])
+    ->name('faculty.clearance-submitted');
 
 // Faculty Form Submission Routes
 Route::post('/faculty/submit-department-file', function (Request $request) {
@@ -251,14 +314,13 @@ Route::post('/faculty/submit-department-file', function (Request $request) {
         ->first();
     $request->merge([
         'title' => $request->input('document_title'),
-        'tracking_number' => 'CEIT-'.strtoupper(substr(hash('sha256', (string) now()), 0, 12)),
+        'tracking_number' => 'CEIT-'.Str::upper(Str::uuid()->toString()),
         'category_id' => $category?->id,
-        'access_tier' => match ((string) $request->input('access_tier', 'tier3')) {
-            '2' => 'tier2',
-            '4' => 'tier4',
-            'tier2' => 'tier2',
-            'tier4' => 'tier4',
-            default => 'tier3',
+        'access_tier' => match ((string) $request->input('access_tier')) {
+            '2', 'tier2' => 'tier2',
+            '3', 'tier3' => 'tier3',
+            '4', 'tier4' => 'tier4',
+            default => $request->input('access_tier'),
         },
     ]);
 

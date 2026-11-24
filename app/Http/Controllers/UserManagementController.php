@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UserManagementController extends Controller
 {
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $validated = $request->validate([
             'role' => ['required', Rule::in(['admin', 'faculty', 'student', 'viewer'])],
@@ -22,17 +23,17 @@ class UserManagementController extends Controller
         abort_unless($currentAdmin && $currentAdmin->role === 'admin', 403);
 
         if ($user->is(Auth::user()) && $validated['role'] !== 'admin') {
-            abort(422, 'You cannot remove your own administrator role.');
+            return back()->withErrors(['role' => 'You cannot remove your own administrator role.'])->withInput();
         }
 
         if ($user->is(Auth::user()) && $validated['account_status'] !== 'active') {
-            abort(422, 'You cannot deactivate or suspend your own administrator account.');
+            return back()->withErrors(['account_status' => 'You cannot deactivate or suspend your own administrator account.'])->withInput();
         }
 
         if ($user->role === 'admin' && $validated['role'] !== 'admin') {
             $activeAdmins = User::where('role', 'admin')->where('account_status', 'active')->count();
             if ($activeAdmins <= 1) {
-                abort(422, 'At least one active administrator must remain.');
+                return back()->withErrors(['role' => 'At least one active administrator must remain.'])->withInput();
             }
         }
 
@@ -41,7 +42,7 @@ class UserManagementController extends Controller
             && $validated['account_status'] !== 'active') {
             $activeAdmins = User::where('role', 'admin')->where('account_status', 'active')->count();
             if ($activeAdmins <= 1) {
-                abort(422, 'At least one active administrator must remain.');
+                return back()->withErrors(['account_status' => 'At least one active administrator must remain.'])->withInput();
             }
         }
 

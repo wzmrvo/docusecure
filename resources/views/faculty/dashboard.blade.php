@@ -7,6 +7,12 @@
 @section('title', 'Faculty Clearance Command — CEIT Enclave')
 
 @section('content')
+@if (session('success'))
+    <div role="status" class="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300">
+        {{ session('success') }}
+    </div>
+@endif
+
 <!-- Hero / Header Section -->
 <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-white/10">
     <div class="flex flex-col gap-1.5">
@@ -14,26 +20,19 @@
             <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans">
                 Clearance Command & Faculty Custody
             </h1>
-            <x-badge tier="3" label="CEIT JURISDICTION" />
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500/20">
-                AUTH: DEPT-FAC-THESIS-CHAIR
-            </span>
+            <x-badge :tier="(int) substr(auth()->user()->clearance_tier, -1)" :label="strtoupper(auth()->user()->clearance_tier)" />
         </div>
         <p class="text-xs text-slate-500 dark:text-slate-400">
-            Welcome back, <strong class="text-slate-800 dark:text-slate-200">Prof. Juan Dela Cruz</strong>. You possess delegated Tier 3 clearance to endorse research manuscripts, approve student slips, and sign institutional transcripts.
+            Welcome back, <strong class="text-slate-800 dark:text-slate-200">{{ auth()->user()->name }}</strong>. Upload and manage real department documents within your clearance.
         </p>
     </div>
 
-    <!-- Semi-Admin Actions Group -->
+    <!-- Faculty Actions -->
     <div class="flex items-center gap-2.5 flex-wrap">
-        <button 
-            type="button" 
-            onclick="openModal('review-dept-slips-modal')"
-            class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-amber-600 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/10 hover:bg-amber-100 dark:hover:bg-amber-500/20 border border-amber-300 dark:border-amber-400/30 text-xs font-semibold transition shadow-sm"
-        >
-            <span class="material-symbols-outlined text-[18px]">fact_check</span>
-            <span>Review Dept Slips (5)</span>
-        </button>
+        <a href="{{ route('faculty.preview.tier-4-access-request') }}" class="flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-3.5 py-2 text-xs font-semibold text-amber-700 transition hover:bg-amber-100 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-300 dark:hover:bg-amber-500/20">
+            <span class="material-symbols-outlined text-[18px]">vpn_key</span>
+            <span>Request Tier 4 access</span>
+        </a>
 
         <button 
             type="button" 
@@ -149,9 +148,9 @@
         icon="pending_actions"
         label="Pending Clearance Slips"
         value="{{ number_format($pendingAccessRequests) }}"
-        badge="ACTION REQ"
-        badgeType="warning"
-        subtitle="3 Thesis Clearances • 2 Tier 4 Slips"
+        badge="{{ $pendingAccessRequests > 0 ? 'ACTION REQUIRED' : 'NO PENDING REQUESTS' }}"
+        :badgeType="$pendingAccessRequests > 0 ? 'warning' : 'success'"
+        subtitle="Your pending document access requests"
         :borderHighlight="true"
     />
 
@@ -254,59 +253,31 @@
 
         <!-- Document Item Rows -->
         <div class="flex flex-col gap-2.5">
-            <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-emerald-500/30 transition">
-                <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
-                        <span class="material-symbols-outlined text-[18px]">description</span>
+            @forelse ($documents as $document)
+                <div class="flex flex-col justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 transition hover:border-emerald-500/30 dark:border-white/10 dark:bg-white/[0.02] sm:flex-row sm:items-center">
+                    <div class="flex min-w-0 items-center gap-3">
+                        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
+                            <span class="material-symbols-outlined text-[18px]">description</span>
+                        </div>
+                        <div class="flex min-w-0 flex-col">
+                            <span class="truncate text-xs font-bold text-slate-900 dark:text-white">{{ $document->title }}</span>
+                            <span class="truncate text-[10px] font-mono text-slate-500 dark:text-slate-400">
+                                {{ $document->original_name }} · {{ $document->tracking_number }} · {{ number_format($document->size_bytes / 1048576, 1) }} MB
+                            </span>
+                        </div>
                     </div>
-                    <div class="flex flex-col min-w-0">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white truncate">CEIT Computer Studies Faculty Merit & Tenure Guidelines 2026.pdf</span>
-                        <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400">Academic • CEIT Dean • 2.4 MB • HASH: 8bf3...a12c</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2 shrink-0">
-                    <x-badge tier="3" label="Tier 3 Authorized" />
-                    <button type="button" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 hover:text-slate-900 dark:hover:text-white" title="Download Record">
-                        <span class="material-symbols-outlined text-[16px]">download</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-amber-400/30 transition">
-                <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
-                        <span class="material-symbols-outlined text-[18px]">gavel</span>
-                    </div>
-                    <div class="flex flex-col min-w-0">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Board of Regents Resolution No. 2026-094.pdf</span>
-                        <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400">Administrative • Sealed Yesterday • 840 KB • Vault Tier 4</span>
+                    <div class="flex shrink-0 items-center gap-2">
+                        <x-badge :tier="(int) substr($document->access_tier, -1)" :label="strtoupper($document->access_tier)" />
+                        <a href="{{ route('documents.download', $document) }}" class="rounded p-1 text-slate-500 hover:bg-slate-200 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white" aria-label="Download {{ $document->title }}">
+                            <span class="material-symbols-outlined text-[16px]">download</span>
+                        </a>
                     </div>
                 </div>
-                <div class="flex items-center gap-2 shrink-0">
-                    <x-badge tier="4" label="Dual Slip Req" />
-                    <a href="{{ route('faculty.preview.tier-4-access-request') }}" class="px-2.5 py-1 rounded bg-amber-500/15 border border-amber-400/30 text-amber-600 dark:text-amber-300 text-[11px] font-mono font-medium hover:bg-amber-500/25 transition">
-                        Request Slip
-                    </a>
-                </div>
-            </div>
-
-            <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-emerald-500/30 transition">
-                <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
-                        <span class="material-symbols-outlined text-[18px]">verified</span>
-                    </div>
-                    <div class="flex flex-col min-w-0">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white truncate">BS Computer Science CHED Level IV Re-Accreditation.pdf</span>
-                        <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400">Accreditation & QA • 14.8 MB • Endorsed by Juan Dela Cruz</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2 shrink-0">
-                    <x-badge tier="3" label="Tier 3 Endorsed" />
-                    <button type="button" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 hover:text-slate-900 dark:hover:text-white" title="Download Record">
-                        <span class="material-symbols-outlined text-[16px]">download</span>
-                    </button>
-                </div>
-            </div>
+            @empty
+                <p class="rounded-lg border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500 dark:border-white/10 dark:text-slate-400">
+                    No accessible stored documents yet. Upload a Tier 2 or Tier 3 file, or request Tier 4 access.
+                </p>
+            @endforelse
         </div>
     </div>
 
@@ -369,7 +340,7 @@
             <label class="block text-xs font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
                 Document Title
             </label>
-            <input type="text" name="title" required placeholder="e.g. BSCS Thesis Defense Clearance Docket 2026" class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
+            <input type="text" name="document_title" required maxlength="255" placeholder="Enter the official document title" class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -377,85 +348,48 @@
                 <label class="block text-xs font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
                     Clearance Tier
                 </label>
-                <select name="tier" class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
-                    <option value="tier-2">Tier 2 • Academic Internal</option>
-                    <option value="tier-3" selected>Tier 3 • Dept Confidential</option>
+                <select name="access_tier" required class="w-full text-xs rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 p-2.5 text-slate-900 dark:text-white">
+                    @if ((int) substr(auth()->user()->clearance_tier, -1) >= 2)
+                        <option value="2" @selected((int) substr(auth()->user()->clearance_tier, -1) < 3)>Tier 2 • Academic Internal</option>
+                    @endif
+                    @if ((int) substr(auth()->user()->clearance_tier, -1) >= 3)
+                        <option value="3" @selected((int) substr(auth()->user()->clearance_tier, -1) >= 3)>Tier 3 • Dept Confidential</option>
+                    @endif
                 </select>
             </div>
             <div>
                 <label class="block text-xs font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
                     Department Unit
                 </label>
-                <input type="text" value="CEIT - Dept of Computer Studies" readonly class="w-full text-xs rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-300 dark:border-white/10 p-2.5 text-slate-500 dark:text-slate-400 font-mono">
+                <input type="text" value="{{ auth()->user()->department?->name ?? 'Assigned department' }}" readonly class="w-full text-xs rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-300 dark:border-white/10 p-2.5 text-slate-500 dark:text-slate-400 font-mono">
             </div>
         </div>
 
         <div>
             <label class="block text-xs font-mono font-semibold uppercase text-slate-700 dark:text-slate-300 mb-1">
-                Attach File (PDF, DOCX up to 25MB)
+                Attach File (PDF, DOC, DOCX, XLS, XLSX, ZIP up to 100 MB)
             </label>
-            <div class="border-2 border-dashed border-slate-300 dark:border-white/15 rounded-xl p-6 text-center hover:border-emerald-500 transition cursor-pointer">
+            <label class="flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-slate-300 p-6 text-center transition hover:border-emerald-500 dark:border-white/15">
                 <span class="material-symbols-outlined text-[32px] text-emerald-500">upload_file</span>
                 <p class="text-xs text-slate-700 dark:text-slate-300 font-semibold mt-1">Click to upload or drag and drop</p>
-                <p class="text-[10px] text-slate-400 font-mono">SHA-256 fingerprint will be automatically embedded</p>
-            </div>
+                <p class="text-[10px] text-slate-400 font-mono">The file is stored privately and indexed with a SHA-256 digest.</p>
+                <input class="sr-only" type="file" name="department_file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip" required>
+            </label>
         </div>
+
+        @if ($errors->any())
+            <p role="alert" class="text-xs text-rose-600 dark:text-rose-300">{{ $errors->first() }}</p>
+        @endif
 
         <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-white/10">
             <button type="button" onclick="closeModal('upload-sealed-record-modal')" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
                 Cancel
             </button>
-            <button type="button" onclick="closeModal('upload-sealed-record-modal'); alert('Document queued for steganographic hash calculation and sealed.');" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm transition">
+            <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm transition">
                 Sign & Deposit Record
             </button>
         </div>
     </form>
 </x-modal>
 
-<!-- Review Department Slips Modal -->
-<x-modal 
-    id="review-dept-slips-modal" 
-    title="Department Clearance Requests" 
-    subtitle="5 Student Slips Pending Dela Cruz Faculty Endorsement"
-    icon="fact_check"
-    maxWidth="max-w-2xl"
->
-    <div class="flex flex-col gap-3">
-        <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex items-center justify-between">
-            <div class="flex flex-col">
-                <span class="text-xs font-bold text-slate-900 dark:text-white">Maria Santos (2023-10492-CS)</span>
-                <span class="text-[10px] font-mono text-slate-500">BSCS Thesis Manuscript Final Defense Endorsement</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <button type="button" onclick="alert('Clearance docket endorsed under Tier 3 key signature.'); closeModal('review-dept-slips-modal');" class="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition">
-                    Endorse
-                </button>
-                <button type="button" class="px-2.5 py-1 rounded border border-slate-300 dark:border-white/10 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
-                    Details
-                </button>
-            </div>
-        </div>
-
-        <div class="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 flex items-center justify-between">
-            <div class="flex flex-col">
-                <span class="text-xs font-bold text-slate-900 dark:text-white">Alexander Reyes (2022-01923-IT)</span>
-                <span class="text-[10px] font-mono text-slate-500">Capstone Project Source Code Verification Clearance</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <button type="button" onclick="alert('Clearance docket endorsed under Tier 3 key signature.'); closeModal('review-dept-slips-modal');" class="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition">
-                    Endorse
-                </button>
-                <button type="button" class="px-2.5 py-1 rounded border border-slate-300 dark:border-white/10 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
-                    Details
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <x-slot name="footer">
-        <button type="button" onclick="closeModal('review-dept-slips-modal')" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">
-            Close Queue
-        </button>
-    </x-slot>
-</x-modal>
 @endpush

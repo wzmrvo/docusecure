@@ -7,6 +7,7 @@ use App\Models\AuditLog;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AccessRequestController extends Controller
 {
@@ -19,9 +20,11 @@ class AccessRequestController extends Controller
 
         $document = Document::findOrFail($validated['document_id']);
         abort_unless(
-            $document->access_tier !== 'tier1',
+            $document->access_tier !== 'tier1'
+                && $document->status === 'sealed'
+                && Storage::disk('local')->exists($document->file_path),
             422,
-            'Only restricted documents require an access request.',
+            'Only available restricted documents can be requested.',
         );
         $user = Auth::user();
         $requestedLevel = (int) substr($document->access_tier, -1);
@@ -29,13 +32,22 @@ class AccessRequestController extends Controller
         $roleAllowed = match ($document->access_tier) {
             'tier2' => in_array($user->role, ['student', 'faculty'], true),
             'tier3' => in_array($user->role, ['faculty', 'admin'], true),
-            'tier4' => in_array($user->role, ['faculty', 'admin'], true),
+            'tier4' => $user->role === 'faculty' && $userLevel === 3,
             default => false,
         };
         abort_unless($roleAllowed && $requestedLevel > $userLevel, 422, 'You do not qualify for this restricted document tier.');
         $existing = AccessRequest::where('requester_id', Auth::id())
             ->where('document_id', $document->id)
-            ->whereIn('status', ['pending', 'approved'])
+            ->where(function ($query) {
+                $query->where('status', 'pending')
+                    ->orWhere(function ($approvedQuery) {
+                        $approvedQuery->where('status', 'approved')
+                            ->where(function ($expiryQuery) {
+                                $expiryQuery->whereNull('expires_at')
+                                    ->orWhere('expires_at', '>', now());
+                            });
+                    });
+            })
             ->first();
 
         if ($existing) {
@@ -78,8 +90,7 @@ class AccessRequestController extends Controller
         $document = $accessRequest->document;
         if (in_array($document->access_tier, ['tier2', 'tier3'], true)
             && $document->department_id
-            && $requester->department_id
-            && $document->department_id !== $requester->department_id) {
+            && (int) $document->department_id !== (int) $requester->department_id) {
             abort(422, 'Requester department does not match the document department.');
         }
         $tierAllowed = match ($document->access_tier) {

@@ -4,32 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DocumentController extends Controller
 {
-    public function guestDashboard(): View|RedirectResponse
+    public function guestDashboard(): View
     {
-        $user = Auth::user();
-
-        if ($user) {
-            abort_unless($user->account_status === 'active', 403);
-
-            return redirect(match ($user->role) {
-                'admin' => '/admin/preview',
-                'faculty' => '/faculty/preview',
-                'student' => '/student/preview',
-                'viewer' => '/viewer/preview',
-                default => '/',
-            });
-        }
-
         $publicDocuments = Document::query()
             ->where('access_tier', 'tier1')
             ->latest()
@@ -67,35 +56,59 @@ class DocumentController extends Controller
         return Storage::disk('local')->download($document->file_path, $document->original_name);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse|RedirectResponse
     {
-        $validated = $request->validate([
-            'file' => ['required', 'file', 'max:102400', 'mimes:pdf,doc,docx,xls,xlsx,zip'],
+        $user = $request->user();
+        $allowedTiers = $this->allowedTiersFor($user instanceof User ? $user : null);
+
+        abort_unless($allowedTiers !== [], 403);
+
+        $validationRules = [
+            'file' => ['required', 'file', 'max:102400', 'mimes:pdf,doc,docx,xls,xlsx,zip', 'extensions:pdf,doc,docx,xls,xlsx,zip'],
             'title' => ['required', 'string', 'max:255'],
             'tracking_number' => ['required', 'string', 'max:100', 'unique:documents,tracking_number'],
-            'access_tier' => ['required', 'in:tier1,tier2,tier3,tier4'],
+            'access_tier' => ['required', Rule::in($allowedTiers)],
             'category_id' => ['nullable', 'exists:document_categories,id'],
-        ]);
+        ];
+
+        if ($user instanceof User && $user->role === 'admin') {
+            $validationRules['department_id'] = in_array($request->input('access_tier'), ['tier2', 'tier3'], true)
+                ? ['required', 'exists:departments,id']
+                : ['nullable', 'exists:departments,id'];
+        }
+
+        $validated = $request->validate($validationRules);
 
         $uploaded = $request->file('file');
+        $departmentId = $user instanceof User && $user->role === 'admin'
+            ? ($validated['department_id'] ?? $user->department_id)
+            : $user->department_id;
         $path = null;
         $document = null;
 
         try {
             $path = $uploaded->store('documents', 'local');
+            if ($path === false) {
+                throw new \RuntimeException('The uploaded file could not be stored.');
+            }
 
-            DB::transaction(function () use (&$document, $validated, $uploaded, $path) {
+            $sha256 = hash_file('sha256', $uploaded->getRealPath());
+            if ($sha256 === false) {
+                throw new \RuntimeException('The uploaded file digest could not be generated.');
+            }
+
+            DB::transaction(function () use (&$document, $validated, $uploaded, $path, $sha256, $departmentId) {
                 $document = Document::create([
                     'title' => $validated['title'],
                     'tracking_number' => $validated['tracking_number'],
                     'category_id' => $validated['category_id'] ?? null,
-                    'department_id' => Auth::user()?->department_id,
+                    'department_id' => $departmentId,
                     'uploader_id' => Auth::id(),
                     'file_path' => $path,
                     'original_name' => $uploaded->getClientOriginalName(),
-                    'mime_type' => $uploaded->getClientMimeType(),
+                    'mime_type' => $uploaded->getMimeType(),
                     'size_bytes' => $uploaded->getSize(),
-                    'sha256' => hash_file('sha256', $uploaded->getRealPath()),
+                    'sha256' => $sha256,
                     'access_tier' => $validated['access_tier'],
                     'status' => 'sealed',
                     'sealed_at' => now(),
@@ -118,12 +131,23 @@ class DocumentController extends Controller
             throw $exception;
         }
 
-        return back()->with('document_committed', true)->with('committed_document', $document->only([
+        $committedDocument = $document->only([
             'title',
             'tracking_number',
             'original_name',
             'sha256',
-        ]));
+        ]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'The document was stored successfully.',
+                'document' => $committedDocument,
+            ], 201);
+        }
+
+        return back()->with('success', 'The document was stored successfully.')
+            ->with('document_committed', true)
+            ->with('committed_document', $committedDocument);
     }
 
     public function download(Document $document): StreamedResponse
@@ -151,6 +175,7 @@ class DocumentController extends Controller
         );
 
         abort_unless($allowed, 403);
+        abort_unless($document->status === 'sealed', 404, 'The document is not available.');
 
         if (! Storage::disk('local')->exists($document->file_path)) {
             abort(404, 'The document file is unavailable.');
@@ -174,11 +199,23 @@ class DocumentController extends Controller
         $user = Auth::user();
         abort_unless($user && ($user->role === 'admin' || $document->uploader_id === $user->id), 403);
 
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'access_tier' => ['required', 'in:tier1,tier2,tier3,tier4'],
-            'category_id' => ['nullable', 'exists:document_categories,id'],
-        ]);
+        $allowedTiers = $this->allowedTiersFor($user);
+        abort_unless($allowedTiers !== [], 403);
+
+        $validationRules = [
+            'title' => ['sometimes', 'required', 'string', 'max:255'],
+            'access_tier' => ['sometimes', 'required', Rule::in($allowedTiers)],
+            'category_id' => ['sometimes', 'nullable', 'exists:document_categories,id'],
+        ];
+
+        if ($user->role === 'admin') {
+            $accessTier = $request->input('access_tier', $document->access_tier);
+            $validationRules['department_id'] = in_array($accessTier, ['tier2', 'tier3'], true)
+                ? ['required', 'exists:departments,id']
+                : ['nullable', 'exists:departments,id'];
+        }
+
+        $validated = $request->validate($validationRules);
 
         $document->update($validated);
 
@@ -189,7 +226,10 @@ class DocumentController extends Controller
             'subject_id' => $document->id,
             'description' => 'Document metadata updated.',
             'ip_address' => $request->ip(),
-            'metadata' => ['access_tier' => $document->access_tier],
+            'metadata' => [
+                'access_tier' => $document->access_tier,
+                'department_id' => $document->department_id,
+            ],
         ]);
 
         return back()->with('success', 'Document updated.');
@@ -217,5 +257,26 @@ class DocumentController extends Controller
         });
 
         return back()->with('success', 'Document deleted.');
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function allowedTiersFor(?User $user): array
+    {
+        if ($user?->role === 'admin') {
+            return ['tier1', 'tier2', 'tier3', 'tier4'];
+        }
+
+        if ($user?->role !== 'faculty') {
+            return [];
+        }
+
+        $clearanceLevel = (int) substr($user->clearance_tier, -1);
+
+        return array_values(array_filter(
+            ['tier2', 'tier3'],
+            fn (string $tier) => (int) substr($tier, -1) <= $clearanceLevel,
+        ));
     }
 }
