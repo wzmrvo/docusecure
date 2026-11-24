@@ -20,7 +20,7 @@
                 ['route' => 'admin.preview.document-library', 'href' => route('admin.preview.document-library'), 'icon' => 'folder_open', 'label' => 'Document Library'],
                 ['route' => 'admin.preview.document-categories', 'href' => route('admin.preview.document-categories'), 'icon' => 'category', 'label' => 'Document Categories'],
                 ['route' => 'admin.preview.user-management', 'href' => route('admin.preview.user-management'), 'icon' => 'group', 'label' => 'User Management'],
-                ['route' => 'admin.preview.access-requests', 'href' => route('admin.preview.access-requests'), 'icon' => 'fact_check', 'label' => 'Access Requests', 'badge' => '14'],
+                ['route' => 'admin.preview.access-requests', 'href' => route('admin.preview.access-requests'), 'icon' => 'fact_check', 'label' => 'Access Requests'],
                 ['route' => 'admin.preview.access-levels', 'href' => route('admin.preview.access-levels'), 'icon' => 'shield', 'label' => 'Document Access Levels'],
                 ['route' => 'admin.preview.deposit-file', 'href' => route('admin.preview.deposit-file'), 'icon' => 'note_add', 'label' => 'Deposit & File Creation'],
                 ['route' => 'admin.preview.audit-logs', 'href' => route('admin.preview.audit-logs'), 'icon' => 'receipt_long', 'label' => 'Audit Logs'],

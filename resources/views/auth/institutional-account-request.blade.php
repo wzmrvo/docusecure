@@ -12,9 +12,6 @@
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
-    @if (session('account_application_submitted'))
-    window.addEventListener('DOMContentLoaded', openAccountRequestModal);
-    @endif
 tailwind.config = {
     theme: {
         extend: {
@@ -552,7 +549,7 @@ tailwind.config = {
     </div>
 </main>
 
-<div id="account-request-success-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="account-request-success-title">
+<div id="account-request-success-modal" class="fixed inset-0 z-[60] {{ session('account_application_submitted') ? 'flex' : 'hidden' }} items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="account-request-success-title">
     <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
     <div class="relative w-full max-w-md overflow-hidden rounded-2xl border border-emerald-500/30 bg-[#101827] text-slate-100 shadow-2xl">
         <div class="h-1.5 bg-gradient-to-r from-emerald-500 via-[#eabf55] to-[#173153]"></div>
@@ -561,19 +558,13 @@ tailwind.config = {
                 <span class="material-symbols-outlined text-[26px]">verified</span>
             </div>
             <h2 id="account-request-success-title" class="mt-4 text-lg font-bold text-white">Account Request Submitted</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-300">Your clearance request has been prepared for MIS review. A registered email will receive the verification outcome.</p>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Your account application was submitted and is now waiting for MIS admin review.</p>
             <button type="button" onclick="closeAccountRequestModal()" class="mt-5 min-h-11 w-full rounded-lg bg-emerald-700 px-4 text-sm font-bold text-white hover:bg-emerald-600">Return to Sign In</button>
         </div>
     </div>
 </div>
 
 <script>
-    function openAccountRequestModal() {
-        const modal = document.getElementById('account-request-success-modal');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-
     function closeAccountRequestModal() {
         window.location.href = '{{ route('login') }}';
     }

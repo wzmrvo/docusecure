@@ -7,7 +7,9 @@ use App\Models\AccountApplication;
 use App\Models\AccountProvisioningRecord;
 use App\Models\AuditLog;
 use App\Models\Department;
+use App\Models\HelpdeskTicket;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class AccountApplicationController extends Controller
 {
@@ -57,8 +60,15 @@ class AccountApplicationController extends Controller
         return back()->with('account_application_submitted', true);
     }
 
-    public function index()
+    public function index(Request $request): View
     {
+        $filters = $request->validate([
+            'ticket_search' => ['nullable', 'string', 'max:100'],
+            'ticket_status' => ['nullable', Rule::in(HelpdeskTicket::STATUSES)],
+            'ticket_category' => ['nullable', Rule::in(HelpdeskTicket::CATEGORIES)],
+            'ticket_priority' => ['nullable', Rule::in(HelpdeskTicket::PRIORITIES)],
+        ]);
+
         $applications = AccountApplication::query()
             ->with(['userAccount', 'provisioningRecord'])
             ->latest()
@@ -66,8 +76,47 @@ class AccountApplicationController extends Controller
         $documentAccessRequests = AccessRequest::with(['requester', 'document', 'reviewer'])
             ->latest()
             ->paginate(20, ['*'], 'access_page');
+        $helpdeskTickets = HelpdeskTicket::query()
+            ->with(['assignedAdmin', 'activities.actor'])
+            ->when($filters['ticket_search'] ?? null, function (Builder $query, string $search): void {
+                $query->where(function (Builder $searchQuery) use ($search): void {
+                    $searchQuery->where('reference', 'like', "%{$search}%")
+                        ->orWhere('requester_name', 'like', "%{$search}%")
+                        ->orWhere('requester_contact', 'like', "%{$search}%");
+                });
+            })
+            ->when($filters['ticket_status'] ?? null, fn (Builder $query, string $status): Builder => $query->where('status', $status))
+            ->when($filters['ticket_category'] ?? null, fn (Builder $query, string $category): Builder => $query->where('category', $category))
+            ->when($filters['ticket_priority'] ?? null, fn (Builder $query, string $priority): Builder => $query->where('priority', $priority))
+            ->latest()
+            ->paginate(10, ['*'], 'ticket_page')
+            ->withQueryString();
+        $administrators = User::query()
+            ->where('role', 'admin')
+            ->where('account_status', 'active')
+            ->orderBy('name')
+            ->get(['id', 'name']);
+        $ticketStatuses = HelpdeskTicket::STATUSES;
+        $ticketCategories = HelpdeskTicket::CATEGORIES;
+        $ticketCategoryLabels = [
+            'account_access' => 'Account lockout or password reset',
+            'two_factor' => '2FA token or authenticator issue',
+            'document_access' => 'Document access or clearance',
+            'technical_incident' => 'Technical incident',
+            'other' => 'Other support question',
+        ];
+        $ticketPriorities = HelpdeskTicket::PRIORITIES;
 
-        return view('admin.access-requests', compact('applications', 'documentAccessRequests'));
+        return view('admin.access-requests', compact(
+            'applications',
+            'documentAccessRequests',
+            'helpdeskTickets',
+            'administrators',
+            'ticketStatuses',
+            'ticketCategories',
+            'ticketCategoryLabels',
+            'ticketPriorities',
+        ));
     }
 
     public function approve(AccountApplication $application)

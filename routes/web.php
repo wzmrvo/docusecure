@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AccessRequestController;
+use App\Http\Controllers\AdminHelpdeskTicketController;
 use App\Http\Controllers\AccountApplicationController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\DocumentCategoryController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\PublicHelpdeskTicketController;
 use App\Http\Controllers\SystemSettingController;
 use App\Http\Controllers\UserManagementController;
 use App\Models\AccessRequest;
@@ -13,6 +15,7 @@ use App\Models\AuditLog;
 use App\Models\Department;
 use App\Models\Document;
 use App\Models\DocumentCategory;
+use App\Models\HelpdeskTicket;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -46,7 +49,13 @@ Route::post('/', function (Request $request) {
 });
 
 // Helpdesk
-Route::view('/helpdesk', 'helpdesk.index')->name('helpdesk');
+Route::get('/helpdesk', [PublicHelpdeskTicketController::class, 'index'])->name('helpdesk');
+Route::post('/helpdesk/tickets', [PublicHelpdeskTicketController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('helpdesk.tickets.store');
+Route::get('/helpdesk/track', [PublicHelpdeskTicketController::class, 'track'])
+    ->middleware('throttle:20,1')
+    ->name('helpdesk.track');
 
 // Institutional Account Request
 Route::get('/institutional-account-request', fn () => view('auth.institutional-account-request'))
@@ -97,23 +106,27 @@ Route::prefix('preview')->group(function () {
 Route::prefix('admin/preview')->name('admin.preview.')->middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/', function () {
+        $openTicketStatuses = ['new', 'in_progress', 'waiting_on_requester'];
         $dashboard = [
             'user_count' => User::count(),
             'document_count' => Document::count(),
             'pending_applications' => AccountApplication::where('status', 'pending')->count(),
             'pending_access_requests' => AccessRequest::where('status', 'pending')->count(),
+            'open_tickets' => HelpdeskTicket::whereIn('status', $openTicketStatuses)->count(),
             'audit_today' => AuditLog::whereDate('created_at', today())->count(),
         ];
         $recentAuditLogs = AuditLog::with('user')->latest()->limit(10)->get();
         $recentUsers = User::with('department')->latest()->limit(5)->get();
+        $recentHelpdeskTickets = HelpdeskTicket::with('assignedAdmin')->latest()->limit(3)->get();
 
-        return view('admin.index', compact('dashboard', 'recentAuditLogs', 'recentUsers'));
+        return view('admin.index', compact('dashboard', 'recentAuditLogs', 'recentHelpdeskTickets', 'recentUsers'));
     })->name('dashboard');
     Route::get('/access-levels', fn () => view('admin.access-levels'))->name('access-levels');
     Route::get('/document-categories', [DocumentCategoryController::class, 'index'])->name('document-categories');
     Route::post('/document-categories', [DocumentCategoryController::class, 'store'])->name('document-categories.store');
     Route::patch('/document-categories/{documentCategory}', [DocumentCategoryController::class, 'update'])->name('document-categories.update');
     Route::get('/access-requests', [AccountApplicationController::class, 'index'])->name('access-requests');
+    Route::patch('/helpdesk-tickets/{ticket}', [AdminHelpdeskTicketController::class, 'update'])->name('helpdesk-tickets.update');
     Route::post('/access-requests/{application}/approve', [AccountApplicationController::class, 'approve'])->name('access-requests.approve');
     Route::post('/access-requests/{application}/reject', [AccountApplicationController::class, 'reject'])->name('access-requests.reject');
     Route::patch('/access-requests/{application}/identification-number', [AccountApplicationController::class, 'updateIdentificationNumber'])->name('access-requests.identification-number.update');
